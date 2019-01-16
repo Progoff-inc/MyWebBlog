@@ -1,0 +1,88 @@
+<div id="carouselExampleControls" class="carousel slide my-4" data-ride="carousel">
+  <div class="carousel-inner">
+    <div class="carousel-item {{i==0?'active':''}} " *ngFor="let n of news; let i =index">
+      <div class="row">
+        <div class="col-sm-4 d-flex justify-content-center" *ngFor="let new of n">
+          <div class="card my-1" style="width: 18rem;">
+            <img class="card-img-top" src="{{new.img}}" alt="Card image cap">
+            <div class="card-body">
+              <h5 class="card-title">{{new.header}}</h5>
+              <p class="card-text">{{new.text}}</p>
+              <a *ngIf="new.link" href="{{new.link}}" class="btn btn-primary">Подробнее</a>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+    
+  </div>
+  <a class="carousel-control-prev" href="#carouselExampleControls" role="button" data-slide="prev">
+    <span class="carousel-control-prev-icon" aria-hidden="true"></span>
+    <span class="sr-only">Previous</span>
+  </a>
+  <a class="carousel-control-next" href="#carouselExampleControls" role="button" data-slide="next">
+    <span class="carousel-control-next-icon" aria-hidden="true"></span>
+    <span class="sr-only">Next</span>
+  </a>
+</div>
+<div class="container">
+  <ul class="list-group my-3">
+    <li [ngStyle]="{'background-color':(parts[0]?'white':'')}"  class="list-group-item dropdown" (click)="showPart(0)">Экзамены
+      <div [ngStyle]="{'display':(parts[0]?'block':'none'), 'background-color':(parts[0]?'white':'')}" class="dropdown-menu position-relative w-100 m-0 border-0" >
+        <div (click)="chooseExam(e.Title)" class="card mb-3 flex-sm-row align-items-center " *ngFor="let e of exams">
+          <img class="float-left m-3" src="{{e.Img}}" alt="Card image cap" style="max-width:10%;">
+          <div class="card-body">
+            <h5 class="card-title">{{e.Title}}</h5>
+            <p class="card-text">{{e.Date | date:'mediumDate'}}</p>
+          </div>
+        </div>
+        <div class="btn-group" role="group" aria-label="Basic example">
+          <button type="button" class="btn btn-success">Добавить</button>
+          <button type="button" class="btn btn-danger">Удалить</button>
+        </div>
+      </div>
+    </li>
+    <li [ngStyle]="{'background-color':(parts[1]?'white':'')}" class="list-group-item dropdown" (click)="showPart(1)">Конспекты
+      <div [ngStyle]="{'display':(parts[1]?'block':'none')}" class="dropdown-menu position-relative w-100 m-0 border-0" >
+        <div  class="card mb-3 flex-sm-row align-items-center " *ngFor="let e of papers">
+          <img class="float-left m-3" src="{{e.Img}}" alt="Card image cap" style="max-width:10%;">
+          <div class="card-body">
+            <h5 class="card-title">{{e.Title}}</h5>
+          </div>
+        </div>
+        <div class="btn-group" role="group" aria-label="Basic example">
+          <button type="button" class="btn btn-success">Добавить</button>
+          <button type="button" class="btn btn-danger">Удалить</button>
+        </div>
+      </div>
+    </li>
+    <li [ngStyle]="{'background-color':(parts[2]?'white':'')}" class="list-group-item dropdown" (click)="showPart(2)">Расписание
+      <div [ngStyle]="{'display':(parts[2]?'block':'none')}" class="dropdown-menu position-relative w-100 m-0 border-0" >
+        <div class="row">
+          <div class="col-lg-4 col-md-6 my-3  d-flex justify-content-center" *ngFor="let t of timesheet">
+            <div class="card" style="width: 18rem;" >
+              <div class="card-body p-0">
+                <table class="table table-striped">
+                  <thead>
+                    <tr>
+                      <th scope="col">Пара</th>
+                      <th scope="col">Предмет</th>
+                    </tr>
+                  </thead>
+                  <tbody>
+                    <tr *ngFor='let td of t'>
+                      <th scope="row">{{td.Lesson}}</th>
+                      <td>{{td.Name}}</td>
+                    </tr>
+                  </tbody>
+                </table>
+              </div>
+            </div>
+          </div>
+        </div>
+        
+        
+      </div>
+    </li>
+  </ul>
+</div>

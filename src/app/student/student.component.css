@@ -1,0 +1,7 @@
+.dropdown:hover, .card:hover{
+    background-color: #f8f9fa;
+}
+.card{
+    position: relative;
+    z-index: 100;
+}
