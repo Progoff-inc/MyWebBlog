@@ -39,6 +39,77 @@ CREATE TABLE Questions (
     QuestionNumber int(10) not null
 )
 
+
+CREATE TABLE Projects (
+	Id int(20) PRIMARY KEY AUTO_INCREMENT,
+    Name varchar(100) not null,
+    DateStart datetime not null,
+    Description text not null,
+    IsFinished bit  DEFAULT false
+)
+
+CREATE TABLE Requirements (
+	Id int(20) PRIMARY KEY AUTO_INCREMENT,
+    ProjectId int(20) not null,
+    Name varchar(100) not null,
+    Description text not null,
+    Status tinyint DEFAULT 0,
+    CONSTRAINT requirements_projects_fk
+    FOREIGN KEY (ProjectId) REFERENCES projects(Id)
+)
+
+CREATE TABLE Tasks (
+	Id int(20) PRIMARY KEY AUTO_INCREMENT,
+    ProjectId int(20) not null,
+    RequirementId int(20) not null,
+    Name varchar(100) not null,
+    Description text not null,
+    Status tinyint DEFAULT 0,
+    Priority tinyint DEFAULT 0,
+    CONSTRAINT tasks_projects_fk
+    FOREIGN KEY (ProjectId) REFERENCES projects(Id),
+    CONSTRAINT tasks_requirements_fk
+    FOREIGN KEY (RequirementId) REFERENCES requirements(Id)
+)
+
+CREATE TABLE ProjectUsers (
+	ProjectId int(20) not null,
+    UserId int(20) not null,
+    Position tinyint DEFAULT 0,
+    CONSTRAINT ProjectUsers_projects_fk
+    FOREIGN KEY (ProjectId) REFERENCES projects(Id),
+    CONSTRAINT ProjectUsers_users_fk
+    FOREIGN KEY (UserId) REFERENCES users(Id),
+    PRIMARY key (ProjectId,UserId)
+)
+
+CREATE TABLE Links (
+	Id int(20) PRIMARY KEY AUTO_INCREMENT,
+    OwnerId int(20) not null,
+    Type tinyint not null,
+    Link varchar(100) not null,
+    Text varchar(200) not null,
+    INDEX (OwnerId)
+)
+
+CREATE TABLE Photoes (
+	Id int(20) PRIMARY KEY AUTO_INCREMENT,
+    OwnerId int(20) not null,
+    Type tinyint not null,
+    Path varchar(200) not null,
+    INDEX (OwnerId)
+)
+
+CREATE TABLE News (
+	Id int(20) PRIMARY KEY AUTO_INCREMENT,
+    OwnerId int(20) not null,
+    Type tinyint not null,
+    Path varchar(200) not null,
+    Header varchar(200) not null,
+    Text text not null,
+    INDEX (OwnerId)
+)
+
 alter TABLE topics add CONSTRAINT topics_papers_fk
 FOREIGN KEY(PaperId) REFERENCES subjects(Id)
 
