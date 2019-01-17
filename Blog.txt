@@ -1,12 +1,12 @@
 ﻿Студент
-	1. Exams(Id, PapperId, TeacherId, Name, DateStart, DateFinish, Cabinet)
+	1. Exams(Id, PaperId, SubjectId, Name, DateStart, DateFinish, Cabinet)
 	2. Questions(Id, ExamId, Question, Answer, QuestionNumber)
-	3. Pappers(Id, SubjectId)
-	4. Topics (Id, PapperId, Name, Text, ModifyDate)
-	5. TimeSheet(DayCode, SubjectId, Cabinet, LessonNumber)
+	3. Papers(Id, SubjectId)
+	4. Topics (Id, PaperId, Name, Text, ModifyDate)
+	5. TimeSheet(Id, SubjectId, Cabinet, LessonNumber)
 	6. Subjects(Id, TeacherId, Name)
 	7. Teachers(Id, Name)
-	8. TimeSheetChanges(Id, SubjectId, Date, LessonNumber)
+	8. TimeSheetChanges(Id, SubjectId, Date, Cabinet, LessonNumber)
 
 Разработчик
 	1. Projects(Id, Name, DateStart, Description, IsFinished)

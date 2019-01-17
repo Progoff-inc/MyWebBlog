@@ -1,0 +1,46 @@
+CREATE TABLE TimeSheetChanges (
+	Id int(20) PRIMARY KEY AUTO_INCREMENT,
+    SubjectId int(20) REFERENCES subjects(Id),
+    Date datetime not null,
+    Cabinet int(10) not null,
+    LessonNumber tinyint not null
+)
+
+
+CREATE TABLE Papers (
+	Id int(20) PRIMARY KEY AUTO_INCREMENT,
+    SubjectId int(20) REFERENCES subjects(Id)
+)
+
+CREATE TABLE Topics (
+	Id int(20) PRIMARY KEY AUTO_INCREMENT,
+    PapperId int(20) REFERENCES papers(Id),
+    Name varchar(100) not null,
+    Text text not null,
+    ModifyDate datetime not null
+)
+
+CREATE TABLE Exams (
+	Id int(20) PRIMARY KEY AUTO_INCREMENT,
+    PapperId int(20) REFERENCES papers(Id),
+    SubjectId int(20) REFERENCES subjects(Id),
+    Name varchar(100) not null,
+    DateStart datetime not null,
+    DateFinish datetime not null,
+    Cabinet int(10) not null
+)
+
+CREATE TABLE Questions (
+	Id int(20) PRIMARY KEY AUTO_INCREMENT,
+    ExamId int(20) REFERENCES exams(Id),
+    Question tinytext not null,
+    Answer text not null,
+    DateFinish datetime not null,
+    QuestionNumber int(10) not null
+)
+
+alter TABLE topics add CONSTRAINT topics_papers_fk
+FOREIGN KEY(PaperId) REFERENCES subjects(Id)
+
+ALTER TABLE topics
+CHANGE COLUMN PapperId PaperId int(20)
