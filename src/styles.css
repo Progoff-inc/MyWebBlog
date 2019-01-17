@@ -3,4 +3,7 @@
     font-family: 'Play', sans-serif;
     outline: none;
 }
+body{
+    min-width: 245px;
+}
 

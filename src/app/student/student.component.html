@@ -25,9 +25,11 @@
     <span class="sr-only">Next</span>
   </a>
 </div>
+
 <div class="container">
   <ul class="list-group my-3">
-    <li [ngStyle]="{'background-color':(parts[0]?'white':'')}"  class="list-group-item dropdown" (click)="showPart(0)">Экзамены
+    <li [ngStyle]="{'background-color':(parts[0]?'white':'')}"  [ngClass]="{'p-3':parts[0], 'p-0':!parts[0]}"  class="list-group-item dropdown" >
+        <span class="d-block p-3" (click)="showPart(0)" >Экзамены</span>
       <div [ngStyle]="{'display':(parts[0]?'block':'none'), 'background-color':(parts[0]?'white':'')}" class="dropdown-menu position-relative w-100 m-0 border-0" >
         <div (click)="chooseExam(e.Title)" class="card mb-3 flex-sm-row align-items-center " *ngFor="let e of exams">
           <img class="float-left m-3" src="{{e.Img}}" alt="Card image cap" style="max-width:10%;">
@@ -42,7 +44,9 @@
         </div>
       </div>
     </li>
-    <li [ngStyle]="{'background-color':(parts[1]?'white':'')}" class="list-group-item dropdown" (click)="showPart(1)">Конспекты
+    
+    <li [ngStyle]="{'background-color':(parts[1]?'white':'')}"  [ngClass]="{'p-3':parts[1], 'p-0':!parts[1]}" class="list-group-item dropdown"  >
+        <span class="d-block p-3" (click)="showPart(1)" >Конспекты</span>
       <div [ngStyle]="{'display':(parts[1]?'block':'none')}" class="dropdown-menu position-relative w-100 m-0 border-0" >
         <div  class="card mb-3 flex-sm-row align-items-center " *ngFor="let e of papers">
           <img class="float-left m-3" src="{{e.Img}}" alt="Card image cap" style="max-width:10%;">
@@ -56,7 +60,8 @@
         </div>
       </div>
     </li>
-    <li [ngStyle]="{'background-color':(parts[2]?'white':'')}" class="list-group-item dropdown" (click)="showPart(2)">Расписание
+    <li [ngStyle]="{'background-color':(parts[2]?'white':'')}" [ngClass]="{'p-3':parts[2], 'p-0':!parts[2]}" class="list-group-item dropdown" >
+      <span class="d-block p-3" (click)="showPart(2)">Расписание</span>
       <div [ngStyle]="{'display':(parts[2]?'block':'none')}" class="dropdown-menu position-relative w-100 m-0 border-0" >
         <div class="row">
           <div class="col-lg-4 col-md-6 my-3  d-flex justify-content-center" *ngFor="let t of timesheet">

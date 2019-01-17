@@ -30,8 +30,6 @@ export class StudentComponent implements OnInit {
   constructor() { }
 
   ngOnInit() {
-    
-    console.log(this.exams);
     let size = 3; //размер подмассива
     let subarray = []; //массив в который будет выведен результат.
     for (let i = 0; i <Math.ceil(this.allnews.length/size); i++){
