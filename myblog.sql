@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Хост: 127.0.0.1
--- Время создания: Янв 17 2019 г., 20:53
+-- Время создания: Янв 17 2019 г., 20:57
 -- Версия сервера: 10.1.32-MariaDB
 -- Версия PHP: 7.2.5
 
@@ -90,6 +90,19 @@ CREATE TABLE `teachers` (
 -- --------------------------------------------------------
 
 --
+-- Структура таблицы `timesheet`
+--
+
+CREATE TABLE `timesheet` (
+  `Id` int(20) NOT NULL,
+  `SubjectId` int(20) DEFAULT NULL,
+  `Cabinet` int(10) NOT NULL,
+  `LessonNumber` tinyint(4) NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+
+-- --------------------------------------------------------
+
+--
 -- Структура таблицы `timesheetchanges`
 --
 
@@ -155,6 +168,13 @@ ALTER TABLE `teachers`
   ADD PRIMARY KEY (`Id`);
 
 --
+-- Индексы таблицы `timesheet`
+--
+ALTER TABLE `timesheet`
+  ADD PRIMARY KEY (`Id`),
+  ADD KEY `timesheet_subjects_fk` (`SubjectId`);
+
+--
 -- Индексы таблицы `timesheetchanges`
 --
 ALTER TABLE `timesheetchanges`
@@ -203,6 +223,12 @@ ALTER TABLE `teachers`
   MODIFY `Id` int(20) NOT NULL AUTO_INCREMENT;
 
 --
+-- AUTO_INCREMENT для таблицы `timesheet`
+--
+ALTER TABLE `timesheet`
+  MODIFY `Id` int(20) NOT NULL AUTO_INCREMENT;
+
+--
 -- AUTO_INCREMENT для таблицы `timesheetchanges`
 --
 ALTER TABLE `timesheetchanges`
@@ -242,6 +268,12 @@ ALTER TABLE `questions`
 --
 ALTER TABLE `subjects`
   ADD CONSTRAINT `subjects_teachers_fk` FOREIGN KEY (`TeacherId`) REFERENCES `teachers` (`Id`);
+
+--
+-- Ограничения внешнего ключа таблицы `timesheet`
+--
+ALTER TABLE `timesheet`
+  ADD CONSTRAINT `timesheet_subjects_fk` FOREIGN KEY (`SubjectId`) REFERENCES `subjects` (`Id`);
 
 --
 -- Ограничения внешнего ключа таблицы `timesheetchanges`
