@@ -1,0 +1,13 @@
+<div class="container">
+  <h3 class="badge badge-primary my-3">{{exam.Title}}</h3>
+  <h4>Вопросы</h4>
+  <ul class="list-group my-3">
+      <li (click)="showPart(i)" [ngStyle]="{'background-color':(parts[i]?'white':'')}" *ngFor="let e of exam.Questions; let i = index"  [ngClass]="{'p-3':parts[i], 'p-0':!parts[i]}"  class="list-group-item dropdown" >
+        <h5 class="d-block p-3 m-0"  >{{e}}</h5>
+        <div [ngStyle]="{'display':(parts[i]?'block':'none'), 'background-color':(parts[i]?'white':'')}" style="z-index:0" class="dropdown-menu position-relative w-100 m-0 border-0" >
+          <p>{{exam.Answers[i]}}</p>
+          <button type="button" class="btn btn-primary">Редактировать</button>
+        </div>
+      </li>
+    </ul>
+</div>

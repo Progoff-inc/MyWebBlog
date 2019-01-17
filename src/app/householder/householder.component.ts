@@ -1,11 +1,13 @@
 import { Component, OnInit } from '@angular/core';
+import { Project, Technology, Sphere, Status, Priority } from '../developer/developer.component';
+
 
 @Component({
-  selector: 'app-developer',
-  templateUrl: './developer.component.html',
-  styleUrls: ['./developer.component.less']
+  selector: 'app-householder',
+  templateUrl: './householder.component.html',
+  styleUrls: ['./householder.component.css']
 })
-export class DeveloperComponent implements OnInit {
+export class HouseholderComponent implements OnInit {
   parts = [true, false, false, false];
   projects:Project[] = [
     {Id:1,Name:"CarsCrete", Tasks:[
@@ -34,13 +36,9 @@ export class DeveloperComponent implements OnInit {
     {Id:8, Name:"MS SQL Server", Language:"SQL", Sphere:Sphere.DataBase},
     {Id:9, Name:"Oracle PL/SQL", Language:"SQL", Sphere:Sphere.DataBase},
   ]
-  public s:Sphere;
-  constructor() { 
-    
-  }
+  constructor() { }
 
   ngOnInit() {
-    console.log()
   }
   showPart(i){
     this.parts[i]=!this.parts[i];
@@ -55,39 +53,4 @@ export class DeveloperComponent implements OnInit {
     return this.techs.filter(x => x.Sphere == s);
   }
 
-}
-
-export class Project{
-  Id:number;
-  Name:string;
-  Tasks:ProjectTask[];
-}
-export class ProjectTask{
-  Id:number;
-  Name:string;
-  Description:string;
-  Status:Status;
-  Priority:Priority;
-}
-export enum Status{
-  Response,
-  Active,
-  Resolved,
-  Closed
-}
-export enum Priority{
-  Low,
-  Medium,
-  Hight
-}
-export enum Sphere{
-  Front,
-  Back,
-  DataBase
-}
-export class Technology{
-  Id:number
-  Name:string;
-  Language:string;
-  Sphere:Sphere;
 }

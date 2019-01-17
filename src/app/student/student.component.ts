@@ -26,7 +26,7 @@ export class StudentComponent implements OnInit {
     [{Name:'Математика', Lesson:1},{Name:'Программирование', Lesson:2},{Name:'-', Lesson:3},{Name:'Физика', Lesson:4},{Name:'-', Lesson:5}]
 
   ];
-  parts = [false, false, false, false];
+  parts = [true, false, false, false];
   constructor() { }
 
   ngOnInit() {
