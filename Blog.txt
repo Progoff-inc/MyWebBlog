@@ -10,8 +10,8 @@
 
 Разработчик
 	1. Projects(Id, Name, DateStart, Description, IsFinished)
-	2. Requirements(Id, Name, Description, Status)
-	3. Tasks(Id, Name, Description, Status, Priority)
+	2. Requirements(Id, ProjectId, Name, Description, Status)
+	3. Tasks(Id, ProjectId, RequirementId, Name, Description, Status, Priority)
 	4. Teammates(Id, Name, Email)
 	5. ProjectTeammates(ProjectId, TeammateId, Position)
 	6. Techs(Id, Name, Language, Sphere)
