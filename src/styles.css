@@ -7,3 +7,8 @@ body{
     min-width: 245px;
 }
 
+form>.modal-footer{
+    margin-left:-16px;
+    margin-right: -16px;
+    margin-bottom: -16px; 
+}

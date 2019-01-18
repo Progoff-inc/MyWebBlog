@@ -1,8 +1,8 @@
 ﻿Студент
-	1. Exams(Id, PaperId, SubjectId, Name, DateStart, DateFinish, Cabinet)
+	1. Exams(Id, SubjectId, DateStart, DateFinish, Cabinet) 
 	2. Questions(Id, ExamId, Name, Answer, QuestionNumber)
 	3. Papers(Id, SubjectId)
-	4. Topics (Id, !OwnerId, !Type, Name, !Description, ModifyDate) !
+	4. Topics (Id, OwnerId, Type, Name, Description, ModifyDate) 
 	5. TimeSheet(Id, SubjectId, Cabinet, LessonNumber)
 	6. Subjects(Id, TeacherId, Name)
 	7. Teachers(Id, Name, Email)
@@ -11,15 +11,15 @@
 Разработчик
 	1. Projects(Id, Name, DateStart, Description, IsFinished)
 	2. Requirements(Id, ProjectId, Name, Description, Status)
-	3. Tasks(Id, ProjectId, !UserId, RequirementId, Name, Description, Status, Priority) !
+	3. Tasks(Id, ProjectId, UserId, RequirementId, Name, Description, Status, Priority) 
 	4. Teammates(Id, Name, Email)
 	5. ProjectTeammates(ProjectId, TeammateId, Position)
 	6. Techs(Id, Name, Language, Sphere)
 
 Общие
-	1. Links(Id, OwnerId, Type, !Path, Text) !
+	1. Links(Id, OwnerId, Type, Path, Text)
 	2. Photoes(Id, OwnerId, Type, Path)
-	3. Files(Id, OwnerId, Type, Path, !Text) !
+	3. Files(Id, OwnerId, Type, Path, Text)
 	4. News(Id, OwnerId, Type, Path, Header, Text)
 	
 

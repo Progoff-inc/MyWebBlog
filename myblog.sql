@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Хост: 127.0.0.1
--- Время создания: Янв 18 2019 г., 00:21
+-- Время создания: Янв 18 2019 г., 21:40
 -- Версия сервера: 10.1.32-MariaDB
 -- Версия PHP: 7.2.5
 
@@ -30,9 +30,7 @@ SET time_zone = "+00:00";
 
 CREATE TABLE `exams` (
   `Id` int(20) NOT NULL,
-  `PaperId` int(20) DEFAULT NULL,
   `SubjectId` int(20) DEFAULT NULL,
-  `Name` varchar(100) NOT NULL,
   `DateStart` datetime NOT NULL,
   `DateFinish` datetime NOT NULL,
   `Cabinet` int(10) NOT NULL
@@ -48,7 +46,8 @@ CREATE TABLE `files` (
   `Id` int(20) NOT NULL,
   `OwnerId` int(20) NOT NULL,
   `Type` tinyint(4) NOT NULL,
-  `Path` varchar(200) NOT NULL
+  `Path` varchar(200) NOT NULL,
+  `text` varchar(200) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 -- --------------------------------------------------------
@@ -61,7 +60,7 @@ CREATE TABLE `links` (
   `Id` int(20) NOT NULL,
   `OwnerId` int(20) NOT NULL,
   `Type` tinyint(4) NOT NULL,
-  `Link` varchar(100) NOT NULL,
+  `Path` varchar(200) NOT NULL,
   `Text` varchar(200) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
@@ -184,7 +183,8 @@ CREATE TABLE `tasks` (
   `Name` varchar(100) NOT NULL,
   `Description` text NOT NULL,
   `Status` tinyint(4) DEFAULT '0',
-  `Priority` tinyint(4) DEFAULT '0'
+  `Priority` tinyint(4) DEFAULT '0',
+  `UserId` int(20) DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 -- --------------------------------------------------------
@@ -246,10 +246,11 @@ CREATE TABLE `timesheetchanges` (
 
 CREATE TABLE `topics` (
   `Id` int(20) NOT NULL,
-  `PaperId` int(20) DEFAULT NULL,
+  `OwnerId` int(20) NOT NULL,
   `Name` varchar(100) NOT NULL,
-  `Text` text NOT NULL,
-  `ModifyDate` datetime NOT NULL
+  `Description` text NOT NULL,
+  `ModifyDate` datetime NOT NULL,
+  `Type` tinyint(4) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 -- --------------------------------------------------------
@@ -273,8 +274,7 @@ CREATE TABLE `users` (
 --
 ALTER TABLE `exams`
   ADD PRIMARY KEY (`Id`),
-  ADD KEY `exams_subjects_fk` (`SubjectId`),
-  ADD KEY `exams_papers_fk` (`PaperId`);
+  ADD KEY `exams_subjects_fk` (`SubjectId`);
 
 --
 -- Индексы таблицы `files`
@@ -351,7 +351,8 @@ ALTER TABLE `subjects`
 ALTER TABLE `tasks`
   ADD PRIMARY KEY (`Id`),
   ADD KEY `tasks_projects_fk` (`ProjectId`),
-  ADD KEY `tasks_requirements_fk` (`RequirementId`);
+  ADD KEY `tasks_requirements_fk` (`RequirementId`),
+  ADD KEY `UserId` (`UserId`);
 
 --
 -- Индексы таблицы `teachers`
@@ -384,7 +385,7 @@ ALTER TABLE `timesheetchanges`
 --
 ALTER TABLE `topics`
   ADD PRIMARY KEY (`Id`),
-  ADD KEY `topics_papers_fk` (`PaperId`);
+  ADD KEY `topics_papers_fk` (`OwnerId`);
 
 --
 -- Индексы таблицы `users`
@@ -506,7 +507,6 @@ ALTER TABLE `users`
 -- Ограничения внешнего ключа таблицы `exams`
 --
 ALTER TABLE `exams`
-  ADD CONSTRAINT `exams_papers_fk` FOREIGN KEY (`PaperId`) REFERENCES `papers` (`Id`),
   ADD CONSTRAINT `exams_subjects_fk` FOREIGN KEY (`SubjectId`) REFERENCES `subjects` (`Id`);
 
 --
@@ -544,6 +544,7 @@ ALTER TABLE `subjects`
 -- Ограничения внешнего ключа таблицы `tasks`
 --
 ALTER TABLE `tasks`
+  ADD CONSTRAINT `tasks_ibfk_1` FOREIGN KEY (`UserId`) REFERENCES `users` (`Id`),
   ADD CONSTRAINT `tasks_projects_fk` FOREIGN KEY (`ProjectId`) REFERENCES `projects` (`Id`),
   ADD CONSTRAINT `tasks_requirements_fk` FOREIGN KEY (`RequirementId`) REFERENCES `requirements` (`Id`);
 
@@ -558,12 +559,6 @@ ALTER TABLE `timesheet`
 --
 ALTER TABLE `timesheetchanges`
   ADD CONSTRAINT `timesheetchanges_subjects_fk` FOREIGN KEY (`SubjectId`) REFERENCES `subjects` (`Id`);
-
---
--- Ограничения внешнего ключа таблицы `topics`
---
-ALTER TABLE `topics`
-  ADD CONSTRAINT `topics_papers_fk` FOREIGN KEY (`PaperId`) REFERENCES `papers` (`Id`);
 COMMIT;
 
 /*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;

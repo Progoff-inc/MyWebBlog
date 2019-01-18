@@ -44,6 +44,7 @@ export class Subject extends BaseEntity{
     TeacherId:number;
 
     Teacher:Person;
+    Paper:Paper;
 }
 
 

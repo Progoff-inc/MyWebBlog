@@ -5,3 +5,6 @@
     position: relative;
     z-index: 100;
 }
+.dropdown-menu{
+    z-index:0
+}

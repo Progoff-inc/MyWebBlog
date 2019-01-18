@@ -1,7 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 
 @Component({
-  selector: 'app-new-paper',
+  selector: 'new-paper',
   templateUrl: './new-paper.component.html',
   styleUrls: ['./new-paper.component.css']
 })

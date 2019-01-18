@@ -1,4 +1,5 @@
 import { Component, OnInit } from '@angular/core';
+import { News, Paper, Exam, } from '../models/student'
 
 @Component({
   selector: 'app-student',
@@ -6,17 +7,10 @@ import { Component, OnInit } from '@angular/core';
   styleUrls: ['./student.component.css']
 })
 export class StudentComponent implements OnInit {
-  allnews:News[]=[
-    {img:'../../assets/images/linux.jpg', header:'Экзамен по Линуксу', text:'18/01/2019 11:00 (508/509) - экзамен по линуксу. Будет практика и теория. Необходимо подготовить клиент/сервер + apache'},
-    {img:'../../assets/images/filosofy.jpg', header:'Экзамен по Философии', text:'22/01/2019 11:00 (303) - экзамен по философии. Здесь поможет только свеча в церкви... Нужно учить все от Патона до Бердяева.'},
-    {img:'../../assets/images/mysql.png', header:'Экзамен по СУБД', text:'26/01/2019 11:00 (408/409) - экзамен по СУБД. Вся теория уже подготовлена, но надо подтянуть практику.'},
-    {img:'../../assets/images/linux.jpg', header:'Экзамен по Линуксу', text:'18/01/2019 11:00 (508/509) - экзамен по линуксу. Будет практика и теория. Необходимо подготовить клиент/сервер + apache'},
-    {img:'../../assets/images/filosofy.jpg', header:'Экзамен по Философии', text:'22/01/2019 11:00 (303) - экзамен по философии. Здесь поможет только свеча в церкви... Нужно учить все от Патона до Бердяева.'},
-    {img:'../../assets/images/mysql.png', header:'Экзамен по СУБД', text:'26/01/2019 11:00 (408/409) - экзамен по СУБД. Вся теория уже подготовлена, но надо подтянуть практику.'}
-  ]
+  allnews:News[];
   news = [];
-  papers:Paper[]=[{Title:'Линукс',Img:'../../assets/images/paper.jpg'}, {Title:'Филососфия',Img:'../../assets/images/paper.jpg'}, {Title:'СУБД', Img:'../../assets/images/paper.jpg'}];
-  exams:Exam[]=[{Title:'Линукс',Img:'../../assets/images/exam.jpg', Date:new Date(2019,1,18)}, {Title:'Филососфия',Img:'../../assets/images/exam.jpg', Date:new Date(2019,1,22)}, {Title:'СУБД', Img:'../../assets/images/exam.jpg', Date:new Date(2019,1,26)}];
+  papers:Paper[];
+  exams:Exam[];
   timesheet=[
     [{Name:'Математика', Lesson:1},{Name:'Программирование', Lesson:2},{Name:'-', Lesson:3},{Name:'Физика', Lesson:4},{Name:'-', Lesson:5}],
     [{Name:'Математика', Lesson:1},{Name:'Программирование', Lesson:2},{Name:'-', Lesson:3},{Name:'Физика', Lesson:4},{Name:'-', Lesson:5}],
@@ -27,14 +21,18 @@ export class StudentComponent implements OnInit {
 
   ];
   parts = [true, false, false, false];
+  adding:string;
   constructor() { }
 
   ngOnInit() {
     let size = 3; //размер подмассива
     let subarray = []; //массив в который будет выведен результат.
-    for (let i = 0; i <Math.ceil(this.allnews.length/size); i++){
+    if(this.allnews){
+      for (let i = 0; i <Math.ceil(this.allnews.length/size); i++){
         this.news[i] = this.allnews.slice((i*size), (i*size) + size);
+      }
     }
+    
     console.log(subarray);
   }
   chooseExam(Name){
@@ -42,6 +40,9 @@ export class StudentComponent implements OnInit {
   }
   showPart(i){
     this.parts[i]=!this.parts[i];
+  }
+  addElem(i){
+    this.adding = i;
   }
 }
 

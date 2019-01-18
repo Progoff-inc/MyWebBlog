@@ -1,5 +1,6 @@
 import { BaseLink, BaseEntity, Person } from "./base";
 import { Status, Priority, Sphere, Type } from "./base";
+import { Topic } from "./student";
 export class Project extends BaseEntity{
     DateStart:Date;
     IsFinished:boolean;
