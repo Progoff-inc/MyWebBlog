@@ -1,4 +1,5 @@
 import { Component, OnInit } from '@angular/core';
+import {} from '../models/student'
 
 @Component({
   selector: 'app-developer',
@@ -23,18 +24,7 @@ export class DeveloperComponent implements OnInit {
       {Id:5, Name:"Изменить файлы на хосте", Description:"Просьба заказчика", Status:Status.Response, Priority:Priority.Hight}
     ]},
   ]
-  techs:Technology[] = [
-    {Id:1, Name:"Angular", Language:"TypeScript", Sphere:Sphere.Front},
-    {Id:2, Name:"React.js", Language:"JavaScript", Sphere:Sphere.Front},
-    {Id:3, Name:"Vue.js", Language:"JavaScript", Sphere:Sphere.Front},
-    {Id:4, Name:"PHP", Language:"PHP", Sphere:Sphere.Back},
-    {Id:5, Name:"ASP.NET", Language:"C#", Sphere:Sphere.Back},
-    {Id:6, Name:"Node.js", Language:"JavaScript", Sphere:Sphere.Back},
-    {Id:7, Name:"MySql", Language:"SQL", Sphere:Sphere.DataBase},
-    {Id:8, Name:"MS SQL Server", Language:"SQL", Sphere:Sphere.DataBase},
-    {Id:9, Name:"Oracle PL/SQL", Language:"SQL", Sphere:Sphere.DataBase},
-  ]
-  public s:Sphere;
+  techs:Technology[];
   constructor() { 
     
   }
@@ -57,37 +47,6 @@ export class DeveloperComponent implements OnInit {
 
 }
 
-export class Project{
-  Id:number;
-  Name:string;
-  Tasks:ProjectTask[];
-}
-export class ProjectTask{
-  Id:number;
-  Name:string;
-  Description:string;
-  Status:Status;
-  Priority:Priority;
-}
-export enum Status{
-  Response,
-  Active,
-  Resolved,
-  Closed
-}
-export enum Priority{
-  Low,
-  Medium,
-  Hight
-}
-export enum Sphere{
-  Front,
-  Back,
-  DataBase
-}
-export class Technology{
-  Id:number
-  Name:string;
-  Language:string;
-  Sphere:Sphere;
-}
+
+
+

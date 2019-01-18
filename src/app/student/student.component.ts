@@ -46,35 +46,3 @@ export class StudentComponent implements OnInit {
 }
 
 
- export interface News{
-   img:string,
-   header:string,
-   text:string,
-   link?:string
- }
- export interface Exam{
-  Title:string;
-  Date?:Date;
-  Img?:string;
-  Links?:Link[];
-  Questions?:string[];
-  Answers?:string[];
-  Files?:File[];
- }
- export interface Paper{
-  Title:string;
-  Img?:string;
-  Links?:Link[];
-  Files?:File[];
- }
-export interface Link{
-  Name:string;
-  Link:string;
-}
-export interface Lesson{
-  Date?:Date,
-  Room?:number,
-  Teacher?:string,
-  Name:string,
-  Lesson:number
-}
