@@ -2,14 +2,14 @@ import { BaseLink, BaseEntity, Person } from "./base";
 import { Status, Priority, Sphere, Type } from "./base";
 
 
+
 export class Exam extends BaseEntity{
     PaperId:number;
-    SubjectId:number;
     DateStart:Date;
     DateFinish:Date;
     Cabinet:number;
 
-    Subject:Subject;
+    Paper:Paper;
     Questions:Question[];
 }
 export class Paper{

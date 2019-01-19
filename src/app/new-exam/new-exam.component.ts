@@ -1,6 +1,8 @@
 import { Component, OnInit, Input } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { Subject } from '../models/student';
+import { DeveloperService } from '../services/Developer.Service';
+import { StudentService } from '../services/StudentService';
 
 @Component({
   selector: 'new-exam',
@@ -12,7 +14,7 @@ export class NewExamComponent  implements OnInit  {
   @Input() parent;
   subjects:Subject[];
   times=[[],[]];
-  constructor(private fb:FormBuilder) { }
+  constructor(private fb:FormBuilder, public ss:StudentService) { }
 
   ngOnInit() {
     for(let i = 8;i<19;i++){
@@ -23,17 +25,17 @@ export class NewExamComponent  implements OnInit  {
     }
     this.examForm = this.fb.group({
       Name: ['', Validators.required],
-      Subject: ['', Validators.required],
+      PaperId: ['', Validators.required],
       DateStart: ['', Validators.required],
       DateFinish: ['', Validators.required],
       Cabinet: ['', Validators.required],
     })
   }
   save(){
-    this.parent.closeForm();
-    // this.ss.AddPaper(this.paperForm.value).subscribe((data)=>{
-      
-    // });
+    
+    this.ss.AddExam(this.examForm.value).subscribe((data)=>{
+      this.parent.closeForm();
+    });
     
   }
 

@@ -1,0 +1,102 @@
+<?php
+class BaseEntity{
+    public $Id;
+    public $Name;
+    public $Description;
+}
+
+class BaseLink{
+    public $Id;
+    public $OwnerId;
+    public $Type;
+    public $Path;
+    public $Text;
+}
+
+class Person{
+    public $Id;
+    public $Name;
+    public $Email;
+}
+
+class Project extends BaseEntity{
+    public $DateStart;
+    public $IsFinished;
+
+    public $Requirements;
+    public $Tasks;
+    public $Team;
+}
+
+class Requirement extends BaseEntity{
+    public $ProjectId;
+    public $Status;
+}
+
+class Task extends Requirement{
+    public $RequirementId;
+    public $UserId;
+    public $Priority;
+
+    public $Requirement;
+    public $User;
+}
+
+class ProjectUsers{
+    public $ProjectId;
+    public $UserId;
+    public $Position;
+}
+
+class Technology extends BaseEntity{
+    public $Language;
+    public $Sphere;
+
+    public $Topics;
+}
+
+class Exam extends BaseEntity{
+    public $PaperId;
+    public $DateStart;
+    public $DateFinish;
+    public $Cabinet;
+
+    public $Paper;
+    public $Questions;
+}
+class Paper{
+    public $Id;
+    public $SubjectId;
+    public $ModifyDate;
+
+    public $Topics;
+    public $Subject;
+}
+
+class Topic extends BaseEntity{
+    public $OwnerId;
+    public $Type;
+    public $ModifyDate;
+
+    public $Links;
+    public $Photoes;
+    public $Files;
+}
+
+class News extends BaseLink{
+    public $Header;
+}
+
+class Question extends BaseEntity{
+    public $ExamId;
+    public $Answer;
+    public $QuestionNumber;
+}
+
+class Subject extends BaseEntity{
+    public $TeacherId;
+
+    public $Teacher;
+    public $Paper;
+}
+?>

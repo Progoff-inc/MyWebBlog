@@ -16,7 +16,7 @@
           </div>
         </div>
         <div class="btn-group" role="group" aria-label="Basic example">
-          <button type="button" class="btn btn-success" (click)="addElem('project')" data-toggle="modal" data-target="#exampleModal">Добавить</button>
+          <button type="button" class="btn btn-success" (click)="addElem('project', modal)" >Добавить</button>
           <button type="button" class="btn btn-danger">Удалить</button>
         </div>
       </div>
@@ -35,7 +35,7 @@
           </div>
         </div>
         <div class="btn-group" role="group" aria-label="Basic example">
-          <button type="button" class="btn btn-success" (click)="addElem('tech')" data-toggle="modal" data-target="#exampleModal">Добавить</button>
+          <button type="button" class="btn btn-success" (click)="addElem('tech', modal)" >Добавить</button>
           <button type="button" class="btn btn-danger">Удалить</button>
         </div>
       </div>
@@ -53,7 +53,7 @@
           </div>
         </div>
         <div class="btn-group" role="group" aria-label="Basic example">
-          <button type="button" class="btn btn-success" (click)="addElem('tech')" data-toggle="modal" data-target="#exampleModal">Добавить</button>
+          <button type="button" class="btn btn-success" (click)="addElem('tech', modal)" data-toggle="modal" data-target="#exampleModal">Добавить</button>
           <button type="button" class="btn btn-danger">Удалить</button>
         </div>
       </div>
@@ -71,7 +71,7 @@
           </div>
         </div>
         <div class="btn-group" role="group" aria-label="Basic example">
-          <button type="button" class="btn btn-success" (click)="addElem('tech')" data-toggle="modal" data-target="#exampleModal">Добавить</button>
+          <button type="button" class="btn btn-success" (click)="addElem('tech', modal)" data-toggle="modal" data-target="#exampleModal">Добавить</button>
           <button type="button" class="btn btn-danger">Удалить</button>
         </div>
       </div>
@@ -80,19 +80,17 @@
   </ul>
 </div>
 <!-- Modal -->
-<div class="modal fade" id="exampleModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
-  <div class="modal-dialog" role="document">
-    <div class="modal-content">
-      <div class="modal-header">
-        <h5 class="modal-title" id="exampleModalLabel">Новый элемент</h5>
-        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-          <span aria-hidden="true">&times;</span>
-        </button>
-      </div>
-      <div [ngSwitch]="adding" class="modal-body">
-        <new-project *ngSwitchCase="'project'"></new-project>
-        <new-technology *ngSwitchCase="'tech'"></new-technology>
-      </div>
-    </div>
+<ng-template class="modal fade" id="exampleModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true" #modal>
+
+  <div class="modal-header">
+    <h5 class="modal-title" id="exampleModalLabel">Новый элемент</h5>
+    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+      <span aria-hidden="true">&times;</span>
+    </button>
   </div>
-</div>
+  <div [ngSwitch]="adding" class="modal-body">
+    <new-project *ngSwitchCase="'project'" [parent]="ctrl"></new-project>
+    <new-technology *ngSwitchCase="'tech'"  [parent]="ctrl"></new-technology>
+  </div>
+
+</ng-template>>

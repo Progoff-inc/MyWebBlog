@@ -17,6 +17,7 @@ import { FormBuilder } from '@angular/forms';
 import { StudentService } from './services/StudentService';
 import { ModalModule } from 'ngx-bootstrap';
 import { HttpClientModule, HttpClient } from '@angular/common/http';
+import { DeveloperService } from './services/Developer.Service';
 
 @NgModule({
   declarations: [
@@ -40,7 +41,7 @@ import { HttpClientModule, HttpClient } from '@angular/common/http';
     BrowserModule,
     AppRoutingModule
   ],
-  providers: [FormBuilder, StudentService, HttpClient],
+  providers: [FormBuilder, StudentService, HttpClient, DeveloperService],
   bootstrap: [AppComponent]
 })
 export class AppModule { }

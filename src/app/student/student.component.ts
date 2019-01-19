@@ -39,6 +39,17 @@ export class StudentComponent implements OnInit {
       })
       this.papers = data;
     })
+    this.ss.GetExams().subscribe(data => {
+      data.forEach(x => {
+        x.DateStart = new Date(x.DateStart);
+        x.DateFinish = new Date(x.DateFinish);
+      });
+      data.sort((a,b)=>{
+        return a.DateStart<b.DateStart?1:-1;
+      })
+      this.exams = data;
+      this.modalRef2.hide();
+    })
     let size = 3; //размер подмассива
     let subarray = []; //массив в который будет выведен результат.
     if(this.allnews){
@@ -50,21 +61,34 @@ export class StudentComponent implements OnInit {
     console.log(subarray);
   }
   closeForm(){
-    if(this.adding=='paper'){
-      this.ss.GetPapers().subscribe(data => {
-        data.forEach(x => {
-          x.ModifyDate = new Date(x.ModifyDate);
-        });
-        data.sort((a,b)=>{
-          return a.ModifyDate<b.ModifyDate?1:-1;
+    switch(this.adding){
+      case 'paper':{
+        this.ss.GetPapers().subscribe(data => {
+          data.forEach(x => {
+            x.ModifyDate = new Date(x.ModifyDate);
+          });
+          data.sort((a,b)=>{
+            return a.ModifyDate<b.ModifyDate?1:-1;
+          })
+          this.papers = data;
+          this.modalRef2.hide();
         })
-        this.papers = data;
-        this.modalRef2.hide();
-      })
-    } 
-    else{
-      this.modalRef2.hide();
+      } 
+      case 'exam':{
+        this.ss.GetExams().subscribe(data => {
+          data.forEach(x => {
+            x.DateStart = new Date(x.DateStart);
+            x.DateFinish = new Date(x.DateFinish);
+          });
+          data.sort((a,b)=>{
+            return a.DateStart<b.DateStart?1:-1;
+          })
+          this.exams = data;
+          this.modalRef2.hide();
+        })
+      }
     }
+    
     
     
   }

@@ -1,5 +1,5 @@
 ﻿Студент
-	1. Exams(Id, SubjectId, DateStart, DateFinish, Cabinet) 
+	1. Exams(Id, PaperId, DateStart, DateFinish, Cabinet) 
 	2. Questions(Id, ExamId, Name, Answer, QuestionNumber)
 	3. Papers(Id, SubjectId)
 	4. Topics (Id, OwnerId, Type, Name, Description, ModifyDate) 

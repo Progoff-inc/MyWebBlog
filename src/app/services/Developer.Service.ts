@@ -1,33 +1,35 @@
 import { Inject, Injectable, OnInit } from '@angular/core';
 import { HttpClient, HttpParams } from '@angular/common/http';
-import { Paper, Exam } from '../models/student';
+import { Paper } from '../models/student';
+import { Project, Technology } from '../models/developer';
 
 @Injectable()
-export class StudentService implements OnInit {
+export class DeveloperService implements OnInit {
     // baseUrl:string='http://nomokoiw.beget.tech/back/';
     baseUrl = 'http://localhost:80/myblog/';
     constructor(private http: HttpClient ) {
 
 
     }
-    GetPapers() {
-        return this.http.get<Paper[]>(this.baseUrl + 'student.php?Key=get-papers');
+    GetProjects() {
+        return this.http.get<Project[]>(this.baseUrl + 'developer.php?Key=get-projects');
     }
-    GetExams() {
-        return this.http.get<Exam[]>(this.baseUrl + 'student.php?Key=get-exams');
+    GetTechs() {
+        return this.http.get<Technology[]>(this.baseUrl + 'developer.php?Key=get-techs');
     }
     
     // GetCarPhotos(id: number) {
     //     return this.http.get<string[]>(this.baseUrl + 'CarsController.php?Key=get-photos&Id=' + id);
     // }
    
-    AddPaper(NewPaper) {
+    AddProject(NewProject) {
 
-        return this.http.post(this.baseUrl + 'student.php?Key=add-paper', NewPaper);
+        return this.http.post(this.baseUrl + 'developer.php?Key=add-project', NewProject);
     }
-    AddExam(NewExam) {
 
-        return this.http.post(this.baseUrl + 'student.php?Key=add-exam', NewExam);
+    AddTech(NewTech) {
+
+        return this.http.post(this.baseUrl + 'developer.php?Key=add-tech', NewTech);
     }
 
     ngOnInit() {
