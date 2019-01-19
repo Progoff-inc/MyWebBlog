@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, Input } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { Subject } from '../models/student';
 
@@ -9,6 +9,7 @@ import { Subject } from '../models/student';
 })
 export class NewExamComponent  implements OnInit  {
   examForm: FormGroup;
+  @Input() parent;
   subjects:Subject[];
   times=[[],[]];
   constructor(private fb:FormBuilder) { }
@@ -27,6 +28,13 @@ export class NewExamComponent  implements OnInit  {
       DateFinish: ['', Validators.required],
       Cabinet: ['', Validators.required],
     })
+  }
+  save(){
+    this.parent.closeForm();
+    // this.ss.AddPaper(this.paperForm.value).subscribe((data)=>{
+      
+    // });
+    
   }
 
 }

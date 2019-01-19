@@ -14,7 +14,8 @@ export class Exam extends BaseEntity{
 }
 export class Paper{
     Id:number;
-    SubjectId:number
+    SubjectId:number;
+    ModifyDate:Date;
 
     Topics:Topic[];
     Subject:Subject;

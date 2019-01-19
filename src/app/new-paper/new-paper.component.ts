@@ -1,4 +1,6 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, Input } from '@angular/core';
+import { FormBuilder, FormGroup, Validators } from '@angular/forms';
+import { StudentService } from '../services/StudentService';
 
 @Component({
   selector: 'new-paper',
@@ -6,10 +8,23 @@ import { Component, OnInit } from '@angular/core';
   styleUrls: ['./new-paper.component.css']
 })
 export class NewPaperComponent implements OnInit {
-
-  constructor() { }
+  paperForm: FormGroup;
+  @Input() parent;
+  constructor(private fb:FormBuilder, public ss: StudentService) { }
 
   ngOnInit() {
+    this.paperForm = this.fb.group({
+      TeacherName: ['', Validators.required],
+      Email: ['', Validators.required],
+      SubjectName: ['', Validators.required]
+    })
+  }
+  save(){
+    
+    this.ss.AddPaper(this.paperForm.value).subscribe((data)=>{
+      this.parent.closeForm();
+    });
+    
   }
 
 }

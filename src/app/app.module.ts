@@ -1,6 +1,6 @@
 import { BrowserModule } from '@angular/platform-browser';
 import { NgModule } from '@angular/core';
-
+import { ReactiveFormsModule, FormsModule } from '@angular/forms';
 import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
 import { NavComponent } from './nav/nav.component';
@@ -14,6 +14,9 @@ import { NewPaperComponent } from './new-paper/new-paper.component';
 import { NewProjectComponent } from './new-project/new-project.component';
 import { NewTechnologyComponent } from './new-technology/new-technology.component';
 import { FormBuilder } from '@angular/forms';
+import { StudentService } from './services/StudentService';
+import { ModalModule } from 'ngx-bootstrap';
+import { HttpClientModule, HttpClient } from '@angular/common/http';
 
 @NgModule({
   declarations: [
@@ -30,10 +33,14 @@ import { FormBuilder } from '@angular/forms';
     NewTechnologyComponent
   ],
   imports: [
+    HttpClientModule,
+    ModalModule.forRoot(),
+    ReactiveFormsModule,
+    FormsModule,
     BrowserModule,
     AppRoutingModule
   ],
-  providers: [FormBuilder],
+  providers: [FormBuilder, StudentService, HttpClient],
   bootstrap: [AppComponent]
 })
 export class AppModule { }

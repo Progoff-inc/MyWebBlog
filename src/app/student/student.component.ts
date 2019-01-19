@@ -1,5 +1,9 @@
 import { Component, OnInit } from '@angular/core';
 import { News, Paper, Exam, } from '../models/student'
+import { TemplateRef } from '@angular/core';
+import { BsModalService } from 'ngx-bootstrap/modal';
+import { BsModalRef } from 'ngx-bootstrap/modal/bs-modal-ref.service';
+import { StudentService } from '../services/StudentService';
 
 @Component({
   selector: 'app-student',
@@ -7,7 +11,9 @@ import { News, Paper, Exam, } from '../models/student'
   styleUrls: ['./student.component.css']
 })
 export class StudentComponent implements OnInit {
+  modalRef2: BsModalRef;
   allnews:News[];
+  ctrl = this;
   news = [];
   papers:Paper[];
   exams:Exam[];
@@ -22,9 +28,17 @@ export class StudentComponent implements OnInit {
   ];
   parts = [true, false, false, false];
   adding:string;
-  constructor() { }
-
+  constructor(private modalService: BsModalService, public ss: StudentService) { }
   ngOnInit() {
+    this.ss.GetPapers().subscribe(data => {
+      data.forEach(x => {
+        x.ModifyDate = new Date(x.ModifyDate);
+      });
+      data.sort((a,b)=>{
+        return a.ModifyDate<b.ModifyDate?1:-1;
+      })
+      this.papers = data;
+    })
     let size = 3; //размер подмассива
     let subarray = []; //массив в который будет выведен результат.
     if(this.allnews){
@@ -35,14 +49,34 @@ export class StudentComponent implements OnInit {
     
     console.log(subarray);
   }
+  closeForm(){
+    if(this.adding=='paper'){
+      this.ss.GetPapers().subscribe(data => {
+        data.forEach(x => {
+          x.ModifyDate = new Date(x.ModifyDate);
+        });
+        data.sort((a,b)=>{
+          return a.ModifyDate<b.ModifyDate?1:-1;
+        })
+        this.papers = data;
+        this.modalRef2.hide();
+      })
+    } 
+    else{
+      this.modalRef2.hide();
+    }
+    
+    
+  }
   chooseExam(Name){
     console.log(Name);
   }
   showPart(i){
     this.parts[i]=!this.parts[i];
   }
-  addElem(i){
+  addElem(i, template: TemplateRef<any>){
     this.adding = i;
+    this.modalRef2 = this.modalService.show(template);
   }
 }
 

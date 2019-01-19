@@ -39,7 +39,7 @@
           </div>
         </div>
         <div class="btn-group" role="group" aria-label="Basic example">
-          <button type="button" (click)="addElem('exam')" class="btn btn-success" data-toggle="modal" data-target="#exampleModal">Добавить</button>
+          <button type="button" (click)="addElem('exam', modal)" class="btn btn-success" data-toggle="modal" data-target="#exampleModal">Добавить</button>
           <button type="button" class="btn btn-danger">Удалить</button>
         </div>
       </div>
@@ -49,13 +49,13 @@
         <span class="d-block p-3" (click)="showPart(1)" >Конспекты</span>
       <div [ngStyle]="{'display':(parts[1]?'block':'none')}" class="dropdown-menu position-relative w-100 m-0 border-0" >
         <div  class="card mb-3 flex-sm-row align-items-center " *ngFor="let e of papers">
-          <img class="float-left m-3" src="{{e.Img}}" alt="Card image cap" style="max-width:10%;">
+          <img class="float-left m-3" src="../../assets/images/paper.jpg" alt="Card image cap" style="max-width:10%;">
           <div class="card-body">
-            <h5 class="card-title">{{e.Title}}</h5>
+            <h5 class="card-title">{{e.Subject.Name}}</h5>
           </div>
         </div>
         <div class="btn-group" role="group" aria-label="Basic example">
-          <button type="button"  class="btn btn-success" (click)="addElem('paper')" data-toggle="modal" data-target="#exampleModal">Добавить</button>
+          <button type="button"  class="btn btn-success" (click)="addElem('paper', modal)" data-toggle="modal" data-target="#exampleModal">Добавить</button>
           <button type="button" class="btn btn-danger">Удалить</button>
         </div>
       </div>
@@ -92,7 +92,7 @@
   </ul>
 </div>
 <!-- Modal -->
-<div class="modal fade" id="exampleModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+<!-- <div class="modal fade" id="exampleModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true" #modal>
   <div class="modal-dialog" role="document">
     <div class="modal-content">
       <div class="modal-header">
@@ -107,5 +107,19 @@
       </div>
     </div>
   </div>
-</div>
+</div> -->
+<ng-template class="modal fade" id="exampleModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true" #modal>
+
+      <div class="modal-header">
+        <h5 class="modal-title" id="exampleModalLabel">Новый элемент</h5>
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div [ngSwitch]="adding" class="modal-body">
+        <new-exam *ngSwitchCase="'exam'" [parent]="ctrl"></new-exam>
+        <new-paper *ngSwitchCase="'paper'" [parent]="ctrl"></new-paper>
+      </div>
+
+</ng-template>>
 

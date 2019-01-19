@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Хост: 127.0.0.1
--- Время создания: Янв 18 2019 г., 21:40
+-- Время создания: Янв 19 2019 г., 01:53
 -- Версия сервера: 10.1.32-MariaDB
 -- Версия PHP: 7.2.5
 
@@ -87,8 +87,17 @@ CREATE TABLE `news` (
 
 CREATE TABLE `papers` (
   `Id` int(20) NOT NULL,
-  `SubjectId` int(20) DEFAULT NULL
+  `SubjectId` int(20) DEFAULT NULL,
+  `ModifyDate` datetime NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+
+--
+-- Дамп данных таблицы `papers`
+--
+
+INSERT INTO `papers` (`Id`, `SubjectId`, `ModifyDate`) VALUES
+(30, 14, '2019-01-19 03:41:44'),
+(32, 15, '2019-01-19 03:42:34');
 
 -- --------------------------------------------------------
 
@@ -102,6 +111,13 @@ CREATE TABLE `photoes` (
   `Type` tinyint(4) NOT NULL,
   `Path` varchar(200) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+
+--
+-- Дамп данных таблицы `photoes`
+--
+
+INSERT INTO `photoes` (`Id`, `OwnerId`, `Type`, `Path`) VALUES
+(1, 1, 1, '../../assets/images/cool_photo.jpg');
 
 -- --------------------------------------------------------
 
@@ -170,6 +186,14 @@ CREATE TABLE `subjects` (
   `Name` varchar(20) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
+--
+-- Дамп данных таблицы `subjects`
+--
+
+INSERT INTO `subjects` (`Id`, `TeacherId`, `Name`) VALUES
+(14, 20, 'CУБД'),
+(15, 21, 'Операционные системы');
+
 -- --------------------------------------------------------
 
 --
@@ -195,8 +219,17 @@ CREATE TABLE `tasks` (
 
 CREATE TABLE `teachers` (
   `Id` int(20) NOT NULL,
-  `Name` varchar(20) NOT NULL
+  `Name` varchar(20) NOT NULL,
+  `Email` varchar(200) DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+
+--
+-- Дамп данных таблицы `teachers`
+--
+
+INSERT INTO `teachers` (`Id`, `Name`, `Email`) VALUES
+(20, 'Волков Андрей Геннад', 'volkov@yandex.ru'),
+(21, 'Коротеев Михаил Викт', 'mvkoroteev@gmail.com');
 
 -- --------------------------------------------------------
 
@@ -425,13 +458,13 @@ ALTER TABLE `news`
 -- AUTO_INCREMENT для таблицы `papers`
 --
 ALTER TABLE `papers`
-  MODIFY `Id` int(20) NOT NULL AUTO_INCREMENT;
+  MODIFY `Id` int(20) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=33;
 
 --
 -- AUTO_INCREMENT для таблицы `photoes`
 --
 ALTER TABLE `photoes`
-  MODIFY `Id` int(20) NOT NULL AUTO_INCREMENT;
+  MODIFY `Id` int(20) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
 
 --
 -- AUTO_INCREMENT для таблицы `projects`
@@ -455,7 +488,7 @@ ALTER TABLE `requirements`
 -- AUTO_INCREMENT для таблицы `subjects`
 --
 ALTER TABLE `subjects`
-  MODIFY `Id` int(20) NOT NULL AUTO_INCREMENT;
+  MODIFY `Id` int(20) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=16;
 
 --
 -- AUTO_INCREMENT для таблицы `tasks`
@@ -467,7 +500,7 @@ ALTER TABLE `tasks`
 -- AUTO_INCREMENT для таблицы `teachers`
 --
 ALTER TABLE `teachers`
-  MODIFY `Id` int(20) NOT NULL AUTO_INCREMENT;
+  MODIFY `Id` int(20) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=22;
 
 --
 -- AUTO_INCREMENT для таблицы `techs`

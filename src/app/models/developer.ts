@@ -34,5 +34,5 @@ export class Technology extends BaseEntity{
     Language:string;
     Sphere:Sphere;
 
-    Topics:Topic;
+    Topics:Topic[];
 }
