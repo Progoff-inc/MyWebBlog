@@ -1,0 +1,46 @@
+<div class="container pt-3">
+  <form *ngIf="type=='task'" [formGroup]="taskForm">
+    <h3>Новая задача</h3>
+    <div class="form-group">
+      <label for="exampleInputEmail1">Название</label>
+      <input formControlName="Name" class="form-control" id="exampleInputEmail1" >
+    </div>
+    <div class="form-group">
+      <label for="descr">Описание</label>
+      <textarea style="height:30vh" formControlName="Description" class="form-control" id="descr" rows="3"></textarea>
+    </div>
+    <div class="d-flex">
+      
+      <div class="form-group pr-3">
+        <label for="pr">Приоритет</label>
+        <select formControlName="Priority" class="form-control" id="pr">
+          <option *ngFor="let r of getPriorities()" >{{r}}</option>
+        </select>
+      </div>
+      <div class="form-group">
+        <label for="u">Исполнитель</label>
+        <select formControlName="UserId" class="form-control" id="u">
+          <option value="{{r.Id}}" *ngFor="let r of team" >{{r.Name}}</option>
+        </select>
+      </div>
+    </div>
+    <div class="form-group">
+      <label for="req">Требование</label>
+      <select formControlName="RequirementId" class="form-control" id="req">
+        <option value="{{r.Id}}" *ngFor="let r of reqs" >{{r.Name}}</option>
+      </select>
+    </div>
+    <button type="submit" class="btn btn-primary" (click)=addTask()>Добавить</button>
+  </form>
+  <form *ngIf="type=='req'" [formGroup]="reqForm">
+    <h3>Новое требование</h3>
+    <div class="form-group">
+      <label for="n">Название</label>
+      <input formControlName="Name" class="form-control" id="n" >
+    </div>
+    <div class="form-group">
+      <label for="d">Описание</label>
+      <textarea style="height:30vh" formControlName="Description" class="form-control" id="d" rows="3"></textarea>
+    </div>
+    <button type="submit" class="btn btn-primary" (click)="addReq()">Добавить</button>
+  </form>

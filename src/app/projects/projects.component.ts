@@ -6,12 +6,12 @@ import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { BsModalService } from 'ngx-bootstrap/modal';
 import { BsModalRef } from 'ngx-bootstrap/modal/bs-modal-ref.service';
 import { TemplateRef } from '@angular/core';
-import { ActivatedRoute } from '@angular/router';
+import { ActivatedRoute, Router } from '@angular/router';
 
 @Component({
   selector: 'app-projects',
   templateUrl: './projects.component.html',
-  styleUrls: ['./projects.component.css']
+  styleUrls: ['./projects.component.less']
 })
 export class ProjectsComponent implements OnInit {
   modalRef2: BsModalRef;
@@ -19,7 +19,7 @@ export class ProjectsComponent implements OnInit {
   userForm:FormGroup;
   project:Project;
   users:Person[] =[];
-  constructor(private dv:DeveloperService, public fb:FormBuilder, private modalService: BsModalService, private route: ActivatedRoute) { }
+  constructor(private router: Router, private dv:DeveloperService, public fb:FormBuilder, private modalService: BsModalService, private route: ActivatedRoute) { }
 
   ngOnInit() {
     this.dv.GetUsers().subscribe(data =>{
@@ -59,6 +59,16 @@ export class ProjectsComponent implements OnInit {
   }
   showPart(i){
     this.parts[i]=!this.parts[i];
+  }
+  add(t){
+    this.router.navigate(
+      ['/add', this.project.Id], 
+      {
+          queryParams:{
+              'type':t 
+          }
+      }
+  );
   }
 
 }

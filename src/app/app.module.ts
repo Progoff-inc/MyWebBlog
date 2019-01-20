@@ -19,6 +19,7 @@ import { ModalModule } from 'ngx-bootstrap';
 import { HttpClientModule, HttpClient } from '@angular/common/http';
 import { DeveloperService } from './services/Developer.Service';
 import { ProjectsComponent } from './projects/projects.component';
+import { AddComponent } from './add/add.component';
 
 @NgModule({
   declarations: [
@@ -33,7 +34,8 @@ import { ProjectsComponent } from './projects/projects.component';
     NewPaperComponent,
     NewProjectComponent,
     NewTechnologyComponent,
-    ProjectsComponent
+    ProjectsComponent,
+    AddComponent
   ],
   imports: [
     HttpClientModule,

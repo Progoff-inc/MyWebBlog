@@ -1,7 +1,7 @@
 import { Inject, Injectable, OnInit } from '@angular/core';
 import { HttpClient, HttpParams } from '@angular/common/http';
 import { Paper } from '../models/student';
-import { Project, Technology } from '../models/developer';
+import { Project, Technology, ProjectPerson, Requirement } from '../models/developer';
 import { Person } from '../models/base';
 
 @Injectable()
@@ -21,14 +21,29 @@ export class DeveloperService implements OnInit {
     GetUsers() {
         return this.http.get<Person[]>(this.baseUrl + 'developer.php?Key=get-users');
     }
+    GetRequirements(id) {
+        return this.http.get<Requirement[]>(this.baseUrl + 'developer.php?Key=get-requirements&Id=' + id);
+    }
     
     GetProject(id) {
         return this.http.get<Project>(this.baseUrl + 'developer.php?Key=get-project&Id=' + id);
     }
+    GetTeam(id) {
+        return this.http.get<ProjectPerson[]>(this.baseUrl + 'developer.php?Key=get-team&Id=' + id);
+    }
+    
    
     AddProject(NewProject) {
 
         return this.http.post(this.baseUrl + 'developer.php?Key=add-project', NewProject);
+    }
+    AddTask(NewTask) {
+
+        return this.http.post(this.baseUrl + 'developer.php?Key=add-task', NewTask);
+    }
+    AddRequirement(NewRequirement) {
+
+        return this.http.post(this.baseUrl + 'developer.php?Key=add-requirement', NewRequirement);
     }
     AddProjectUser(NewPUser) {
 
