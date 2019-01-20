@@ -55,7 +55,28 @@ if(isset($_GET['Key']))
             break;
         case 'add-project-user':
             $inp = json_decode(file_get_contents('php://input'), true);
-            echo json_encode($ctxt->setProjectUser($inp['Id'], $inp['Position'], $inp['ProjectId'], false));
+            echo json_encode($ctxt->setProjectUser($inp['Id'], $inp['Position'], $inp['ProjectId']));
+            break;
+        case 'add-task':
+            $inp = json_decode(file_get_contents('php://input'), true);
+            echo json_encode($ctxt->setTask($inp['Name'], $inp['Description'], $inp['UserId'], $inp['RequirementId'], $inp['Priority'], $inp['Status'], $inp['ProjectId']));
+            break;
+        case 'add-requirement':
+            $inp = json_decode(file_get_contents('php://input'), true);
+            echo json_encode($ctxt->setRequirement($inp['Name'], $inp['Description'], $inp['ProjectId'], $inp['Status']));
+            break;
+        
+        case 'get-requirements':
+            echo json_encode($ctxt->getRequirements($_GET['Id']));
+            break;
+        case 'get-requirement':
+            echo json_encode($ctxt->getRequirement($_GET['Id']));
+            break;
+        case 'get-task':
+            echo json_encode($ctxt->getTask($_GET['Id']));
+            break;
+        case 'get-team':
+            echo json_encode($ctxt->getTeam($_GET['Id']));
             break;
         case 'get-techs':
             echo json_encode($ctxt->getTechs());
@@ -63,6 +84,11 @@ if(isset($_GET['Key']))
         case 'add-tech':
             $inp = json_decode(file_get_contents('php://input'), true);
             echo json_encode($ctxt->setTech($inp['Name'], $inp['Language'], $inp['Sphere']));
+            break;
+
+        case 'get-ip':
+            $ip =  $_SERVER['REMOTE_ADDR'];
+            echo json_encode($ip);
             break;
         
         default:

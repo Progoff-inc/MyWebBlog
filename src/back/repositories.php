@@ -74,6 +74,18 @@ class DataBase {
         $s->setFetchMode(PDO::FETCH_CLASS, 'Subject');
         return $s->fetch();
     }
+    public function getTask($Id) {
+        $s = $this->db->prepare("SELECT * FROM tasks WHERE Id=?");
+        $s->execute(array($Id));
+        $s->setFetchMode(PDO::FETCH_CLASS, 'Task');
+        return $s->fetch();
+    }
+    public function getRequirement($Id) {
+        $s = $this->db->prepare("SELECT * FROM requirements WHERE Id=?");
+        $s->execute(array($Id));
+        $s->setFetchMode(PDO::FETCH_CLASS, 'Requirement');
+        return $s->fetch();
+    }
     public function getProject($Id) {
         $s = $this->db->prepare("SELECT * FROM projects WHERE Id=?");
         $s->execute(array($Id));
@@ -122,6 +134,16 @@ class DataBase {
     public function setProject($n,$descr,$dst, $isf){
         $sth = $this->db->prepare("INSERT INTO projects (Name, Description, DateStart, IsFinished) VALUES (?,?,?,?)");
         $sth->execute(array($n, $descr, $dst, $isf));
+        return $this->db->lastInsertId();
+    }
+    public function setTask($n,$descr,$uid, $rid, $pr, $st, $pid){
+        $sth = $this->db->prepare("INSERT INTO tasks (Name, Description, UserId, RequirementId, Priority, Status, ProjectId) VALUES (?,?,?,?,?,?,?)");
+        $sth->execute(array($n, $descr,$uid, $rid, $pr, $st, $pid));
+        return $this->db->lastInsertId();
+    }
+    public function setRequirement($n, $descr, $pid, $st){
+        $sth = $this->db->prepare("INSERT INTO requirements (Name, Description, ProjectId, Status) VALUES (?,?,?,?)");
+        $sth->execute(array($n, $descr, $pid, $st));
         return $this->db->lastInsertId();
     }
     public function setProjectUser($uid,$p,$pid){

@@ -62,13 +62,23 @@ export class ProjectsComponent implements OnInit {
   }
   add(t){
     this.router.navigate(
-      ['/add', this.project.Id], 
-      {
-          queryParams:{
-              'type':t 
-          }
-      }
-  );
+        ['/add', this.project.Id], 
+        {
+            queryParams:{
+                'type':t 
+            }
+        }
+    );
+  }
+  open(t, id){
+    this.router.navigate(
+        ['/works', id], 
+        {
+            queryParams:{
+                'type':t 
+            }
+        }
+    );
   }
 
 }

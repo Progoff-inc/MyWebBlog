@@ -20,6 +20,7 @@ import { HttpClientModule, HttpClient } from '@angular/common/http';
 import { DeveloperService } from './services/Developer.Service';
 import { ProjectsComponent } from './projects/projects.component';
 import { AddComponent } from './add/add.component';
+import { WorksComponent } from './works/works.component';
 
 @NgModule({
   declarations: [
@@ -35,7 +36,8 @@ import { AddComponent } from './add/add.component';
     NewProjectComponent,
     NewTechnologyComponent,
     ProjectsComponent,
-    AddComponent
+    AddComponent,
+    WorksComponent
   ],
   imports: [
     HttpClientModule,
