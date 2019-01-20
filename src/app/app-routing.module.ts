@@ -5,12 +5,14 @@ import { StudentComponent } from './student/student.component';
 import { DeveloperComponent } from './developer/developer.component';
 // import { HouseholderComponent } from './householder/householder.component';
 import { ExamsComponent } from './exams/exams.component';
+import { ProjectsComponent } from './projects/projects.component';
 
 const routes: Routes = [
   { path: '', component: HomeComponent, pathMatch: 'full' },
   { path: 'student', component: StudentComponent },
   { path: 'developer', component: DeveloperComponent },
-  { path: 'exams', component: ExamsComponent }
+  { path: 'exams/:id', component: ExamsComponent },
+  { path: 'projects/:id', component: ProjectsComponent }
   // { path: 'farm', component: HouseholderComponent }
 ];
 

@@ -22,6 +22,7 @@ export class NewProjectComponent implements OnInit {
   save(){
     
     this.dv.AddProject(this.projectForm.value).subscribe((data)=>{
+      console.log(data);
       this.parent.closeForm();
     });
     

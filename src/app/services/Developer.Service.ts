@@ -2,6 +2,7 @@ import { Inject, Injectable, OnInit } from '@angular/core';
 import { HttpClient, HttpParams } from '@angular/common/http';
 import { Paper } from '../models/student';
 import { Project, Technology } from '../models/developer';
+import { Person } from '../models/base';
 
 @Injectable()
 export class DeveloperService implements OnInit {
@@ -17,14 +18,21 @@ export class DeveloperService implements OnInit {
     GetTechs() {
         return this.http.get<Technology[]>(this.baseUrl + 'developer.php?Key=get-techs');
     }
+    GetUsers() {
+        return this.http.get<Person[]>(this.baseUrl + 'developer.php?Key=get-users');
+    }
     
-    // GetCarPhotos(id: number) {
-    //     return this.http.get<string[]>(this.baseUrl + 'CarsController.php?Key=get-photos&Id=' + id);
-    // }
+    GetProject(id) {
+        return this.http.get<Project>(this.baseUrl + 'developer.php?Key=get-project&Id=' + id);
+    }
    
     AddProject(NewProject) {
 
         return this.http.post(this.baseUrl + 'developer.php?Key=add-project', NewProject);
+    }
+    AddProjectUser(NewPUser) {
+
+        return this.http.post(this.baseUrl + 'developer.php?Key=add-project-user', NewPUser);
     }
 
     AddTech(NewTech) {

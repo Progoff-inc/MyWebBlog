@@ -23,8 +23,9 @@ export class NewTechnologyComponent implements OnInit {
     })
   }
   save(){
-    
+    console.log(this.techForm.value);
     this.dv.AddTech(this.techForm.value).subscribe((data)=>{
+      console.log(data);
       this.parent.closeForm();
     });
     

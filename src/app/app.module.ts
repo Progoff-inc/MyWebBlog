@@ -18,6 +18,7 @@ import { StudentService } from './services/StudentService';
 import { ModalModule } from 'ngx-bootstrap';
 import { HttpClientModule, HttpClient } from '@angular/common/http';
 import { DeveloperService } from './services/Developer.Service';
+import { ProjectsComponent } from './projects/projects.component';
 
 @NgModule({
   declarations: [
@@ -31,7 +32,8 @@ import { DeveloperService } from './services/Developer.Service';
     NewExamComponent,
     NewPaperComponent,
     NewProjectComponent,
-    NewTechnologyComponent
+    NewTechnologyComponent,
+    ProjectsComponent
   ],
   imports: [
     HttpClientModule,

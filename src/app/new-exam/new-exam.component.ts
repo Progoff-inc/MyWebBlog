@@ -1,8 +1,9 @@
 import { Component, OnInit, Input } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
-import { Subject } from '../models/student';
+import { Subject, Paper } from '../models/student';
 import { DeveloperService } from '../services/Developer.Service';
 import { StudentService } from '../services/StudentService';
+import { deepStrictEqual } from 'assert';
 
 @Component({
   selector: 'new-exam',
@@ -12,11 +13,21 @@ import { StudentService } from '../services/StudentService';
 export class NewExamComponent  implements OnInit  {
   examForm: FormGroup;
   @Input() parent;
-  subjects:Subject[];
+  subjects:Paper[];
   times=[[],[]];
   constructor(private fb:FormBuilder, public ss:StudentService) { }
 
   ngOnInit() {
+    
+    this.ss.GetPapers().subscribe(data => {
+      data.forEach(x => {
+        x.ModifyDate = new Date(x.ModifyDate);
+      });
+      data.sort((a,b)=>{
+        return a.ModifyDate<b.ModifyDate?1:-1;
+      })
+      this.subjects = data;
+    })
     for(let i = 8;i<19;i++){
       this.times[0].push(i);
     }
@@ -24,16 +35,23 @@ export class NewExamComponent  implements OnInit  {
       this.times[1].push(i);
     }
     this.examForm = this.fb.group({
-      Name: ['', Validators.required],
       PaperId: ['', Validators.required],
       DateStart: ['', Validators.required],
       DateFinish: ['', Validators.required],
+      TimeStartH: ['', Validators.required],
+      TimeStartM: ['', Validators.required],
+      TimeFinishH: ['', Validators.required],
+      TimeFinishM: ['', Validators.required],
       Cabinet: ['', Validators.required],
     })
   }
   save(){
-    
-    this.ss.AddExam(this.examForm.value).subscribe((data)=>{
+    let t = new Date(this.examForm.value.DateStart);
+    let ts = new Date(t.getFullYear(), t.getMonth(), t.getDate(),Number(this.examForm.value.TimeStartH), Number(this.examForm.value.TimeStartM));
+    let tf = new Date(t.getFullYear(), t.getMonth(), t.getDate(),Number(this.examForm.value.TimeFinishH), Number(this.examForm.value.TimeFinishM));
+    console.log(ts);
+    this.ss.AddExam({PaperId:this.examForm.value.PaperId,  DateStart:ts, DateFinish:tf, Cabinet:this.examForm.value.Cabinet}).subscribe((data)=>{
+      console.log(data);
       this.parent.closeForm();
     });
     

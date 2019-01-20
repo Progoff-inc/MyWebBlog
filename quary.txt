@@ -115,3 +115,5 @@ FOREIGN KEY(PaperId) REFERENCES subjects(Id)
 
 ALTER TABLE topics
 CHANGE COLUMN PapperId PaperId int(20)
+
+ALTER TABLE exams DROP FOREIGN KEY exams_subjects_fk

@@ -40,6 +40,30 @@ if(isset($_GET['Key']))
         case 'get-exams':
             echo json_encode($ctxt->getExams());
             break;
+        case 'get-users':
+            echo json_encode($ctxt->getUsers());
+            break;
+        case 'get-projects':
+            echo json_encode($ctxt->getProjects());
+            break;
+        case 'get-project':
+            echo json_encode($ctxt->getProject($_GET['Id']));
+            break;
+        case 'add-project':
+            $inp = json_decode(file_get_contents('php://input'), true);
+            echo json_encode($ctxt->setProject($inp['Name'], $inp['Description'], $inp['DateStart'], false));
+            break;
+        case 'add-project-user':
+            $inp = json_decode(file_get_contents('php://input'), true);
+            echo json_encode($ctxt->setProjectUser($inp['Id'], $inp['Position'], $inp['ProjectId'], false));
+            break;
+        case 'get-techs':
+            echo json_encode($ctxt->getTechs());
+            break;
+        case 'add-tech':
+            $inp = json_decode(file_get_contents('php://input'), true);
+            echo json_encode($ctxt->setTech($inp['Name'], $inp['Language'], $inp['Sphere']));
+            break;
         
         default:
             echo "Введенный ключ несуществует";

@@ -42,10 +42,19 @@ class Task extends Requirement{
     public $User;
 }
 
-class ProjectUsers{
+class ProjectUser{
     public $ProjectId;
     public $UserId;
     public $Position;
+}
+
+class ProjectPerson{
+    public $Id;
+    public $Name;
+    public $Email;
+    public $Position;
+    public $ProjectId;
+
 }
 
 class Technology extends BaseEntity{

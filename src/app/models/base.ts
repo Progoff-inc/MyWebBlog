@@ -19,15 +19,15 @@ export class Person{
 }
 
 export enum Status{
-    Response,
-    Active,
-    Resolved,
-    Closed
+    Proposed="Proposed",
+    Active="Active",
+    Resolved="Resolved",
+    Closed="Closed"
 }
 export enum Priority{
-    Low,
-    Medium,
-    Hight
+    Low="Low",
+    Medium="Medium",
+    Hight="Hight"
 }
 export enum Sphere{
     Front,
@@ -36,12 +36,12 @@ export enum Sphere{
 }
 
 export enum Position{
-    Chef,
-    TeamLead,
-    FrontDeveloper,
-    BackDeveloper,
-    DataBaseDeveloper,
-    JuniorDeveloper
+    TeamLead = "TeamLead",
+    FrontDeveloper = "FrontDeveloper",
+    BackDeveloper = "BackDeveloper",
+    DataBaseDeveloper = "DataBaseDeveloper",
+    JuniorDeveloper = "JuniorDeveloper",
+    Designer = "Designer"
 }
 
 export enum Type{

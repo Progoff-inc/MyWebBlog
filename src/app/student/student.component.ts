@@ -40,15 +40,21 @@ export class StudentComponent implements OnInit {
       this.papers = data;
     })
     this.ss.GetExams().subscribe(data => {
+
       data.forEach(x => {
+        console.log(x.DateStart);
+        
         x.DateStart = new Date(x.DateStart);
         x.DateFinish = new Date(x.DateFinish);
+        x.DateStart = new Date(x.DateStart.getFullYear(), x.DateStart.getMonth(), x.DateStart.getDate(), x.DateStart.getHours()+3, x.DateStart.getMinutes());
+        x.DateFinish = new Date(x.DateFinish.getFullYear(), x.DateFinish.getMonth(), x.DateFinish.getDate(), x.DateFinish.getHours()+3, x.DateFinish.getMinutes());
+        console.log(x.DateStart)
       });
       data.sort((a,b)=>{
-        return a.DateStart<b.DateStart?1:-1;
+        return a.DateStart>b.DateStart?1:-1;
       })
       this.exams = data;
-      this.modalRef2.hide();
+      console.log(data);
     })
     let size = 3; //размер подмассива
     let subarray = []; //массив в который будет выведен результат.
@@ -66,9 +72,10 @@ export class StudentComponent implements OnInit {
         this.ss.GetPapers().subscribe(data => {
           data.forEach(x => {
             x.ModifyDate = new Date(x.ModifyDate);
+            
           });
           data.sort((a,b)=>{
-            return a.ModifyDate<b.ModifyDate?1:-1;
+            return a.ModifyDate>b.ModifyDate?1:-1;
           })
           this.papers = data;
           this.modalRef2.hide();
@@ -79,11 +86,14 @@ export class StudentComponent implements OnInit {
           data.forEach(x => {
             x.DateStart = new Date(x.DateStart);
             x.DateFinish = new Date(x.DateFinish);
+            x.DateStart = new Date(x.DateStart.getFullYear(), x.DateStart.getMonth(), x.DateStart.getDate(), x.DateStart.getHours()+3, x.DateStart.getMinutes());
+            x.DateFinish = new Date(x.DateFinish.getFullYear(), x.DateFinish.getMonth(), x.DateFinish.getDate(), x.DateFinish.getHours()+3, x.DateFinish.getMinutes());
           });
           data.sort((a,b)=>{
             return a.DateStart<b.DateStart?1:-1;
           })
           this.exams = data;
+          
           this.modalRef2.hide();
         })
       }

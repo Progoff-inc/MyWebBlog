@@ -25,6 +25,7 @@ export class DeveloperComponent implements OnInit {
 
   ngOnInit() {
     this.dv.GetProjects().subscribe(data => {
+      console.log(data);
       data.forEach(x => {
         x.DateStart = new Date(x.DateStart);
       });
@@ -34,8 +35,8 @@ export class DeveloperComponent implements OnInit {
       this.projects = data;
     });
     this.dv.GetTechs().subscribe(data => {
+      console.log(data);
       this.techs = data;
-      this.modalRef2.hide();
     });
     console.log()
   }
@@ -43,7 +44,7 @@ export class DeveloperComponent implements OnInit {
     this.parts[i]=!this.parts[i];
   }
   getResponsed(p:Project){
-    return p.Tasks.filter(x => x.Status == Status.Response).length;
+    return p.Tasks.filter(x => x.Status == Status.Proposed).length;
   }
   getResolved(p:Project){
     
