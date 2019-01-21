@@ -6,7 +6,6 @@ import { BsModalService } from 'ngx-bootstrap/modal';
 import { BsModalRef } from 'ngx-bootstrap/modal/bs-modal-ref.service';
 import { DeveloperService } from '../services/Developer.Service';
 import { Router } from '@angular/router';
-import { userInfo } from 'os';
 
 @Component({
   selector: 'app-developer',
