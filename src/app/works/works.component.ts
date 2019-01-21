@@ -4,45 +4,142 @@ import { ActivatedRoute, Router} from '@angular/router';
 import { Priority, Status } from '../models/base';
 import { ProjectUsers, ProjectPerson, Requirement, Task } from '../models/developer';
 import { DeveloperService } from '../services/Developer.Service';
+import { Subject, Observable, BehaviorSubject }    from 'rxjs';
+import { CodegenComponentFactoryResolver } from '@angular/core/src/linker/component_factory_resolver';
 
 @Component({
   selector: 'app-works',
   templateUrl: './works.component.html',
-  styleUrls: ['./works.component.css']
+  styleUrls: ['./works.component.less']
 })
 export class WorksComponent implements OnInit {
+  
   type:String;
-  task:Task;
-  req:Requirement;
   ItemId:String;
+  task:Task;
+  taskcopy:Task;
+  req:Requirement;
+  reqcopy:Requirement;
+  //task: Subject<Task> = new BehaviorSubject<Task>(null);
+
+  // public setTask(newTask: Task): void {
+  //   console.log(this.task)
+  //   this.task.next(newTask);
+  // }
+  team:ProjectPerson[];
+  parts = [false];
+  c=[true, true];
   constructor(private route:ActivatedRoute, private router:Router, private dv:DeveloperService) { 
-    this.route.params.subscribe(params=>this.ItemId=params['id']);
+    this.route.params.subscribe(
+      params=>{
+        this.ItemId=params['id']; 
+        this.c[0]=true;
+        if(this.c[0]&&this.c[1]){
+          this.ngOnInit();
+        }
+        
+      });
     this.route.queryParams.subscribe(
         (queryParam: any) => {
+          
             this.type = queryParam['type'];
+            this.c[1]=true;
+            if(this.c[0]&&this.c[1]){
+              this.ngOnInit();
+            }
         }
     );
   }
 
   ngOnInit() {
+    this.c=[false, false];
     switch(this.type){
       case "task":{
         this.dv.GetTask(this.ItemId).subscribe(data => {
-          this.task = data;
+          this.task=Object.assign({},data);
           
+          this.taskcopy=Object.assign({},data);
+          this.dv.GetTeam(this.task.ProjectId).subscribe(data => {
+            
+            this.team = data;
+          })
         })
+        
         break;
         
       }
       case "req":{
-        this.dv.GetRequirement(this.ItemId).subscribe(data => {
-          this.req = data;
-          
-        })
+        if(!this.req || (this.req.Id != Number(this.ItemId) && this.type=='req')){
+          this.dv.GetRequirement(this.ItemId).subscribe(data => {
+            this.req=Object.assign({},data);
+            console.log(this.req);
+            this.reqcopy=Object.assign({},data);
+            this.dv.GetTeam(this.req.ProjectId).subscribe(data => {
+              this.team = data;
+            })
+            
+          })
+        }
+        
         break;
         
       }
     }
+    
+    // this.task.subscribe(task =>{
+    //   console.log(task);
+    // })
+  }
+  add(t){
+    this.router.navigate(
+        ['/add', this.req.ProjectId], 
+        {
+            queryParams:{
+                'type':t 
+            }
+        }
+    );
+  }
+  open(t, id){
+    this.router.navigate(
+        ['/works', id], 
+        {
+            queryParams:{
+                'type':t 
+            }
+        }
+    );
+  }
+  showPart(i){
+    this.parts[i]=!this.parts[i];
+  }
+  checkTask(){
+    let res = false;
+    Object.keys(this.task).forEach(k => {
+      if(this.task[k]!=this.taskcopy[k]){
+        res = true;
+      }
+    });
+    return res;
+  }
+  showReq(){
+    this.router.navigate(
+        ['/works', this.task.RequirementId], 
+        {
+            queryParams:{
+                'type':'req' 
+            }
+        }
+    );
+  }
+  checkReq(){
+    let res = false;
+    Object.keys(this.req).forEach(k => {
+      if(this.req[k]!=this.reqcopy[k]){
+        res = true;
+      }
+    });
+    return res;
   }
   getPriorities(){
     return [Priority.Low, Priority.Medium, Priority.Hight];
@@ -50,21 +147,10 @@ export class WorksComponent implements OnInit {
   getStatuses(){
     return [Status.Active, Status.Closed, Status.Proposed, Status.Resolved];
   }
-  // worksTask(){
-  //   console.log(this.taskForm.value);
-  //   this.dv.WorksTask({Name:this.taskForm.value.Name, Description:this.taskForm.value.Description, RequirementId:this.taskForm.value.RequirementId, UserId:this.taskForm.value.UserId, Priority:this.taskForm.value.Priority, Status:Status.Proposed, ProjectId:this.ProjectId}).subscribe(data => {
-  //     this.router.navigate(
-  //         ['/projects', this.ProjectId]
-  //     );
-  //   })
-  // }
-  // worksReq(){
-  //   console.log(this.reqForm.value);
-  //   this.dv.WorksRequirement({Name:this.reqForm.value.Name, Description:this.reqForm.value.Description, ProjectId:this.ProjectId, Status:Status.Proposed}).subscribe(data => {
-  //     this.router.navigate(
-  //         ['/projects', this.ProjectId]
-  //     );
-  //   })
-  // }
+  ChangeTask(){
+    this.dv.ChangeTask({Description:this.task.Description, UserId:this.task.UserId, Priority:this.task.Priority, Status:this.task.Status}, this.task.Id).subscribe(()=>{
+      this.ngOnInit();
+    })
+  }
 
 }

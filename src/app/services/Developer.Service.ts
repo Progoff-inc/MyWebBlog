@@ -46,6 +46,9 @@ export class DeveloperService implements OnInit {
 
         return this.http.post(this.baseUrl + 'developer.php?Key=add-task', NewTask);
     }
+    ChangeTask(ChTask, id) {
+        return this.http.post(this.baseUrl + 'developer.php?Key=change-task&Id=' + id,ChTask);
+    }
     AddRequirement(NewRequirement) {
 
         return this.http.post(this.baseUrl + 'developer.php?Key=add-requirement', NewRequirement);

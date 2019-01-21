@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Хост: 127.0.0.1
--- Время создания: Янв 19 2019 г., 01:53
+-- Время создания: Янв 21 2019 г., 15:12
 -- Версия сервера: 10.1.32-MariaDB
 -- Версия PHP: 7.2.5
 
@@ -30,11 +30,19 @@ SET time_zone = "+00:00";
 
 CREATE TABLE `exams` (
   `Id` int(20) NOT NULL,
-  `SubjectId` int(20) DEFAULT NULL,
+  `PaperId` int(20) DEFAULT NULL,
   `DateStart` datetime NOT NULL,
   `DateFinish` datetime NOT NULL,
   `Cabinet` int(10) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+
+--
+-- Дамп данных таблицы `exams`
+--
+
+INSERT INTO `exams` (`Id`, `PaperId`, `DateStart`, `DateFinish`, `Cabinet`) VALUES
+(1, 30, '2019-01-26 08:00:00', '2019-01-26 09:30:00', 408),
+(13, 34, '2019-01-22 08:00:00', '2019-01-22 09:30:00', 303);
 
 -- --------------------------------------------------------
 
@@ -97,7 +105,8 @@ CREATE TABLE `papers` (
 
 INSERT INTO `papers` (`Id`, `SubjectId`, `ModifyDate`) VALUES
 (30, 14, '2019-01-19 03:41:44'),
-(32, 15, '2019-01-19 03:42:34');
+(32, 15, '2019-01-19 03:42:34'),
+(34, 16, '2019-01-19 22:23:28');
 
 -- --------------------------------------------------------
 
@@ -133,6 +142,14 @@ CREATE TABLE `projects` (
   `IsFinished` bit(1) DEFAULT b'0'
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
+--
+-- Дамп данных таблицы `projects`
+--
+
+INSERT INTO `projects` (`Id`, `Name`, `DateStart`, `Description`, `IsFinished`) VALUES
+(1, 'Cars Crete', '2018-10-01 00:00:00', 'Аренда авто на Крите.', b'0'),
+(2, 'My Developer Blog', '2019-01-17 00:00:00', 'Проект создан для оптимизации работы с другими проектами в рамках компании NoLedCorp.', b'0');
+
 -- --------------------------------------------------------
 
 --
@@ -142,8 +159,18 @@ CREATE TABLE `projects` (
 CREATE TABLE `projectusers` (
   `ProjectId` int(20) NOT NULL,
   `UserId` int(20) NOT NULL,
-  `Position` tinyint(4) DEFAULT '0'
+  `Position` varchar(20) DEFAULT '0'
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+
+--
+-- Дамп данных таблицы `projectusers`
+--
+
+INSERT INTO `projectusers` (`ProjectId`, `UserId`, `Position`) VALUES
+(1, 1, 'TeamLead'),
+(1, 2, 'BackDeveloper'),
+(1, 3, 'Designer'),
+(2, 1, 'TeamLead');
 
 -- --------------------------------------------------------
 
@@ -171,8 +198,18 @@ CREATE TABLE `requirements` (
   `ProjectId` int(20) NOT NULL,
   `Name` varchar(100) NOT NULL,
   `Description` text NOT NULL,
-  `Status` tinyint(4) DEFAULT '0'
+  `Status` varchar(20) DEFAULT '0'
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+
+--
+-- Дамп данных таблицы `requirements`
+--
+
+INSERT INTO `requirements` (`Id`, `ProjectId`, `Name`, `Description`, `Status`) VALUES
+(1, 1, 'Сделать красивый мобильный вид', 'Заказчик попросил сделать красивый мобильный вид, так как большая часть ее аудитории заходит на сайт именно с мобильных устройств.', 'Proposed'),
+(2, 1, 'Обеспечить безопастность данных пользователей', 'Необходимо надежно шифровать все соединения, так как используется авторизация пользователей', 'Proposed'),
+(4, 1, 'Чат с клиентом', 'Необходимо реализовать возможность переписываться с клиентом для оформления заказа.\n\nЭто можно делать:\n1) С любой страницы кроме контактов.\n2) Из личного кабинета (здесь показывается вся переписка)', 'Proposed'),
+(5, 2, 'Удобный пользовательский интерфейс', '1) Сделать возможность делать выборку заданий задания (Мои/Мои не законченные)', 'Proposed');
 
 -- --------------------------------------------------------
 
@@ -192,7 +229,8 @@ CREATE TABLE `subjects` (
 
 INSERT INTO `subjects` (`Id`, `TeacherId`, `Name`) VALUES
 (14, 20, 'CУБД'),
-(15, 21, 'Операционные системы');
+(15, 21, 'Операционные системы'),
+(16, 22, 'Философия');
 
 -- --------------------------------------------------------
 
@@ -206,10 +244,19 @@ CREATE TABLE `tasks` (
   `RequirementId` int(20) NOT NULL,
   `Name` varchar(100) NOT NULL,
   `Description` text NOT NULL,
-  `Status` tinyint(4) DEFAULT '0',
-  `Priority` tinyint(4) DEFAULT '0',
+  `Status` varchar(20) DEFAULT '0',
+  `Priority` varchar(20) DEFAULT '0',
   `UserId` int(20) DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+
+--
+-- Дамп данных таблицы `tasks`
+--
+
+INSERT INTO `tasks` (`Id`, `ProjectId`, `RequirementId`, `Name`, `Description`, `Status`, `Priority`, `UserId`) VALUES
+(3, 1, 2, 'Шифровать данные', 'Шифровать данные пользователей при обращении к серверу.', 'Active', 'Medium', 1),
+(5, 1, 1, 'Добавить поиск с главной страницы', 'Добавить возможность поиска подходящих авто с главной страницы.\n\nНа основной странице можно ввести данные для фильтрации, потом пользователь должен быть переброшен на страницу автомобилей, где увидит уже отфильтрованные варианты.', 'Proposed', 'Low', 1),
+(6, 2, 5, 'Добавить фильтры', 'Добавить фильтры на страницу проета, чтобы можно было выбрать свои задания.\n\nЗначения фильтров: Мои, Мои не законченные', 'Active', 'Low', 1);
 
 -- --------------------------------------------------------
 
@@ -229,7 +276,8 @@ CREATE TABLE `teachers` (
 
 INSERT INTO `teachers` (`Id`, `Name`, `Email`) VALUES
 (20, 'Волков Андрей Геннад', 'volkov@yandex.ru'),
-(21, 'Коротеев Михаил Викт', 'mvkoroteev@gmail.com');
+(21, 'Коротеев Михаил Викт', 'mvkoroteev@gmail.com'),
+(22, 'adenikin@yandex.ru', 'Деникина Зоя Дмитриевна');
 
 -- --------------------------------------------------------
 
@@ -243,6 +291,21 @@ CREATE TABLE `techs` (
   `Language` varchar(100) NOT NULL,
   `Sphere` tinyint(4) DEFAULT '0'
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+
+--
+-- Дамп данных таблицы `techs`
+--
+
+INSERT INTO `techs` (`Id`, `Name`, `Language`, `Sphere`) VALUES
+(5, 'Angular', 'TypeScript', 0),
+(6, 'React.js', 'JavaScript', 0),
+(7, 'Vue.js', 'JavaScript', 0),
+(8, 'PHP', 'PHP', 1),
+(9, 'Node.js', 'JavaScript', 1),
+(10, 'ASP.NET Core 2', 'C#', 1),
+(11, 'MySql', 'SQL', 2),
+(12, 'MSSQL Server', 'SQL', 2),
+(13, 'Oracle PL/SQL', 'PL/Sql', 2);
 
 -- --------------------------------------------------------
 
@@ -299,6 +362,15 @@ CREATE TABLE `users` (
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 --
+-- Дамп данных таблицы `users`
+--
+
+INSERT INTO `users` (`Id`, `Name`, `Email`) VALUES
+(1, 'Иван Номконов', 'nomokonov.vana@gmail.com'),
+(2, 'Андрей Ледащев', 'ledachev@yandex.ru'),
+(3, 'Мария Воробьева', 'vorobyevamaria@yandex.ru');
+
+--
 -- Индексы сохранённых таблиц
 --
 
@@ -307,7 +379,7 @@ CREATE TABLE `users` (
 --
 ALTER TABLE `exams`
   ADD PRIMARY KEY (`Id`),
-  ADD KEY `exams_subjects_fk` (`SubjectId`);
+  ADD KEY `exams_subjects_fk` (`PaperId`);
 
 --
 -- Индексы таблицы `files`
@@ -434,7 +506,7 @@ ALTER TABLE `users`
 -- AUTO_INCREMENT для таблицы `exams`
 --
 ALTER TABLE `exams`
-  MODIFY `Id` int(20) NOT NULL AUTO_INCREMENT;
+  MODIFY `Id` int(20) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=14;
 
 --
 -- AUTO_INCREMENT для таблицы `files`
@@ -458,7 +530,7 @@ ALTER TABLE `news`
 -- AUTO_INCREMENT для таблицы `papers`
 --
 ALTER TABLE `papers`
-  MODIFY `Id` int(20) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=33;
+  MODIFY `Id` int(20) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=35;
 
 --
 -- AUTO_INCREMENT для таблицы `photoes`
@@ -470,7 +542,7 @@ ALTER TABLE `photoes`
 -- AUTO_INCREMENT для таблицы `projects`
 --
 ALTER TABLE `projects`
-  MODIFY `Id` int(20) NOT NULL AUTO_INCREMENT;
+  MODIFY `Id` int(20) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
 
 --
 -- AUTO_INCREMENT для таблицы `questions`
@@ -482,31 +554,31 @@ ALTER TABLE `questions`
 -- AUTO_INCREMENT для таблицы `requirements`
 --
 ALTER TABLE `requirements`
-  MODIFY `Id` int(20) NOT NULL AUTO_INCREMENT;
+  MODIFY `Id` int(20) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=6;
 
 --
 -- AUTO_INCREMENT для таблицы `subjects`
 --
 ALTER TABLE `subjects`
-  MODIFY `Id` int(20) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=16;
+  MODIFY `Id` int(20) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=17;
 
 --
 -- AUTO_INCREMENT для таблицы `tasks`
 --
 ALTER TABLE `tasks`
-  MODIFY `Id` int(20) NOT NULL AUTO_INCREMENT;
+  MODIFY `Id` int(20) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=7;
 
 --
 -- AUTO_INCREMENT для таблицы `teachers`
 --
 ALTER TABLE `teachers`
-  MODIFY `Id` int(20) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=22;
+  MODIFY `Id` int(20) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=23;
 
 --
 -- AUTO_INCREMENT для таблицы `techs`
 --
 ALTER TABLE `techs`
-  MODIFY `Id` int(20) NOT NULL AUTO_INCREMENT;
+  MODIFY `Id` int(20) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=14;
 
 --
 -- AUTO_INCREMENT для таблицы `timesheet`
@@ -530,7 +602,7 @@ ALTER TABLE `topics`
 -- AUTO_INCREMENT для таблицы `users`
 --
 ALTER TABLE `users`
-  MODIFY `Id` int(20) NOT NULL AUTO_INCREMENT;
+  MODIFY `Id` int(20) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=4;
 
 --
 -- Ограничения внешнего ключа сохраненных таблиц
@@ -540,7 +612,7 @@ ALTER TABLE `users`
 -- Ограничения внешнего ключа таблицы `exams`
 --
 ALTER TABLE `exams`
-  ADD CONSTRAINT `exams_subjects_fk` FOREIGN KEY (`SubjectId`) REFERENCES `subjects` (`Id`);
+  ADD CONSTRAINT `exams_papers_fk` FOREIGN KEY (`PaperId`) REFERENCES `papers` (`Id`);
 
 --
 -- Ограничения внешнего ключа таблицы `papers`

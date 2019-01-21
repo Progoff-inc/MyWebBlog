@@ -13,6 +13,7 @@ export class Project extends BaseEntity{
 export class Requirement extends BaseEntity{
     ProjectId:number;
     Status:Status;
+    Tasks:Task[];
 }
 
 export class Task extends Requirement{
@@ -20,7 +21,6 @@ export class Task extends Requirement{
     UserId:number;
     Priority:Priority;
 
-    Requirement:Requirement;
     User:Person;
 }
 

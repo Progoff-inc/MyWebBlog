@@ -31,6 +31,8 @@ class Project extends BaseEntity{
 class Requirement extends BaseEntity{
     public $ProjectId;
     public $Status;
+
+    public $Tasks;
 }
 
 class Task extends Requirement{
@@ -38,7 +40,6 @@ class Task extends Requirement{
     public $UserId;
     public $Priority;
 
-    public $Requirement;
     public $User;
 }
 

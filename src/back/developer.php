@@ -61,6 +61,10 @@ if(isset($_GET['Key']))
             $inp = json_decode(file_get_contents('php://input'), true);
             echo json_encode($ctxt->setTask($inp['Name'], $inp['Description'], $inp['UserId'], $inp['RequirementId'], $inp['Priority'], $inp['Status'], $inp['ProjectId']));
             break;
+        case 'change-task':
+            $inp = json_decode(file_get_contents('php://input'), true);
+            echo json_encode($ctxt->changeTask($_GET['Id'], $inp['Description'], $inp['Priority'], $inp['Status'], $inp['UserId']));
+            break;
         case 'add-requirement':
             $inp = json_decode(file_get_contents('php://input'), true);
             echo json_encode($ctxt->setRequirement($inp['Name'], $inp['Description'], $inp['ProjectId'], $inp['Status']));
