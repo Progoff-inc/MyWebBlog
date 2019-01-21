@@ -164,6 +164,23 @@ class DataBase {
         $sth->execute(array($uid,$p,$pid));
         return $this->db->lastInsertId();
     }
+    public function setUser($id, $n, $ph){
+        $s = $this->db->prepare("SELECT * FROM users WHERE Id=?");
+        $s->execute(array($id));
+        if(count($s->fetchAll())==0){
+            $sth = $this->db->prepare("INSERT INTO users (Id, Name, Photo) VALUES (?,?,?)");
+            $sth->execute(array($id, $n, $ph));
+        }
+        else{
+            $s = $this->db->prepare("UPDATE users SET Name=?, Photo=? WHERE Id=?" );
+            $s->execute(array($n, $ph, $id));
+        }
+        // if()
+        // $s->setFetchMode(PDO::FETCH_CLASS, 'Paper');
+        // $sth = $this->db->prepare("INSERT INTO users (Id, Name, Photo) VALUES (?,?,?)");
+        // $sth->execute(array($id, $n, $ph));
+        return $this->db->lastInsertId();
+    }
     public function setTech($n,$l,$s){
         $sth = $this->db->prepare("INSERT INTO techs (Name, Language, Sphere) VALUES (?,?,?)");
         $sth->execute(array($n,$l,$s));

@@ -16,6 +16,8 @@ export class Person{
     Id:number;
     Name:string;
     Email:string;
+    Photo:string;
+    Root:number;
 }
 
 export enum Status{

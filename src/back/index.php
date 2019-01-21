@@ -6,15 +6,13 @@ require 'repositories.php';
 $client_id = '6828242'; // ID приложения
 $client_secret = 'jBSP9VR9s7pn9GaRg08Z'; // Защищённый ключ
 $redirect_uri = 'http://localhost/myblog'; // Адрес сайта
-
+$ctxt = new DataBase();
 $url = 'http://oauth.vk.com/authorize';
 $params = array(
     'client_id'     => $client_id,
     'redirect_uri'  => $redirect_uri,
     'response_type' => 'code'
 );
-// http://oauth.vk.com/authorize?client_id=6828242&redirect_uri=http://localhost/myblog&response_type=code
-header('Location: http://localhost:4200/');
 if (isset($_GET['code'])) {
     $params = array(
         'client_id' => $client_id,
@@ -32,8 +30,9 @@ if (isset($token['access_token'])) {
         'v'=> '3.0'
     );
     $userInfo = json_decode(file_get_contents('https://api.vk.com/method/users.get' . '?' . urldecode(http_build_query($params))), true);
-    header('Location: http://localhost:4200?'.urldecode(http_build_query($userInfo)));
-    echo json_encode($userInfo);
+    $ctxt->setUser($userInfo['response'][0]['uid'], $userInfo['response'][0]['first_name'].' '.$userInfo['response'][0]['last_name'],$userInfo['response'][0]['photo_big']);
+    // header('Location: http://localhost:4200?'.urldecode(http_build_query($userInfo)));
+    echo json_encode($userInfo['response'][0]['uid']);
 }
     
 
@@ -42,27 +41,27 @@ if (isset($token['access_token'])) {
 
 
 
-$ctxt = new DataBase();
-if(isset($_GET['Key']))
-{
+
+// if(isset($_GET['Key']))
+// {
     
-    switch ($_GET['Key']) {
-        case 'get-auth-link':
-            $link = '<p><a href="' . $url . '?' . urldecode(http_build_query($params)) . '">Аутентификация через ВКонтакте</a></p>';
-            echo json_encode($link);
-            break;
+//     switch ($_GET['Key']) {
+//         case 'get-auth-link':
+//             $link = '<p><a href="' . $url . '?' . urldecode(http_build_query($params)) . '">Аутентификация через ВКонтакте</a></p>';
+//             echo json_encode($link);
+//             break;
         
         
-        default:
-            echo "Введенный ключ несуществует";
+//         default:
+//             echo "Введенный ключ несуществует";
         
-    }
+//     }
     
-}
-else
-{  
-    echo "Введенные данные некорректны";
-}
+// }
+// else
+// {  
+//     echo "Введенные данные некорректны";
+// }
 // if(isset($_GET['Key']))
 // {
     
