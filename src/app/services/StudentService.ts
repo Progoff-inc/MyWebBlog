@@ -16,6 +16,9 @@ export class StudentService implements OnInit {
     GetExams() {
         return this.http.get<Exam[]>(this.baseUrl + 'student.php?Key=get-exams');
     }
+    GetAuthLink() {
+        return this.http.get<string>(this.baseUrl + 'student.php?Key=get-auth-link');
+    }
     
     // GetCarPhotos(id: number) {
     //     return this.http.get<string[]>(this.baseUrl + 'CarsController.php?Key=get-photos&Id=' + id);

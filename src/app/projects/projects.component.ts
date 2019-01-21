@@ -37,7 +37,6 @@ export class ProjectsComponent implements OnInit {
   }
   
   save(){
-    console.log(this.userForm.value);
     
     this.dv.AddProjectUser({Id:this.userForm.value.Id, ProjectId:this.project.Id, Position:this.userForm.value.Position}).subscribe((data)=>{
       this.dv.GetProject(this.route.snapshot.paramMap.get("id")).subscribe(data =>{

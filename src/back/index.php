@@ -2,14 +2,7 @@
 header("Access-Control-Allow-Origin: *"); 
 header("Access-Control-Allow-Methods: GET, PUT, POST, DELETE, OPTIONS");
 header("Access-Control-Allow-Headers: Origin, Content-Type, X-Auth-Token , Authorization");
-
-
 require 'repositories.php';
-class Lecturer {
-    public $Name;
-    public $Email;
-    public $Password;
-}
 $client_id = '6828242'; // ID приложения
 $client_secret = 'jBSP9VR9s7pn9GaRg08Z'; // Защищённый ключ
 $redirect_uri = 'http://localhost/myblog'; // Адрес сайта
@@ -20,6 +13,33 @@ $params = array(
     'redirect_uri'  => $redirect_uri,
     'response_type' => 'code'
 );
+// http://oauth.vk.com/authorize?client_id=6828242&redirect_uri=http://localhost/myblog&response_type=code
+header('Location: http://localhost:4200/');
+if (isset($_GET['code'])) {
+    $params = array(
+        'client_id' => $client_id,
+        'client_secret' => $client_secret,
+        'code' => $_GET['code'],
+        'redirect_uri' => $redirect_uri
+    );
+    $token = json_decode(file_get_contents('https://oauth.vk.com/access_token' . '?' . urldecode(http_build_query($params))), true);
+}
+if (isset($token['access_token'])) {
+    $params = array(
+        'uids'         => $token['user_id'],
+        'fields'       => 'uid,first_name,last_name,screen_name,sex,bdate,photo_big',
+        'access_token' => $token['access_token'],
+        'v'=> '3.0'
+    );
+    $userInfo = json_decode(file_get_contents('https://api.vk.com/method/users.get' . '?' . urldecode(http_build_query($params))), true);
+    header('Location: http://localhost:4200?'.urldecode(http_build_query($userInfo)));
+    echo json_encode($userInfo);
+}
+    
+
+
+
+
 
 
 $ctxt = new DataBase();
@@ -28,31 +48,10 @@ if(isset($_GET['Key']))
     
     switch ($_GET['Key']) {
         case 'get-auth-link':
-            $link = $url . '?' . urldecode(http_build_query($params));
+            $link = '<p><a href="' . $url . '?' . urldecode(http_build_query($params)) . '">Аутентификация через ВКонтакте</a></p>';
             echo json_encode($link);
             break;
-        case 'get-papers':
-            echo json_encode($ctxt->getPapers());
-            break;
-        case 'add-paper':
-            $inp = json_decode(file_get_contents('php://input'), true);
-            // SELECT Id FROM users WHERE Email=?;
-            $Id = $ctxt->setTeacher($inp['TeacherName'], $inp['Email']);
-            $Id = $ctxt->setSubject($Id, $inp['SubjectName']);
-            $ctxt->setPaper($Id);
-            echo json_encode(true);
-            break;
-        case 'add-exam':
-            $inp = json_decode(file_get_contents('php://input'), true);
-            // SELECT Id FROM users WHERE Email=?;
-            $ctxt->setExam($inp['PaperId'], $inp['DateStart'], $inp['DateFinish'], $inp['Cabinet']);
-            
-            
-            echo json_encode($inp['DateStart']);
-            break;
-        case 'get-exams':
-            echo json_encode($ctxt->getExams());
-            break;
+        
         
         default:
             echo "Введенный ключ несуществует";
@@ -79,4 +78,9 @@ else
 // {  
 //     echo "Введенные данные некорректны";
 // }
+ 
+    
+
+
+
 ?>
