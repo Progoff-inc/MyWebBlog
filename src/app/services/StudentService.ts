@@ -1,6 +1,7 @@
 import { Inject, Injectable, OnInit } from '@angular/core';
 import { HttpClient, HttpParams } from '@angular/common/http';
 import { Paper, Exam } from '../models/student';
+import { Person } from '../models/base';
 
 @Injectable()
 export class StudentService implements OnInit {
@@ -15,6 +16,9 @@ export class StudentService implements OnInit {
     }
     GetExams() {
         return this.http.get<Exam[]>(this.baseUrl + 'student.php?Key=get-exams');
+    }
+    GetUser(id) {
+        return this.http.get<Person>(this.baseUrl + 'student.php?Key=get-user&Id=' + id);
     }
     GetAuthLink() {
         return this.http.get<string>(this.baseUrl + 'student.php?Key=get-auth-link');

@@ -27,9 +27,9 @@ if(isset($_GET['Key']))
 {
     
     switch ($_GET['Key']) {
-        case 'get-auth-link':
-            $link = $url . '?' . urldecode(http_build_query($params));
-            echo json_encode($link);
+        case 'get-user':
+            
+            echo json_encode($ctxt->getUser($_GET['Id']));
             break;
         case 'get-papers':
             echo json_encode($ctxt->getPapers());

@@ -1,10 +1,12 @@
 import { Component, OnInit } from '@angular/core';
 import { Project, Technology, Task, Requirement } from '../models/developer'
-import { Status, Priority, Sphere } from '../models/base'
+import { Status, Priority, Sphere, Person } from '../models/base'
 import { TemplateRef } from '@angular/core';
 import { BsModalService } from 'ngx-bootstrap/modal';
 import { BsModalRef } from 'ngx-bootstrap/modal/bs-modal-ref.service';
 import { DeveloperService } from '../services/Developer.Service';
+import { Router } from '@angular/router';
+import { userInfo } from 'os';
 
 @Component({
   selector: 'app-developer',
@@ -18,12 +20,17 @@ export class DeveloperComponent implements OnInit {
   projects:Project[];
   techs:Technology[];
   adding:string;
+  user:Person;
   ctrl = this;
-  constructor(private modalService: BsModalService, public dv:DeveloperService) { 
+  constructor(private modalService: BsModalService, private router:Router, public dv:DeveloperService) { 
     
   }
 
   ngOnInit() {
+    if(localStorage.getItem('user')){
+      this.user=JSON.parse(localStorage.getItem('user'));
+      console.log(this.user);
+    }
     this.dv.GetProjects().subscribe(data => {
       console.log(data);
       data.forEach(x => {
@@ -84,6 +91,27 @@ export class DeveloperComponent implements OnInit {
   addElem(i, template: TemplateRef<any>){
     this.adding = i;
     this.modalRef2 = this.modalService.show(template);
+  }
+  openProject(id){
+    if(this.user.Root>1){
+      this.projects.filter(x => x.Id == id).forEach(x => {
+        x.Team.forEach( t => {
+          console.log(t);
+          if(t.Id==this.user.Id){
+            this.router.navigate(
+              ['/projects', id]
+            );
+          }
+        })
+      })
+    }
+    else{
+      this.router.navigate(
+        ['/projects', id]
+      );
+    }
+    
+    
   }
 
 }

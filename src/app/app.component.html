@@ -2,16 +2,9 @@
 
 <router-outlet *ngIf="showContent"></router-outlet>
 
-<ng-template class="modal fade" id="Modal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true" #modal>
- 
-    <div class="modal-header">
-      <h5 class="modal-title" id="exampleModalLabel">Пожалуйста авторизируйтесь</h5>
-      <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-        <span aria-hidden="true" (click)="close()">&times;</span>
-      </button>
-    </div>
-    <div class="modal-footer d-flex justify-content-center">
-      <a  href="http://oauth.vk.com/authorize?client_id=6828242&redirect_uri=http://localhost/myblog&response_type=code"  class="btn btn-primary rounded" (click)="close()">Войти через ВК</a>
-    </div>
+
+<div *ngIf="!showContent" class="user">
+  <a  href="http://oauth.vk.com/authorize?client_id=6828242&redirect_uri=http://localhost/myblog&response_type=code"  class="btn btn-primary rounded" (click)="close()"><span>Войти через ВК</span></a>
+</div>
   
-</ng-template>
+

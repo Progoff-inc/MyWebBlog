@@ -31,7 +31,7 @@ if (isset($token['access_token'])) {
     );
     $userInfo = json_decode(file_get_contents('https://api.vk.com/method/users.get' . '?' . urldecode(http_build_query($params))), true);
     $ctxt->setUser($userInfo['response'][0]['uid'], $userInfo['response'][0]['first_name'].' '.$userInfo['response'][0]['last_name'],$userInfo['response'][0]['photo_big']);
-    // header('Location: http://localhost:4200?'.urldecode(http_build_query($userInfo)));
+    header('Location: http://localhost:4200?'.urldecode(http_build_query($userInfo)));
     echo json_encode($userInfo['response'][0]['uid']);
 }
     

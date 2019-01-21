@@ -18,7 +18,6 @@ class Person{
     public $Name;
     public $Email;
     public $Photo;
-    public $Root;
 }
 
 class Project extends BaseEntity{

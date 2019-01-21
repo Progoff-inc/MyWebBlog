@@ -52,6 +52,12 @@ class DataBase {
         $s->setFetchMode(PDO::FETCH_CLASS, 'Person');
         return $s->fetchAll();
     }
+    public function getUser($id){
+        $s = $this->db->prepare("SELECT * FROM users WHERE Id=?");
+        $s->execute(array($id));
+        $s->setFetchMode(PDO::FETCH_CLASS, 'Person');
+        return $s->fetch();
+    }
     public function getTasks($pid){
         $s = $this->db->prepare("SELECT * FROM tasks WHERE ProjectId=?");
         $s->execute(array($pid));
@@ -70,6 +76,7 @@ class DataBase {
         $projects = [];
         while ($u = $sth->fetch()) {
             $u->Tasks = $this->getTasks($u->Id);
+            $u->Team = $this->getTeam($u->Id);
             $projects[] = $u;
         }
         return $projects;

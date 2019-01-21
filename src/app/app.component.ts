@@ -10,7 +10,7 @@ import { Person } from './models/base';
 @Component({
   selector: 'app-root',
   templateUrl: './app.component.html',
-  styleUrls: ['./app.component.css']
+  styleUrls: ['./app.component.less']
 })
 export class AppComponent implements OnInit {
   title = 'MyWebBlog';
@@ -18,37 +18,39 @@ export class AppComponent implements OnInit {
   link:string;
   user:Person = new Person();
   showContent = false;
-  @ViewChild('modal') modal: TemplateRef<any>;
+  getUser = true;
   constructor(private modalService: BsModalService, private ss:StudentService, private route:ActivatedRoute){
   }
   ngOnInit(){
-    if(!localStorage.getItem('user')){
-      this.modalRef2 = this.modalService.show(this.modal);
+    if(localStorage.getItem('user')){
+      this.getUser=false;
+      this.user = JSON.parse(localStorage.getItem('user'));
+      this.ss.GetUser(this.user.Id).subscribe(data => {
+        data.Root = Number(data.Root);
+        localStorage.setItem('user', JSON.stringify(data));
+        console.log(localStorage.getItem('user'));
+        this.showContent = true;
+      })
       
     }
     
     this.route.queryParams.subscribe(
         (queryParam: any) => {
-            this.user.Name = queryParam['response[0][first_name]']+' '+queryParam['response[0][last_name]'];
-            this.user.Id = Number(queryParam['response[0][uid]']);
+            if(this.getUser){
+              this.user.Id = Number(queryParam['response[0][uid]']);
+              if(this.user.Id){
+                this.ss.GetUser(this.user.Id).subscribe(data => {
+                  data.Root = Number(data.Root);
+                  localStorage.setItem('user', JSON.stringify(data));
+                  console.log(localStorage.getItem('user'));
+                  this.showContent = true;
+                })
+              }
+            }
             
-            if(this.user.Id){
-              localStorage.setItem('user', JSON.stringify(this.user));
-              console.log(localStorage.getItem('user'));
-              
-              this.showContent = true;
-              
-            }
-            else{
-              
-            }
         }
         
     );
     
-  }
-  close(){
-    console.log(1);
-    this.modalRef2.hide();
   }
 }

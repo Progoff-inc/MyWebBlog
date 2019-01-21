@@ -4,24 +4,24 @@
     <li [ngStyle]="{'background-color':(parts[0]?'white':'')}"  [ngClass]="{'p-3':parts[0], 'p-0':!parts[0]}"  class="list-group-item dropdown" >
         <h5 class="d-block py-3 m-0 {{parts[0]?'pr-3':'px-3'}}" (click)="showPart(0)" >Текущие проекты</h5>
       <div [ngStyle]="{'display':(parts[0]?'block':'none'), 'background-color':(parts[0]?'white':'')}" style="z-index:0" class="dropdown-menu position-relative w-100 m-0 border-0" >
-        <div routerLink="/projects/{{e.Id}}"   class="card mb-3 flex-sm-row align-items-center " *ngFor="let e of projects">
+        <div (click)="openProject(e.Id)"  class="card mb-3 flex-sm-row align-items-center " *ngFor="let e of projects">
           <div class="card-body d-sm-flex justify-content-sm-between align-items-center">
             <h6 (click)="chooseExam(e.Title)" class="card-title m-sm-0">{{e.Name}}</h6>
             <div class="d-inline-flex justify-content-around" >
                 <span class="badge badge-danger ">{{getResponsed(e)}}</span>
                 <span class="badge badge-success mx-3">{{getResolved(e)}}</span>
-                <button class="btn btn-link p-0">Завершить</button>
+                <button *ngIf="user.Root<2" class="btn btn-link p-0">Завершить</button>
             </div>
             
           </div>
         </div>
-        <div class="btn-group" role="group" aria-label="Basic example">
+        <div *ngIf="user.Root<2" class="btn-group" role="group" aria-label="Basic example">
           <button type="button" class="btn btn-success" (click)="addElem('project', modal)" >Добавить</button>
         </div>
       </div>
     </li>
     
-    <li [ngStyle]="{'background-color':(parts[1]?'white':'')}"  [ngClass]="{'p-3':parts[1], 'p-0':!parts[1]}" class="list-group-item dropdown"  >
+    <li *ngIf="user.Root<4" [ngStyle]="{'background-color':(parts[1]?'white':'')}"  [ngClass]="{'p-3':parts[1], 'p-0':!parts[1]}" class="list-group-item dropdown"  >
         <h5 class="d-block py-3 m-0 {{parts[1]?'pr-3':'px-3'}}" (click)="showPart(1)" >Фронт-енд</h5>
       <div [ngStyle]="{'display':(parts[1]?'block':'none')}" class="dropdown-menu position-relative w-100 m-0 border-0" >
         <div  class="card mb-3 flex-sm-row align-items-center " *ngFor="let e of getTech(0)">
@@ -33,13 +33,13 @@
             
           </div>
         </div>
-        <div class="btn-group" role="group" aria-label="Basic example">
+        <div *ngIf="user.Root<2" class="btn-group" role="group" aria-label="Basic example">
           <button type="button" class="btn btn-success" (click)="addElem('tech', modal)" >Добавить</button>
           <button type="button" class="btn btn-danger">Удалить</button>
         </div>
       </div>
     </li>
-    <li [ngStyle]="{'background-color':(parts[2]?'white':'')}"  [ngClass]="{'p-3':parts[2], 'p-0':!parts[2]}" class="list-group-item dropdown"  >
+    <li *ngIf="user.Root<4" [ngStyle]="{'background-color':(parts[2]?'white':'')}"  [ngClass]="{'p-3':parts[2], 'p-0':!parts[2]}" class="list-group-item dropdown"  >
         <h5 class="d-block py-3 m-0 {{parts[2]?'pr-3':'px-3'}}" (click)="showPart(2)" >Бэк-енд</h5>
       <div [ngStyle]="{'display':(parts[2]?'block':'none')}" class="dropdown-menu position-relative w-100 m-0 border-0" >
         <div  class="card mb-3 flex-sm-row align-items-center " *ngFor="let e of getTech(1)">
@@ -51,13 +51,13 @@
             
           </div>
         </div>
-        <div class="btn-group" role="group" aria-label="Basic example">
+        <div *ngIf="user.Root<2" class="btn-group" role="group" aria-label="Basic example">
           <button type="button" class="btn btn-success" (click)="addElem('tech', modal)" data-toggle="modal" data-target="#exampleModal">Добавить</button>
           <button type="button" class="btn btn-danger">Удалить</button>
         </div>
       </div>
     </li>
-    <li [ngStyle]="{'background-color':(parts[3]?'white':'')}"  [ngClass]="{'p-3':parts[3], 'p-0':!parts[3]}" class="list-group-item dropdown"  >
+    <li *ngIf="user.Root<4" [ngStyle]="{'background-color':(parts[3]?'white':'')}"  [ngClass]="{'p-3':parts[3], 'p-0':!parts[3]}" class="list-group-item dropdown"  >
         <h5 class="d-block py-3 m-0 {{parts[3]?'pr-3':'px-3'}}" (click)="showPart(3)" >Базы данных</h5>
       <div [ngStyle]="{'display':(parts[3]?'block':'none')}" class="dropdown-menu position-relative w-100 m-0 border-0" >
         <div  class="card mb-3 flex-sm-row align-items-center " *ngFor="let e of getTech(2)">
@@ -69,7 +69,7 @@
             
           </div>
         </div>
-        <div class="btn-group" role="group" aria-label="Basic example">
+        <div *ngIf="user.Root<2" class="btn-group" role="group" aria-label="Basic example">
           <button type="button" class="btn btn-success" (click)="addElem('tech', modal)" data-toggle="modal" data-target="#exampleModal">Добавить</button>
           <button type="button" class="btn btn-danger">Удалить</button>
         </div>
@@ -92,4 +92,4 @@
     <new-technology *ngSwitchCase="'tech'"  [parent]="ctrl"></new-technology>
   </div>
 
-</ng-template>>
+</ng-template>
