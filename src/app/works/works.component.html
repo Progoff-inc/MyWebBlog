@@ -37,15 +37,15 @@
     
     <div class="form-group">
       <label for="st1">Статус</label>
-      <select [(ngModel)]="req.Status" [ngModelOptions]="{standalone: true}"  class="form-control" id="st1" disabled>
+      <select [(ngModel)]="req.Status" [ngModelOptions]="{standalone: true}"  class="form-control" id="st1" [disabled]="readonly">
         <option value="{{s}}" *ngFor="let s of getStatuses()">{{s}}</option>
       </select>
     </div>
     <div class="form-group">
       <label for="exampleFormControlTextarea1">Описание</label>
-      <textarea value="{{req.Description}}" class="form-control" id="exampleFormControlTextarea1" rows="6" readonly></textarea>
+      <textarea [(ngModel)]="req.Description"  [ngModelOptions]="{standalone: true}" value="{{req.Description}}" class="form-control" id="exampleFormControlTextarea1" rows="6" [readonly]="readonly"></textarea>
     </div>
-    <button *ngIf="checkReq()" type="submit" class="btn btn-primary">Submit</button>
+    <button *ngIf="checkReq()" class="btn btn-primary" (click)="ChangeReq()">Сохранить</button>
   </form>
   <ul  class="list-group my-3">
     <li [ngStyle]="{'background-color':(parts[0]?'white':'')}"  [ngClass]="{'p-3':parts[0], 'p-0':!parts[0]}" class="list-group-item dropdown"  >

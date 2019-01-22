@@ -48,7 +48,7 @@
     <li [ngStyle]="{'background-color':(parts[1]?'white':'')}"  [ngClass]="{'p-3':parts[1], 'p-0':!parts[1]}" class="list-group-item dropdown"  >
         <span class="d-block p-3" (click)="showPart(1)" >Конспекты</span>
       <div [ngStyle]="{'display':(parts[1]?'block':'none')}" class="dropdown-menu position-relative w-100 m-0 border-0" >
-        <div  class="card mb-3 flex-sm-row align-items-center " *ngFor="let e of papers">
+        <div (click)="showPaper(e.Id)"  class="card mb-3 flex-sm-row align-items-center " *ngFor="let e of papers">
           <img class="float-left m-3" src="../../assets/images/paper.jpg" alt="Card image cap" style="max-width:10%;">
           <div class="card-body">
             <h5 class="card-title">{{e.Subject.Name}}</h5>

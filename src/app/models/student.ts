@@ -25,6 +25,7 @@ export class Topic extends BaseEntity{
     OwnerId:number;
     Type:Type;
     ModifyDate:Date;
+    ModifyUserId:number;
 
     Links:BaseLink[];
     Photoes:BaseLink[];

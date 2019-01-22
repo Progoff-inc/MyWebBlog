@@ -30,7 +30,7 @@
         <option value="{{r.Id}}" *ngFor="let r of reqs" >{{r.Name}}</option>
       </select>
     </div>
-    <button type="submit" class="btn btn-primary" (click)=addTask()>Добавить</button>
+    <button type="submit" class="btn btn-primary mb-3" (click)=addTask()>Добавить</button>
   </form>
   <form *ngIf="type=='req'" [formGroup]="reqForm">
     <h3>Новое требование</h3>
@@ -42,5 +42,5 @@
       <label for="d">Описание</label>
       <textarea style="height:30vh" formControlName="Description" class="form-control" id="d" rows="3"></textarea>
     </div>
-    <button type="submit" class="btn btn-primary" (click)="addReq()">Добавить</button>
+    <button type="submit" class="btn btn-primary mb-3" (click)="addReq()">Добавить</button>
   </form>

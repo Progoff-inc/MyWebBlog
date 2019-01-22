@@ -4,6 +4,7 @@ import { TemplateRef } from '@angular/core';
 import { BsModalService } from 'ngx-bootstrap/modal';
 import { BsModalRef } from 'ngx-bootstrap/modal/bs-modal-ref.service';
 import { StudentService } from '../services/StudentService';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-student',
@@ -28,7 +29,7 @@ export class StudentComponent implements OnInit {
   ];
   parts = [true, false, false, false];
   adding:string;
-  constructor(private modalService: BsModalService, public ss: StudentService) { }
+  constructor(private modalService: BsModalService, public ss: StudentService, public router:Router) { }
   ngOnInit() {
     this.ss.GetPapers().subscribe(data => {
       data.forEach(x => {
@@ -111,6 +112,16 @@ export class StudentComponent implements OnInit {
   addElem(i, template: TemplateRef<any>){
     this.adding = i;
     this.modalRef2 = this.modalService.show(template);
+  }
+  showPaper(id){
+    this.router.navigate(
+      ['/studies', id], 
+      {
+          queryParams:{
+              'type':'paper' 
+          }
+      }
+    );
   }
 }
 

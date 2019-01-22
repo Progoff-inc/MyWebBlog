@@ -71,7 +71,7 @@ class DataBase {
         return $s->fetchAll();
     }
     public function getProjects(){
-        $sth = $this->db->query("SELECT * FROM projects");
+        $sth = $this->db->query("SELECT * FROM projects WHERE IsFinished=0");
         $sth->setFetchMode(PDO::FETCH_CLASS, 'Project');
         $projects = [];
         while ($u = $sth->fetch()) {
@@ -118,17 +118,39 @@ class DataBase {
         $s->setFetchMode(PDO::FETCH_CLASS, 'ProjectPerson');
         return $s->fetchAll();
     }
-    public function getPaper($Id) {
+    public function getPaper($Id, $topics=false) {
         $s = $this->db->prepare("SELECT * FROM papers WHERE Id=?");
         $s->execute(array($Id));
         $s->setFetchMode(PDO::FETCH_CLASS, 'Paper');
         $paper = $s->fetch();
         $paper->Subject = $this->getSubject($paper->SubjectId);
+        if($topics){
+            $paper->Topics = $this->getTopics($paper->Id, 1);
+        }
         return $paper;
+    }
+    public function getTech($Id) {
+        $s = $this->db->prepare("SELECT * FROM techs WHERE Id=?");
+        $s->execute(array($Id));
+        $s->setFetchMode(PDO::FETCH_CLASS, 'Technology');
+        $tech = $s->fetch();
+        $tech->Topics = $this->getTopics($tech->Id, 2);
+        return $tech;
+    }
+    public function getTopics($id,$type){
+        $s = $this->db->prepare("SELECT * FROM topics WHERE OwnerId=? and Type=?");
+        $s->execute(array($id, $type));
+        $s->setFetchMode(PDO::FETCH_CLASS, 'Topic');
+        return $s->fetchAll();
     }
     public function setTeacher($e, $n){
         $sth = $this->db->prepare("INSERT INTO teachers (Name, Email) VALUES (?,?) ");
         $sth->execute(array($n, $e));
+        return $this->db->lastInsertId();
+    }
+    public function setTopic($oid, $n, $descr, $t, $muid){
+        $sth = $this->db->prepare("INSERT INTO topics (OwnerId, Name, Description, Type, ModifyUserId, ModifyDate) VALUES (?,?,?,?,?,now()) ");
+        $sth->execute(array($oid, $n, $descr, $t, $muid));
         return $this->db->lastInsertId();
     }
     public function setSubject($tid, $n){
@@ -151,19 +173,39 @@ class DataBase {
         $sth->execute(array($n, $descr, $dst, $isf));
         return $this->db->lastInsertId();
     }
-    public function setTask($n,$descr,$uid, $rid, $pr, $st, $pid){
-        $sth = $this->db->prepare("INSERT INTO tasks (Name, Description, UserId, RequirementId, Priority, Status, ProjectId) VALUES (?,?,?,?,?,?,?)");
-        $sth->execute(array($n, $descr,$uid, $rid, $pr, $st, $pid));
+    public function setTask($n,$descr,$uid, $rid, $pr, $st, $pid, $muid){
+        $sth = $this->db->prepare("INSERT INTO tasks (Name, Description, UserId, RequirementId, Priority, Status, ProjectId, ModifyUserId, ModifyDate) VALUES (?,?,?,?,?,?,?,?,now())");
+        $sth->execute(array($n, $descr,$uid, $rid, $pr, $st, $pid, $muid));
         return $this->db->lastInsertId();
     }
-    public function changeTask($id, $descr, $pr, $st, $uid){
-        $s = $this->db->prepare("UPDATE tasks SET Description=?, Priority=?, Status=?, UserId=? WHERE Id=?" );
-        $s->execute(array($descr, $pr, $st, $uid, $id));
-        return array($id, $descr, $pr, $st, $uid);
+    public function changeTask($id, $descr, $pr, $st, $uid, $muid){
+        $s = $this->db->prepare("UPDATE tasks SET Description=?, Priority=?, Status=?, UserId=?, ModifyUserId=?, ModifyDate=now() WHERE Id=?" );
+        $s->execute(array($descr, $pr, $st, $uid, $muid, $id));
+        return $this->db->lastInsertId();
     }
-    public function setRequirement($n, $descr, $pid, $st){
-        $sth = $this->db->prepare("INSERT INTO requirements (Name, Description, ProjectId, Status) VALUES (?,?,?,?)");
-        $sth->execute(array($n, $descr, $pid, $st));
+    public function saveTopic($id, $descr, $muid){
+        $s = $this->db->prepare("UPDATE topics SET Description=?, ModifyUserId=?, ModifyDate=now() WHERE Id=?" );
+        $s->execute(array($descr, $muid, $id));
+        return $this->db->lastInsertId();
+    }
+    public function setPrev($id, $r){
+        $s = $this->db->prepare("UPDATE users SET Root=? WHERE Id=?" );
+        $s->execute(array($r, $id));
+        return array($r, $id);
+    }
+    public function changeReq($id, $descr, $st, $muid){
+        $s = $this->db->prepare("UPDATE requirements SET Description=?, Status=?, ModifyUserId=?, ModifyDate=now() WHERE Id=?" );
+        $s->execute(array($descr, $st, $id, $muid));
+        return $this->db->lastInsertId();
+    }
+    public function closeProject($id){
+        $s = $this->db->prepare("UPDATE projects SET IsFinished=1 WHERE Id=?" );
+        $s->execute(array($id));
+        return $this->db->lastInsertId();
+    }
+    public function setRequirement($n, $descr, $pid, $st, $muid){
+        $sth = $this->db->prepare("INSERT INTO requirements (Name, Description, ProjectId, Status, ModifyUserId, ModifyDate) VALUES (?,?,?,?,?,now())");
+        $sth->execute(array($n, $descr, $pid, $st, $muid));
         return $this->db->lastInsertId();
     }
     public function setProjectUser($uid,$p,$pid){
@@ -175,8 +217,8 @@ class DataBase {
         $s = $this->db->prepare("SELECT * FROM users WHERE Id=?");
         $s->execute(array($id));
         if(count($s->fetchAll())==0){
-            $sth = $this->db->prepare("INSERT INTO users (Id, Name, Photo) VALUES (?,?,?)");
-            $sth->execute(array($id, $n, $ph));
+            $sth = $this->db->prepare("INSERT INTO users (Id, Name, Photo, Root) VALUES (?,?,?,?)");
+            $sth->execute(array($id, $n, $ph, 5));
         }
         else{
             $s = $this->db->prepare("UPDATE users SET Name=?, Photo=? WHERE Id=?" );

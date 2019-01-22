@@ -21,6 +21,7 @@ import { DeveloperService } from './services/Developer.Service';
 import { ProjectsComponent } from './projects/projects.component';
 import { AddComponent } from './add/add.component';
 import { WorksComponent } from './works/works.component';
+import { StudiesComponent } from './studies/studies.component';
 
 @NgModule({
   declarations: [
@@ -37,7 +38,8 @@ import { WorksComponent } from './works/works.component';
     NewTechnologyComponent,
     ProjectsComponent,
     AddComponent,
-    WorksComponent
+    WorksComponent,
+    StudiesComponent
   ],
   imports: [
     HttpClientModule,

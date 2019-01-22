@@ -14,12 +14,10 @@ import { Person } from './models/base';
 })
 export class AppComponent implements OnInit {
   title = 'MyWebBlog';
-  modalRef2: BsModalRef;
-  link:string;
   user:Person = new Person();
-  showContent = false;
+  showContent = true;
   getUser = true;
-  constructor(private modalService: BsModalService, private ss:StudentService, private route:ActivatedRoute){
+  constructor(private modalService: BsModalService, private ss:StudentService, private route:ActivatedRoute, private router:Router){
   }
   ngOnInit(){
     if(localStorage.getItem('user')){
@@ -27,11 +25,23 @@ export class AppComponent implements OnInit {
       this.user = JSON.parse(localStorage.getItem('user'));
       this.ss.GetUser(this.user.Id).subscribe(data => {
         data.Root = Number(data.Root);
+        if(data.Root>1){
+          this.showContent = true;
+          this.router.navigate(['/developer']);
+        }
+        else{
+          this.showContent = true;
+          this.router.navigate(['']);
+        }
+
         localStorage.setItem('user', JSON.stringify(data));
         console.log(localStorage.getItem('user'));
-        this.showContent = true;
+        
       })
       
+    }
+    else{
+      this.showContent=false;
     }
     
     this.route.queryParams.subscribe(
@@ -41,6 +51,14 @@ export class AppComponent implements OnInit {
               if(this.user.Id){
                 this.ss.GetUser(this.user.Id).subscribe(data => {
                   data.Root = Number(data.Root);
+                  if(data.Root>1){
+                    this.showContent = true;
+                    this.router.navigate(['/developer']);
+                  }
+                  else{
+                    this.showContent = true;
+                    this.router.navigate(['']);
+                  }
                   localStorage.setItem('user', JSON.stringify(data));
                   console.log(localStorage.getItem('user'));
                   this.showContent = true;

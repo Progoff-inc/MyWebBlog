@@ -57,17 +57,28 @@ if(isset($_GET['Key']))
             $inp = json_decode(file_get_contents('php://input'), true);
             echo json_encode($ctxt->setProjectUser($inp['Id'], $inp['Position'], $inp['ProjectId']));
             break;
+        case 'close-project':
+            echo json_encode($ctxt->closeProject($_GET['Id']));
+            break;
         case 'add-task':
             $inp = json_decode(file_get_contents('php://input'), true);
-            echo json_encode($ctxt->setTask($inp['Name'], $inp['Description'], $inp['UserId'], $inp['RequirementId'], $inp['Priority'], $inp['Status'], $inp['ProjectId']));
+            echo json_encode($ctxt->setTask($inp['Name'], $inp['Description'], $inp['UserId'], $inp['RequirementId'], $inp['Priority'], $inp['Status'], $inp['ProjectId'], $inp['ModifyUserId']));
             break;
         case 'change-task':
             $inp = json_decode(file_get_contents('php://input'), true);
-            echo json_encode($ctxt->changeTask($_GET['Id'], $inp['Description'], $inp['Priority'], $inp['Status'], $inp['UserId']));
+            echo json_encode($ctxt->changeTask($_GET['Id'], $inp['Description'], $inp['Priority'], $inp['Status'], $inp['UserId'], $inp['ModifyUserId']));
+            break;
+        case 'change-req':
+            $inp = json_decode(file_get_contents('php://input'), true);
+            echo json_encode($ctxt->changeReq($_GET['Id'], $inp['Description'], $inp['Status'], $inp['ModifyUserId']));
             break;
         case 'add-requirement':
             $inp = json_decode(file_get_contents('php://input'), true);
-            echo json_encode($ctxt->setRequirement($inp['Name'], $inp['Description'], $inp['ProjectId'], $inp['Status']));
+            echo json_encode($ctxt->setRequirement($inp['Name'], $inp['Description'], $inp['ProjectId'], $inp['Status'], $inp['ModifyUserId']));
+            break;
+        case 'set-prev':
+            $inp = json_decode(file_get_contents('php://input'), true);
+            echo json_encode($ctxt->setPrev($_GET['Id'], $inp['Root']));
             break;
         
         case 'get-requirements':

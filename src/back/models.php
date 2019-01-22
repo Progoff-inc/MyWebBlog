@@ -32,6 +32,8 @@ class Project extends BaseEntity{
 class Requirement extends BaseEntity{
     public $ProjectId;
     public $Status;
+    public $ModifyUserId;
+    public $ModifyDate;
 
     public $Tasks;
 }
@@ -88,6 +90,7 @@ class Topic extends BaseEntity{
     public $OwnerId;
     public $Type;
     public $ModifyDate;
+    public $ModifyUserId;
 
     public $Links;
     public $Photoes;

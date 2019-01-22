@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Хост: 127.0.0.1
--- Время создания: Янв 21 2019 г., 15:12
+-- Время создания: Янв 23 2019 г., 00:00
 -- Версия сервера: 10.1.32-MariaDB
 -- Версия PHP: 7.2.5
 
@@ -167,10 +167,9 @@ CREATE TABLE `projectusers` (
 --
 
 INSERT INTO `projectusers` (`ProjectId`, `UserId`, `Position`) VALUES
-(1, 1, 'TeamLead'),
-(1, 2, 'BackDeveloper'),
-(1, 3, 'Designer'),
-(2, 1, 'TeamLead');
+(1, 55309248, 'Designer'),
+(1, 340963685, 'TeamLead'),
+(2, 340963685, 'TeamLead');
 
 -- --------------------------------------------------------
 
@@ -198,18 +197,20 @@ CREATE TABLE `requirements` (
   `ProjectId` int(20) NOT NULL,
   `Name` varchar(100) NOT NULL,
   `Description` text NOT NULL,
-  `Status` varchar(20) DEFAULT '0'
+  `Status` varchar(20) DEFAULT '0',
+  `ModifyUserId` int(20) DEFAULT NULL,
+  `ModifyDate` datetime DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 --
 -- Дамп данных таблицы `requirements`
 --
 
-INSERT INTO `requirements` (`Id`, `ProjectId`, `Name`, `Description`, `Status`) VALUES
-(1, 1, 'Сделать красивый мобильный вид', 'Заказчик попросил сделать красивый мобильный вид, так как большая часть ее аудитории заходит на сайт именно с мобильных устройств.', 'Proposed'),
-(2, 1, 'Обеспечить безопастность данных пользователей', 'Необходимо надежно шифровать все соединения, так как используется авторизация пользователей', 'Proposed'),
-(4, 1, 'Чат с клиентом', 'Необходимо реализовать возможность переписываться с клиентом для оформления заказа.\n\nЭто можно делать:\n1) С любой страницы кроме контактов.\n2) Из личного кабинета (здесь показывается вся переписка)', 'Proposed'),
-(5, 2, 'Удобный пользовательский интерфейс', '1) Сделать возможность делать выборку заданий задания (Мои/Мои не законченные)', 'Proposed');
+INSERT INTO `requirements` (`Id`, `ProjectId`, `Name`, `Description`, `Status`, `ModifyUserId`, `ModifyDate`) VALUES
+(1, 1, 'Сделать красивый мобильный вид', 'Заказчик попросила сделать красивый мобильный вид, так как большая часть ее аудитории заходит на сайт именно с мобильных устройств.', 'Active', NULL, NULL),
+(2, 1, 'Обеспечить безопастность данных пользователей', 'Необходимо надежно шифровать все соединения, так как используется авторизация пользователей', 'Proposed', NULL, NULL),
+(4, 1, 'Чат с клиентом', 'Необходимо реализовать возможность переписываться с клиентом для оформления заказа.\n\nЭто можно делать:\n1) С любой страницы кроме контактов.\n2) Из личного кабинета (здесь показывается вся переписка)', 'Proposed', NULL, NULL),
+(5, 2, 'Удобный пользовательский интерфейс', '1) Сделать возможность делать выборку заданий задания (Мои/Мои не законченные)', 'Proposed', NULL, NULL);
 
 -- --------------------------------------------------------
 
@@ -246,17 +247,20 @@ CREATE TABLE `tasks` (
   `Description` text NOT NULL,
   `Status` varchar(20) DEFAULT '0',
   `Priority` varchar(20) DEFAULT '0',
-  `UserId` int(20) DEFAULT NULL
+  `UserId` int(20) DEFAULT NULL,
+  `ModifyUserId` int(20) DEFAULT NULL,
+  `ModifyDate` datetime DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 --
 -- Дамп данных таблицы `tasks`
 --
 
-INSERT INTO `tasks` (`Id`, `ProjectId`, `RequirementId`, `Name`, `Description`, `Status`, `Priority`, `UserId`) VALUES
-(3, 1, 2, 'Шифровать данные', 'Шифровать данные пользователей при обращении к серверу.', 'Active', 'Medium', 1),
-(5, 1, 1, 'Добавить поиск с главной страницы', 'Добавить возможность поиска подходящих авто с главной страницы.\n\nНа основной странице можно ввести данные для фильтрации, потом пользователь должен быть переброшен на страницу автомобилей, где увидит уже отфильтрованные варианты.', 'Proposed', 'Low', 1),
-(6, 2, 5, 'Добавить фильтры', 'Добавить фильтры на страницу проета, чтобы можно было выбрать свои задания.\n\nЗначения фильтров: Мои, Мои не законченные', 'Active', 'Low', 1);
+INSERT INTO `tasks` (`Id`, `ProjectId`, `RequirementId`, `Name`, `Description`, `Status`, `Priority`, `UserId`, `ModifyUserId`, `ModifyDate`) VALUES
+(3, 1, 2, 'Шифровать данные', 'Шифровать данные пользователей при обращении к серверу.', 'Active', 'Medium', 340963685, NULL, NULL),
+(5, 1, 1, 'Добавить поиск с главной страницы', 'Добавить возможность поиска подходящих авто с главной страницы.\n\nНа основной странице можно ввести данные для фильтрации, потом пользователь должен быть переброшен на страницу автомобилей, где увидит уже отфильтрованные варианты.', 'Proposed', 'Low', 340963685, NULL, NULL),
+(6, 2, 5, 'Добавить фильтры', 'Добавить фильтры на страницу проета, чтобы можно было выбрать свои задания.\n\nЗначения фильтров: Мои, Мои не законченные', 'Active', 'Low', 340963685, NULL, NULL),
+(7, 2, 5, 'Добавить возможность изменять расписание.', 'На странице студент сделать расписание изменяемым.\n\nТакже должна быть возможность добавить изменения в расписании', 'Proposed', 'Medium', 340963685, 340963685, '2019-01-22 00:00:00');
 
 -- --------------------------------------------------------
 
@@ -305,7 +309,8 @@ INSERT INTO `techs` (`Id`, `Name`, `Language`, `Sphere`) VALUES
 (10, 'ASP.NET Core 2', 'C#', 1),
 (11, 'MySql', 'SQL', 2),
 (12, 'MSSQL Server', 'SQL', 2),
-(13, 'Oracle PL/SQL', 'PL/Sql', 2);
+(13, 'Oracle PL/SQL', 'PL/Sql', 2),
+(14, 'Bootstrap', 'CSS', 0);
 
 -- --------------------------------------------------------
 
@@ -346,8 +351,19 @@ CREATE TABLE `topics` (
   `Name` varchar(100) NOT NULL,
   `Description` text NOT NULL,
   `ModifyDate` datetime NOT NULL,
-  `Type` tinyint(4) NOT NULL
+  `Type` tinyint(4) NOT NULL,
+  `ModifyUserId` int(20) DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+
+--
+-- Дамп данных таблицы `topics`
+--
+
+INSERT INTO `topics` (`Id`, `OwnerId`, `Name`, `Description`, `ModifyDate`, `Type`, `ModifyUserId`) VALUES
+(1, 14, 'Форма Email + Password', '<form [formGroup]=\"название\">\n  <div class=\"form-group\">\n    <label for=\"exampleInputEmail1\">Email address</label>\n    <input type=\"email\" class=\"form-control\" id=\"exampleInputEmail1\" aria-describedby=\"emailHelp\" placeholder=\"Enter email\">\n    <small id=\"emailHelp\" class=\"form-text text-muted\">We\'ll never share your email with anyone else.</small>\n  </div>\n  <div class=\"form-group\">\n    <label for=\"exampleInputPassword1\">Password</label>\n    <input type=\"password\" class=\"form-control\" id=\"exampleInputPassword1\" placeholder=\"Password\">\n  </div>\n  <div class=\"form-group form-check\">\n    <input type=\"checkbox\" class=\"form-check-input\" id=\"exampleCheck1\">\n    <label class=\"form-check-label\" for=\"exampleCheck1\">Check me out</label>\n  </div>\n  <button type=\"submit\" class=\"btn btn-primary\">Submit</button>\n</form>', '2019-01-22 23:58:49', 2, 340963685),
+(2, 14, 'Горизонтальная карточка', '<div class=\"card\" style=\"width: 18rem;\">\n  <img class=\"card-img-top\" src=\".../100px180/\" alt=\"Card image cap\">\n  <div class=\"card-body\">\n    <h5 class=\"card-title\">Card title</h5>\n    <p class=\"card-text\">Some quick example text to build on the card title and make up the bulk of the card\'s content.</p>\n    <a href=\"#\" class=\"btn btn-primary\">Go somewhere</a>\n  </div>\n</div>', '0000-00-00 00:00:00', 2, 340963685),
+(3, 14, 'Карусель с кнопками', '<div id=\"carouselExampleControls\" class=\"carousel slide\" data-ride=\"carousel\">\n  <div class=\"carousel-inner\">\n    <div class=\"carousel-item active\">\n      <img class=\"d-block w-100\" src=\".../800x400?auto=yes&bg=777&fg=555&text=First slide\" alt=\"First slide\">\n    </div>\n    <div class=\"carousel-item\">\n      <img class=\"d-block w-100\" src=\".../800x400?auto=yes&bg=666&fg=444&text=Second slide\" alt=\"Second slide\">\n    </div>\n    <div class=\"carousel-item\">\n      <img class=\"d-block w-100\" src=\".../800x400?auto=yes&bg=555&fg=333&text=Third slide\" alt=\"Third slide\">\n    </div>\n  </div>\n  <a class=\"carousel-control-prev\" href=\"#carouselExampleControls\" role=\"button\" data-slide=\"prev\">\n    <span class=\"carousel-control-prev-icon\" aria-hidden=\"true\"></span>\n    <span class=\"sr-only\">Previous</span>\n  </a>\n  <a class=\"carousel-control-next\" href=\"#carouselExampleControls\" role=\"button\" data-slide=\"next\">\n    <span class=\"carousel-control-next-icon\" aria-hidden=\"true\"></span>\n    <span class=\"sr-only\">Next</span>\n  </a>\n</div>', '2019-01-22 18:33:35', 2, 340963685),
+(4, 34, 'Школа киников. Школа Эпикура.  Школа Эпикура.', 'Привет!\n\nЦель философии, по мнению Эпикура, указать человеку путь к счастью. В теории познания Эпикур был сенсуалистом, считая, что критерием истины является ощущение, а разум полностью зависит от ощущения. Ощущения дают нам истинную картину мира, они ошибаться не могут. Ошибается судящий о них разум. Из повторяющихся ощущений возникают понятия. Эти понятия тоже истинны, а мысли о понятиях могут быть ошибочными.\n\nЭпикур говорил, что в своей философии он стремится освободить людей от трех видов страха: страха перед небесными явлениями, страха перед богами и страха смерти. Эпикур был материалистом: он пытался доказать, что все протекающие в мире процессы имеют причинно-следственный механизм. Нет ничего сверхъестественного, и так как нет субстанций, кроме материальных, то и причины могут быть также материальные. Если причина найдена, то Эпикур считает свою задачу выполненной. Узнав естественную причину явления, человек начинает побеждать страх перед этим явлением.\n\nЭпикур считал, что тела состоят из атомов, которые находятся в постоянном движении. Все изменения в телах происходят из-за перемещения атомов. Число атомов бесконечно, поэтому и Вселенная бесконечна. Вселенных бесконечное множество. Между этими мирами находятся боги. Боги существуют не в нашем мире, а между мирами, и поэтому на наш мир не влияют, следовательно, и обратной связи не существует. Всякое поклонение богам бессмысленно, боги совершенно блаженны, поэтому страха перед богами не должно быть.\n\nЧтобы избавить человека от страха перед смертью, Эпикур разрабатывает этическую часть своей философской системы. Смерти бояться не надо, так как жизнь и смерть никогда не соприкасаются. Когда есть жизнь – еще нет смерти, когда есть смерть – уже нет жизни. Мы боимся смерти – того, чего никогда не можем знать. Это бессмысленно. Смерти бояться не надо: так как душа состоит из атомов, а со смертью наше материальное тело распадается на атомы, распадается и душа. Душа смертна, и загробной жизни не существует. Смерти бояться нельзя, как нельзя бояться того, что не существует. Поэтому смысл и цель жизни – в самой жизни. Этот смысл жизни Эпикур находит в том, чтоб избегать страданий, получать наслаждение. Это достигается философией, поэтому философией заниматься не поздно никогда. Но надо искать не временных удовольствий: в еде, вине, в других телесных удовольствиях. Они либо скоро кончатся, либо могут превратиться в свою противоположность, как, например, переедание. Телесные удовольствия ограниченны и непостоянны. Поэтому душевные наслаждения, душевный покой выше телесных, так как душевный покой может быть постоянным. Духовное и душевное (Эпикур их не различает) выше телесного потому, что включают в себя не только настоящее (как телесное), но и прошлое и будущее.\n\nШкола киников\n\nОснователем этой школы был Антисфен (ок. 444 – 368 гг. до н. э.), и именно у него мы находим теоретическое обоснование кинического образа жизни, а Диоген из Синопы практически реализовал замыслы своего учителя. Антисфен, будучи верным учеником Сократа, вслед за ним утверждал, что философия как умозрение и рассуждение о природе не нужна, а нужна как способ и средство достижения жизненного блага, способ достижения счастья. Он развивал и другое положение Сократа – о том, что знание должно быть выражено в понятиях.\n\nКиник приходит к выводу, что необходимо отказаться от всех общих понятий, от общепринятых норм жизни и стремиться нужно лишь к тому, чтобы следовать тем понятиям, которые находятся в своей собственной душе. Такой образ жизни вел Диоген Синопский. Понятия здоровья, богатства, т.е. понятия общие, для Диогена не существовали.', '2019-01-23 00:27:24', 1, 340963685);
 
 -- --------------------------------------------------------
 
@@ -358,17 +374,19 @@ CREATE TABLE `topics` (
 CREATE TABLE `users` (
   `Id` int(20) NOT NULL,
   `Name` varchar(100) NOT NULL,
-  `Email` varchar(100) NOT NULL
+  `Email` varchar(100) NOT NULL,
+  `Photo` varchar(255) DEFAULT NULL,
+  `Root` tinyint(4) DEFAULT NULL,
+  `Link` varchar(255) DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 --
 -- Дамп данных таблицы `users`
 --
 
-INSERT INTO `users` (`Id`, `Name`, `Email`) VALUES
-(1, 'Иван Номконов', 'nomokonov.vana@gmail.com'),
-(2, 'Андрей Ледащев', 'ledachev@yandex.ru'),
-(3, 'Мария Воробьева', 'vorobyevamaria@yandex.ru');
+INSERT INTO `users` (`Id`, `Name`, `Email`, `Photo`, `Root`, `Link`) VALUES
+(55309248, 'Мария Воробьёва', '', 'https://pp.userapi.com/c830508/v830508825/1d62b/DwuNDiICJM0.jpg?ava=1', 2, NULL),
+(340963685, 'Ванька Кома', '', 'https://pp.userapi.com/c850228/v850228731/9f503/_Ms8VIYKl68.jpg?ava=1', 1, NULL);
 
 --
 -- Индексы сохранённых таблиц
@@ -407,7 +425,7 @@ ALTER TABLE `news`
 --
 ALTER TABLE `papers`
   ADD PRIMARY KEY (`Id`),
-  ADD KEY `papers_subjects_fk` (`SubjectId`);
+  ADD KEY `p_s_fk` (`SubjectId`);
 
 --
 -- Индексы таблицы `photoes`
@@ -441,7 +459,8 @@ ALTER TABLE `questions`
 --
 ALTER TABLE `requirements`
   ADD PRIMARY KEY (`Id`),
-  ADD KEY `requirements_projects_fk` (`ProjectId`);
+  ADD KEY `requirements_projects_fk` (`ProjectId`),
+  ADD KEY `req_changeuser_users_fk` (`ModifyUserId`);
 
 --
 -- Индексы таблицы `subjects`
@@ -457,7 +476,8 @@ ALTER TABLE `tasks`
   ADD PRIMARY KEY (`Id`),
   ADD KEY `tasks_projects_fk` (`ProjectId`),
   ADD KEY `tasks_requirements_fk` (`RequirementId`),
-  ADD KEY `UserId` (`UserId`);
+  ADD KEY `UserId` (`UserId`),
+  ADD KEY `task_changeuser_users_fk` (`ModifyUserId`);
 
 --
 -- Индексы таблицы `teachers`
@@ -490,7 +510,8 @@ ALTER TABLE `timesheetchanges`
 --
 ALTER TABLE `topics`
   ADD PRIMARY KEY (`Id`),
-  ADD KEY `topics_papers_fk` (`OwnerId`);
+  ADD KEY `topics_papers_fk` (`OwnerId`),
+  ADD KEY `t_u_fk` (`ModifyUserId`);
 
 --
 -- Индексы таблицы `users`
@@ -566,7 +587,7 @@ ALTER TABLE `subjects`
 -- AUTO_INCREMENT для таблицы `tasks`
 --
 ALTER TABLE `tasks`
-  MODIFY `Id` int(20) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=7;
+  MODIFY `Id` int(20) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=8;
 
 --
 -- AUTO_INCREMENT для таблицы `teachers`
@@ -578,7 +599,7 @@ ALTER TABLE `teachers`
 -- AUTO_INCREMENT для таблицы `techs`
 --
 ALTER TABLE `techs`
-  MODIFY `Id` int(20) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=14;
+  MODIFY `Id` int(20) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=15;
 
 --
 -- AUTO_INCREMENT для таблицы `timesheet`
@@ -596,13 +617,13 @@ ALTER TABLE `timesheetchanges`
 -- AUTO_INCREMENT для таблицы `topics`
 --
 ALTER TABLE `topics`
-  MODIFY `Id` int(20) NOT NULL AUTO_INCREMENT;
+  MODIFY `Id` int(20) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=5;
 
 --
 -- AUTO_INCREMENT для таблицы `users`
 --
 ALTER TABLE `users`
-  MODIFY `Id` int(20) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=4;
+  MODIFY `Id` int(20) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=340963686;
 
 --
 -- Ограничения внешнего ключа сохраненных таблиц
@@ -618,7 +639,7 @@ ALTER TABLE `exams`
 -- Ограничения внешнего ключа таблицы `papers`
 --
 ALTER TABLE `papers`
-  ADD CONSTRAINT `papers_subjects_fk` FOREIGN KEY (`SubjectId`) REFERENCES `subjects` (`Id`);
+  ADD CONSTRAINT `p_s_fk` FOREIGN KEY (`SubjectId`) REFERENCES `subjects` (`Id`);
 
 --
 -- Ограничения внешнего ключа таблицы `projectusers`
@@ -637,6 +658,7 @@ ALTER TABLE `questions`
 -- Ограничения внешнего ключа таблицы `requirements`
 --
 ALTER TABLE `requirements`
+  ADD CONSTRAINT `req_changeuser_users_fk` FOREIGN KEY (`ModifyUserId`) REFERENCES `users` (`Id`),
   ADD CONSTRAINT `requirements_projects_fk` FOREIGN KEY (`ProjectId`) REFERENCES `projects` (`Id`);
 
 --
@@ -649,6 +671,7 @@ ALTER TABLE `subjects`
 -- Ограничения внешнего ключа таблицы `tasks`
 --
 ALTER TABLE `tasks`
+  ADD CONSTRAINT `task_changeuser_users_fk` FOREIGN KEY (`ModifyUserId`) REFERENCES `users` (`Id`),
   ADD CONSTRAINT `tasks_ibfk_1` FOREIGN KEY (`UserId`) REFERENCES `users` (`Id`),
   ADD CONSTRAINT `tasks_projects_fk` FOREIGN KEY (`ProjectId`) REFERENCES `projects` (`Id`),
   ADD CONSTRAINT `tasks_requirements_fk` FOREIGN KEY (`RequirementId`) REFERENCES `requirements` (`Id`);
@@ -664,6 +687,12 @@ ALTER TABLE `timesheet`
 --
 ALTER TABLE `timesheetchanges`
   ADD CONSTRAINT `timesheetchanges_subjects_fk` FOREIGN KEY (`SubjectId`) REFERENCES `subjects` (`Id`);
+
+--
+-- Ограничения внешнего ключа таблицы `topics`
+--
+ALTER TABLE `topics`
+  ADD CONSTRAINT `t_u_fk` FOREIGN KEY (`ModifyUserId`) REFERENCES `users` (`Id`);
 COMMIT;
 
 /*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;

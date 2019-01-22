@@ -56,7 +56,7 @@ export class DeveloperComponent implements OnInit {
     
     return p.Tasks.filter(x => x.Status == Status.Resolved).length;
   }
-  getTech(s:Sphere){
+  getTechs(s:Sphere){
     if(this.techs){
       return this.techs.filter(x => x.Sphere == s);
     }
@@ -91,26 +91,43 @@ export class DeveloperComponent implements OnInit {
     this.adding = i;
     this.modalRef2 = this.modalService.show(template);
   }
-  openProject(id){
-    if(this.user.Root>1){
-      this.projects.filter(x => x.Id == id).forEach(x => {
-        x.Team.forEach( t => {
-          console.log(t);
-          if(t.Id==this.user.Id){
-            this.router.navigate(
-              ['/projects', id]
-            );
-          }
+  openProject(e, id){
+    if(e.target.name!="close"){
+      if(this.user.Root>1){
+        this.projects.filter(x => x.Id == id).forEach(x => {
+          x.Team.forEach( t => {
+            console.log(t);
+            if(t.Id==this.user.Id){
+              this.router.navigate(
+                ['/projects', id]
+              );
+            }
+          })
         })
-      })
-    }
-    else{
-      this.router.navigate(
-        ['/projects', id]
-      );
+      }
+      else{
+        this.router.navigate(
+          ['/projects', id]
+        );
+      }
     }
     
     
+  }
+  showTech(id){
+    this.router.navigate(
+      ['/studies', id], 
+      {
+          queryParams:{
+              'type':'tech' 
+          }
+      }
+    );
+  }
+  closeProject(id){
+    this.dv.CloseProject(id).subscribe(data => {
+      this.ngOnInit();
+    })
   }
 
 }

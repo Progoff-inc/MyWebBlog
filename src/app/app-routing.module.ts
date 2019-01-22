@@ -8,6 +8,7 @@ import { ExamsComponent } from './exams/exams.component';
 import { ProjectsComponent } from './projects/projects.component';
 import { AddComponent } from './add/add.component';
 import { WorksComponent } from './works/works.component';
+import { StudiesComponent } from './studies/studies.component';
 
 const routes: Routes = [
   { path: '', component: HomeComponent, pathMatch: 'full' },
@@ -16,7 +17,8 @@ const routes: Routes = [
   { path: 'exams/:id', component: ExamsComponent },
   { path: 'projects/:id', component: ProjectsComponent },
   { path: 'add/:id', component: AddComponent },
-  { path: 'works/:id', component: WorksComponent }
+  { path: 'works/:id', component: WorksComponent },
+  { path: 'studies/:id', component: StudiesComponent }
   // { path: 'farm', component: HouseholderComponent }
 ];
 

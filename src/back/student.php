@@ -50,8 +50,22 @@ if(isset($_GET['Key']))
             
             echo json_encode($inp['DateStart']);
             break;
+        case 'add-topic':
+            $inp = json_decode(file_get_contents('php://input'), true);
+            echo json_encode($ctxt->setTopic($inp['OwnerId'], $inp['Name'], $inp['Description'], $inp['Type'], $inp['ModifyUserId']));
+            break;
+        case 'save-topic':
+            $inp = json_decode(file_get_contents('php://input'), true);
+            echo json_encode($ctxt->saveTopic($inp['Id'], $inp['Description'], $inp['ModifyUserId']));
+            break;
         case 'get-exams':
             echo json_encode($ctxt->getExams());
+            break;
+        case 'get-paper':
+            echo json_encode($ctxt->getPaper($_GET['Id'], true));
+            break;
+        case 'get-tech':
+            echo json_encode($ctxt->getTech($_GET['Id']));
             break;
         
         default:

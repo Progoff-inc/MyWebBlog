@@ -49,6 +49,12 @@ export class DeveloperService implements OnInit {
     ChangeTask(ChTask, id) {
         return this.http.post(this.baseUrl + 'developer.php?Key=change-task&Id=' + id,ChTask);
     }
+    ChangeReq(ChReq, id) {
+        return this.http.post(this.baseUrl + 'developer.php?Key=change-req&Id=' + id,ChReq);
+    }
+    SetPrev(Prev, UserId) {
+        return this.http.post(this.baseUrl + 'developer.php?Key=set-prev&Id=' + UserId,Prev);
+    }
     AddRequirement(NewRequirement) {
 
         return this.http.post(this.baseUrl + 'developer.php?Key=add-requirement', NewRequirement);
@@ -61,6 +67,9 @@ export class DeveloperService implements OnInit {
     AddTech(NewTech) {
 
         return this.http.post(this.baseUrl + 'developer.php?Key=add-tech', NewTech);
+    }
+    CloseProject(id) {
+        return this.http.delete(this.baseUrl + 'developer.php?Key=close-project&Id=' + id);
     }
 
     ngOnInit() {

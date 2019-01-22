@@ -13,6 +13,8 @@ export class Project extends BaseEntity{
 export class Requirement extends BaseEntity{
     ProjectId:number;
     Status:Status;
+    ModifyUserId:number;
+    ModifyDate:number;
     Tasks:Task[];
 }
 
