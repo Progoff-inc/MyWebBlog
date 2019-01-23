@@ -37,6 +37,7 @@ export class Technology extends BaseEntity{
     Sphere:Sphere;
 
     Topics:Topic[];
+    Links:BaseLink[];
 }
 export class ProjectPerson{
     Id:number;

@@ -20,6 +20,24 @@
       </div>
     </div>
   </div>
+  <ul  class="list-group my-3">
+    <li [ngStyle]="{'background-color':(parts[i]?'white':'')}"  [ngClass]="{'p-3':parts[i], 'p-0':!parts[i]}" class="list-group-item dropdown"  >
+      <div style="cursor:pointer" class="d-flex justify-content-between" (click)="showPart($event,i)">
+        <h5 class="d-block py-3 m-0 overflow-hidden {{parts[i]?'pr-3':'px-3'}}" >Полезные ссылки</h5>
+      </div>
+      
+      <div  [ngStyle]="{'display':(parts[i]?'block':'none')}" class="dropdown-menu position-relative w-100 m-0 border-0" >
+        <div class="mb-4 ">
+          <a class="d-block" href="{{l.Path}}" target="blank" *ngFor="let l of links">{{l.Text}}</a>
+        </div>
+        <form class="form-inline  my-lg-0">
+          <input class="form-control mr-sm-2 my-2" type="text" placeholder="Текст" required #lnktext>
+          <input class="form-control mr-sm-2" type="text" placeholder="Ссылка" required #lnk>
+          <button class="btn btn-outline-success my-2 my-sm-0" type="submit" (click)="addLink(lnktext, lnk)">Добавить</button>
+        </form>
+      </div>
+    </li>
+  </ul>
 </div>
 <div *ngIf="tech" class="container">
   <ul *ngIf="tech.Topics"  class="list-group my-3">
@@ -82,3 +100,5 @@
     </li>
   </ul>
 </div>
+
+<script src="https://cdn.rawgit.com/google/code-prettify/master/loader/run_prettify.js?lang=css"></script>

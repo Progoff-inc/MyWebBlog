@@ -18,6 +18,7 @@ export class Paper{
     ModifyDate:Date;
 
     Topics:Topic[];
+    Links:BaseLink[];
     Subject:Subject;
 }
 

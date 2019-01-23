@@ -2,15 +2,17 @@ import { Component, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { ActivatedRoute, Router } from '@angular/router';
 import { StudentService } from '../services/StudentService';
-import { Person } from '../models/base';
+import { Person, BaseLink } from '../models/base';
 import { Technology } from '../models/developer';
 import { Paper, Topic } from '../models/student';
-
+declare var PR: any;
+addEventListener('load', function(event) { PR.prettyPrint(); }, false);
 @Component({
   selector: 'app-studies',
   templateUrl: './studies.component.html',
   styleUrls: ['./studies.component.less']
 })
+
 export class StudiesComponent implements OnInit {
   tech:Technology;
   paper:Paper;
@@ -25,6 +27,8 @@ export class StudiesComponent implements OnInit {
   ctopics = [];
   changing:string;
   submitted = false;
+  links:BaseLink[];
+  
   constructor(private fb:FormBuilder, private route:ActivatedRoute, private router:Router, private ss:StudentService) { 
     this.route.params.subscribe(params=>this.studyId=Number(params['id']));
     this.route.queryParams.subscribe(
@@ -33,7 +37,7 @@ export class StudiesComponent implements OnInit {
         }
     );
   }
-
+  
   ngOnInit() {
     this.topicForm = this.fb.group({
       Name:['',Validators.required],
@@ -49,6 +53,7 @@ export class StudiesComponent implements OnInit {
       case "tech":{
         this.ss.GetTech(this.studyId).subscribe(data => {
           this.tech=Object.assign({},data);
+          this.links=this.tech.Links;
           for(let i = 0;i<this.tech.Topics.length;i++){
             this.parts.unshift(false);
             this.ctopics.unshift(false);
@@ -61,6 +66,7 @@ export class StudiesComponent implements OnInit {
       case "paper":{
         this.ss.GetPaper(this.studyId).subscribe(data => {
           this.paper=Object.assign({},data);
+          this.links=this.paper.Links;
           for(let i = 0;i<this.paper.Topics.length;i++){
             this.parts.unshift(false);
             this.ctopics.unshift(false);
@@ -80,6 +86,16 @@ export class StudiesComponent implements OnInit {
     }
     this.ss.AddTopic({OwnerId:this.type=='tech'?this.tech.Id:this.paper.Id, Name:this.topicForm.value.Name, Description:this.topicForm.value.Description, Type:this.type=='tech'?2:1, ModifyUserId:this.user.Id}).subscribe(()=>{
       this.submitted=false;
+      this.ngOnInit();
+    })
+  }
+  addLink(t,l){
+    if(!(t.value && l.value)){
+      return;
+    }
+    this.ss.AddLink({OwnerId:this.type=='tech'?this.tech.Id:this.paper.Id, Type:this.type=='tech'?2:1, Text:t.value, Path:l.value}).subscribe(()=>{
+      t.value='';
+      l.value='';
       this.ngOnInit();
     })
   }
@@ -117,3 +133,5 @@ export class StudiesComponent implements OnInit {
   get f() { return this.topicForm.controls; }
 
 }
+
+

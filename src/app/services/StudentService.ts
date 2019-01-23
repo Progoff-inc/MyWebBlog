@@ -39,6 +39,10 @@ export class StudentService implements OnInit {
 
         return this.http.post(this.baseUrl + 'student.php?Key=add-paper', NewPaper);
     }
+    AddLink(NewLink) {
+
+        return this.http.post(this.baseUrl + 'student.php?Key=add-link', NewLink);
+    }
     AddTopic(NewTopic) {
 
         return this.http.post(this.baseUrl + 'student.php?Key=add-topic', NewTopic);

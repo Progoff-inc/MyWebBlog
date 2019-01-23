@@ -19,6 +19,7 @@ export class AppComponent implements OnInit {
   getUser = true;
   constructor(private modalService: BsModalService, private ss:StudentService, private route:ActivatedRoute, private router:Router){
   }
+ 
   ngOnInit(){
     console.log(location.pathname);
     if(localStorage.getItem('user')){
