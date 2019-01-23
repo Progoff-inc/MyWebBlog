@@ -54,6 +54,10 @@ if(isset($_GET['Key']))
             $inp = json_decode(file_get_contents('php://input'), true);
             echo json_encode($ctxt->setTopic($inp['OwnerId'], $inp['Name'], $inp['Description'], $inp['Type'], $inp['ModifyUserId']));
             break;
+        case 'add-link':
+            $inp = json_decode(file_get_contents('php://input'), true);
+            echo json_encode($ctxt->setLink($inp['OwnerId'], $inp['Text'], $inp['Path'], $inp['Type']));
+            break;
         case 'save-topic':
             $inp = json_decode(file_get_contents('php://input'), true);
             echo json_encode($ctxt->saveTopic($inp['Id'], $inp['Description'], $inp['ModifyUserId']));

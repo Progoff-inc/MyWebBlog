@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Хост: 127.0.0.1
--- Время создания: Янв 23 2019 г., 00:00
+-- Время создания: Янв 23 2019 г., 23:53
 -- Версия сервера: 10.1.32-MariaDB
 -- Версия PHP: 7.2.5
 
@@ -71,6 +71,21 @@ CREATE TABLE `links` (
   `Path` varchar(200) NOT NULL,
   `Text` varchar(200) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+
+--
+-- Дамп данных таблицы `links`
+--
+
+INSERT INTO `links` (`Id`, `OwnerId`, `Type`, `Path`, `Text`) VALUES
+(1, 14, 2, 'https://bootstrap-4.ru/docs/4.2.1/getting-started/introduction/', 'Bootstrap 4 (Документация)'),
+(2, 14, 2, 'https://getbootstrap.com/docs/4.0/getting-started/introduction/', 'Bootstrap (Оригинальная документация)'),
+(3, 8, 2, 'https://ruseller.com/lessons.php?id=1659', 'Авторизация через ВК'),
+(4, 15, 2, 'https://learn.javascript.ru/range-textrange-selection', 'Обработка выделения текста'),
+(5, 6, 2, 'https://www.youtube.com/watch?v=2vujABNBFAY&list=PLNkWIWHIRwME_Gv2vlWAR6TfeSXylYfw4', 'Видео курс React.js + Redux'),
+(6, 5, 2, 'https://m.habr.com/ru/company/ruvds/blog/423703/', 'Node.js, Node_moduls, npm (habr)'),
+(7, 8, 2, 'https://tatet.net/p450-nastroyka-avtorizatsii-cherez-google.html', 'Авторизация через Google'),
+(8, 7, 2, 'https://youtu.be/qHBSc_LuHnU', 'Видео курс по основам Vue.js'),
+(9, 16, 2, 'https://proglib.io/p/git-base/', 'Статья про базовый курс по Git');
 
 -- --------------------------------------------------------
 
@@ -310,7 +325,9 @@ INSERT INTO `techs` (`Id`, `Name`, `Language`, `Sphere`) VALUES
 (11, 'MySql', 'SQL', 2),
 (12, 'MSSQL Server', 'SQL', 2),
 (13, 'Oracle PL/SQL', 'PL/Sql', 2),
-(14, 'Bootstrap', 'CSS', 0);
+(14, 'Bootstrap', 'CSS', 0),
+(15, 'JavaScript', 'JavaScript', 0),
+(16, 'Git', 'Bash', 1);
 
 -- --------------------------------------------------------
 
@@ -539,7 +556,7 @@ ALTER TABLE `files`
 -- AUTO_INCREMENT для таблицы `links`
 --
 ALTER TABLE `links`
-  MODIFY `Id` int(20) NOT NULL AUTO_INCREMENT;
+  MODIFY `Id` int(20) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=10;
 
 --
 -- AUTO_INCREMENT для таблицы `news`
@@ -599,7 +616,7 @@ ALTER TABLE `teachers`
 -- AUTO_INCREMENT для таблицы `techs`
 --
 ALTER TABLE `techs`
-  MODIFY `Id` int(20) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=15;
+  MODIFY `Id` int(20) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=17;
 
 --
 -- AUTO_INCREMENT для таблицы `timesheet`

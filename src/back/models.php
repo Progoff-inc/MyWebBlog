@@ -66,6 +66,7 @@ class Technology extends BaseEntity{
     public $Sphere;
 
     public $Topics;
+    public $Links;
 }
 
 class Exam extends BaseEntity{
@@ -84,6 +85,7 @@ class Paper{
 
     public $Topics;
     public $Subject;
+    public $Links;
 }
 
 class Topic extends BaseEntity{

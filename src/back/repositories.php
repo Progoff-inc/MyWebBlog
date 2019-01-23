@@ -135,12 +135,19 @@ class DataBase {
         $s->setFetchMode(PDO::FETCH_CLASS, 'Technology');
         $tech = $s->fetch();
         $tech->Topics = $this->getTopics($tech->Id, 2);
+        $tech->Links = $this->getLinks($tech->Id, 2);
         return $tech;
     }
     public function getTopics($id,$type){
         $s = $this->db->prepare("SELECT * FROM topics WHERE OwnerId=? and Type=?");
         $s->execute(array($id, $type));
         $s->setFetchMode(PDO::FETCH_CLASS, 'Topic');
+        return $s->fetchAll();
+    }
+    public function getLinks($id,$type){
+        $s = $this->db->prepare("SELECT * FROM links WHERE OwnerId=? and Type=?");
+        $s->execute(array($id, $type));
+        $s->setFetchMode(PDO::FETCH_CLASS, 'BaseLink');
         return $s->fetchAll();
     }
     public function setTeacher($e, $n){
@@ -151,6 +158,11 @@ class DataBase {
     public function setTopic($oid, $n, $descr, $t, $muid){
         $sth = $this->db->prepare("INSERT INTO topics (OwnerId, Name, Description, Type, ModifyUserId, ModifyDate) VALUES (?,?,?,?,?,now()) ");
         $sth->execute(array($oid, $n, $descr, $t, $muid));
+        return $this->db->lastInsertId();
+    }
+    public function setLink($oid, $t, $l, $tp){
+        $sth = $this->db->prepare("INSERT INTO links (OwnerId, Text, Path, Type) VALUES (?,?,?,?) ");
+        $sth->execute(array($oid, $t, $l, $tp));
         return $this->db->lastInsertId();
     }
     public function setSubject($tid, $n){
