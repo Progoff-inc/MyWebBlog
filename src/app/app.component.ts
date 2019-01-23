@@ -13,7 +13,7 @@ import { Person } from './models/base';
   styleUrls: ['./app.component.less']
 })
 export class AppComponent implements OnInit {
-  title = 'MyWebBlog';
+  title = 'DevPortal';
   user:Person = new Person();
   showContent = true;
   getUser = true;
