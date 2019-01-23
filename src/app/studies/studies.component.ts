@@ -24,6 +24,7 @@ export class StudiesComponent implements OnInit {
   parts = [];
   ctopics = [];
   changing:string;
+  submitted = false;
   constructor(private fb:FormBuilder, private route:ActivatedRoute, private router:Router, private ss:StudentService) { 
     this.route.params.subscribe(params=>this.studyId=Number(params['id']));
     this.route.queryParams.subscribe(
@@ -48,7 +49,6 @@ export class StudiesComponent implements OnInit {
       case "tech":{
         this.ss.GetTech(this.studyId).subscribe(data => {
           this.tech=Object.assign({},data);
-          console.log(this.tech);
           for(let i = 0;i<this.tech.Topics.length;i++){
             this.parts.unshift(false);
             this.ctopics.unshift(false);
@@ -74,7 +74,12 @@ export class StudiesComponent implements OnInit {
     }
   }
   addTopic(){
+    this.submitted = true;
+    if(this.topicForm.invalid){
+      return;
+    }
     this.ss.AddTopic({OwnerId:this.type=='tech'?this.tech.Id:this.paper.Id, Name:this.topicForm.value.Name, Description:this.topicForm.value.Description, Type:this.type=='tech'?2:1, ModifyUserId:this.user.Id}).subscribe(()=>{
+      this.submitted=false;
       this.ngOnInit();
     })
   }
@@ -103,10 +108,12 @@ export class StudiesComponent implements OnInit {
     }
   }
   save(t:Topic){
+    
     t.ModifyUserId=this.user.Id;
     this.ss.SaveTopic(t).subscribe(()=>{
       this.ngOnInit();
     })
   }
+  get f() { return this.topicForm.controls; }
 
 }

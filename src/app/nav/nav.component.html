@@ -14,30 +14,11 @@
         <a [routerLink]='["/student"]' class="nav-link"   >
           Студент
         </a>
-        <!-- <div class="dropdown-menu" id="navbarDropdown">
-          <a class="dropdown-item" href="#">Экзамены</a>
-          <a class="dropdown-item" href="#">Конспекты</a>
-          <a class="dropdown-item" href="#">Расписание</a>
-         
-        </div> -->
       </li>
       <li [routerLinkActive]='["active"]' class="nav-item dropdown">
         <a [routerLink]='["/developer"]' class="nav-link"  >
           Разработчик
         </a>
-        <!-- <div class="dropdown-menu" id="navbarDropdown">
-          <a class="dropdown-item" href="#">Angular</a>
-          <a class="dropdown-item" href="#">React.js</a>
-          <a class="dropdown-item" href="#">Vue.js</a>
-          <div class="dropdown-divider"></div>
-          <a class="dropdown-item" href="#">PHP</a>
-          <a class="dropdown-item" href="#">ASP.NET</a>
-          <a class="dropdown-item" href="#">Node.js</a>
-          <div class="dropdown-divider"></div>
-          <a class="dropdown-item" href="#">MySql</a>
-          <a class="dropdown-item" href="#">MSSql Server</a>
-          <a class="dropdown-item" href="#">Oracle PL/Sql</a>
-        </div> -->
       </li>
       <li *ngIf="user.Root==1" [routerLinkActive]='["active"]' class="nav-item dropdown">
         <a style="cursor: pointer;" class="nav-link" (click)="show(modal)">
@@ -76,16 +57,17 @@
   </div>
   <div [ngSwitch]="adding" class="modal-body">
     <form [formGroup]="prevForm">
-      <div class="form-group">
+      <div class="form-group ">
         <label for="exampleInputEmail1">Пользователь</label>
-        <select formControlName="UserId" class="form-control" id="exampleInputEmail1" >
+        <select formControlName="UserId" class="form-control " id="exampleInputEmail1" >
           <option value="{{u.Id}}" *ngFor="let u of users">{{u.Name}}</option>
         </select>
-        <!-- <small id="emailHelp" class="form-text text-muted">We'll never share your email with anyone else.</small> -->
+        <small *ngIf="submitted && f.UserId.errors" class="form-text text-danger">Выберите пользователя</small>
       </div>
       <div class="form-group">
         <label for="exampleInputPassword1">Уровень доступа</label>
         <input formControlName="Root" type="number" class="form-control" id="exampleInputPassword1" >
+        <small *ngIf="submitted && f.Root.errors" class="form-text text-danger">Укажите уровень доступа</small>
       </div>
       <button  class="btn btn-primary" (click)=save()>Сохранить</button>
     </form>

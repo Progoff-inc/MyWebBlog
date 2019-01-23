@@ -2,19 +2,20 @@
   <div class="form-group">
     <label for="name">Название</label>
     <input formControlName="Name" type="text" class="form-control" id="name">
-    <!-- <small id="emailHelp" class="form-text text-muted">We'll never share your email with anyone else.</small> -->
+    <small *ngIf="submitted && f.Name.errors" class="form-text text-danger">Укажите название</small>
   </div>
   <div class="form-group">
     <label for="lng">Язык</label>
     <input formControlName="Language" type="text" class="form-control" id="lng">
-    <!-- <small id="emailHelp" class="form-text text-muted">We'll never share your email with anyone else.</small> -->
+    <small *ngIf="submitted && f.Language.errors" class="form-text text-danger">Укажите язык программирования</small>
   </div>
   <div class="form-group">
     <label for="exampleInputEmail1">Сфера</label>
     <select formControlName="Sphere" class="form-control" id="exampleInputEmail1">
       <option value="{{i}}" *ngFor="let s of sphs; let i = index;">{{s}}</option>
     </select>
-    <!-- <small id="emailHelp" class="form-text text-muted">We'll never share your email with anyone else.</small> -->
+    <small *ngIf="submitted && f.Sphere.errors" class="form-text text-danger">Укажите направление</small>
+    
   </div>
   <div class="modal-footer">
     <button type="button" class="btn btn-secondary" data-dismiss="modal">Закрыть</button>

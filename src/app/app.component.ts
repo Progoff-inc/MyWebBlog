@@ -20,18 +20,16 @@ export class AppComponent implements OnInit {
   constructor(private modalService: BsModalService, private ss:StudentService, private route:ActivatedRoute, private router:Router){
   }
   ngOnInit(){
+    console.log(location.pathname);
     if(localStorage.getItem('user')){
       this.getUser=false;
       this.user = JSON.parse(localStorage.getItem('user'));
       this.ss.GetUser(this.user.Id).subscribe(data => {
         data.Root = Number(data.Root);
-        if(data.Root>1){
+        if(data.Root>1 && location.pathname=='/'){
+          console.log(true);
           this.showContent = true;
           this.router.navigate(['/developer']);
-        }
-        else{
-          this.showContent = true;
-          this.router.navigate(['']);
         }
 
         localStorage.setItem('user', JSON.stringify(data));

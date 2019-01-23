@@ -13,6 +13,7 @@ import { deepStrictEqual } from 'assert';
 export class NewExamComponent  implements OnInit  {
   examForm: FormGroup;
   @Input() parent;
+  submitted = false;
   subjects:Paper[];
   times=[[],[]];
   constructor(private fb:FormBuilder, public ss:StudentService) { }
@@ -46,15 +47,20 @@ export class NewExamComponent  implements OnInit  {
     })
   }
   save(){
+    this.submitted = true;
+    if(this.examForm.invalid){
+      return;
+    }
     let t = new Date(this.examForm.value.DateStart);
     let ts = new Date(t.getFullYear(), t.getMonth(), t.getDate(),Number(this.examForm.value.TimeStartH), Number(this.examForm.value.TimeStartM));
     let tf = new Date(t.getFullYear(), t.getMonth(), t.getDate(),Number(this.examForm.value.TimeFinishH), Number(this.examForm.value.TimeFinishM));
-    console.log(ts);
+
     this.ss.AddExam({PaperId:this.examForm.value.PaperId,  DateStart:ts, DateFinish:tf, Cabinet:this.examForm.value.Cabinet}).subscribe((data)=>{
-      console.log(data);
+      this.submitted=false;
       this.parent.closeForm();
     });
     
   }
+  get f() { return this.examForm.controls; }
 
 }

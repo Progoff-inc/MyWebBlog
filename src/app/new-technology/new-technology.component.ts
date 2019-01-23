@@ -11,6 +11,7 @@ import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 })
 export class NewTechnologyComponent implements OnInit {
   techForm: FormGroup;
+  submitted = false;
  @Input() type:number; 
  @Input() parent;
   constructor(public fb:FormBuilder, public dv:DeveloperService) { }
@@ -23,12 +24,16 @@ export class NewTechnologyComponent implements OnInit {
     })
   }
   save(){
-    console.log(this.techForm.value);
+    this.submitted = true;
+    if(this.techForm.invalid){
+      return;
+    }
     this.dv.AddTech(this.techForm.value).subscribe((data)=>{
-      console.log(data);
+      this.submitted = false;
       this.parent.closeForm();
     });
     
   }
+  get f() { return this.techForm.controls; }
 
 }

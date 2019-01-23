@@ -18,6 +18,7 @@ export class ProjectsComponent implements OnInit {
   parts = [true, false];
   userForm:FormGroup;
   project:Project;
+  submitted = false;
   users:Person[] =[];
   constructor(private router: Router, private dv:DeveloperService, public fb:FormBuilder, private modalService: BsModalService, private route: ActivatedRoute) { }
 
@@ -27,7 +28,6 @@ export class ProjectsComponent implements OnInit {
     });
     this.dv.GetProject(this.route.snapshot.paramMap.get("id")).subscribe(data =>{
       this.project=data;
-      console.log(data);
     });
     this.userForm = this.fb.group({
       Id: ['', Validators.required],
@@ -37,11 +37,16 @@ export class ProjectsComponent implements OnInit {
   }
   
   save(){
-    
+    this.submitted=true;
+    if(this.userForm.invalid){
+      return;
+    }
     this.dv.AddProjectUser({Id:this.userForm.value.Id, ProjectId:this.project.Id, Position:this.userForm.value.Position}).subscribe((data)=>{
       this.dv.GetProject(this.route.snapshot.paramMap.get("id")).subscribe(data =>{
+
         this.project=data;
       });
+      this.submitted = false;
       this.modalRef2.hide();
     });
     
@@ -79,5 +84,6 @@ export class ProjectsComponent implements OnInit {
         }
     );
   }
+  get f() { return this.userForm.controls; }
 
 }

@@ -11,6 +11,7 @@ import { BsModalService, BsModalRef } from 'ngx-bootstrap';
 })
 export class NavComponent implements OnInit {
   user:Person;
+  submitted = false;
   users:Person[];
   prevForm:FormGroup;
   modalRef2:BsModalRef;
@@ -22,7 +23,6 @@ export class NavComponent implements OnInit {
     });
     if(localStorage.getItem('user')){
       this.user=JSON.parse(localStorage.getItem('user'));
-      console.log(this.user);
     }
     this.prevForm = this.fb.group({
       UserId: ['', Validators.required],
@@ -34,13 +34,14 @@ export class NavComponent implements OnInit {
     location.reload();
   }
   save(){
-
-    if(this.prevForm.errors){
-      console.log(this.prevForm);
+    this.submitted=true;
+    if(this.prevForm.invalid){
       return;
     }
-    console.log(1);
-    this.dv.SetPrev({Root:this.prevForm.value.Root}, this.prevForm.value.UserId).subscribe((d)=>{console.log(d);this.modalRef2.hide()});
+    this.dv.SetPrev({Root:this.prevForm.value.Root}, this.prevForm.value.UserId).subscribe((d)=>{
+      this.submitted = false;
+      this.modalRef2.hide()
+    });
   }
   show(template: TemplateRef<any>){
     this.modalRef2 = this.modalService.show(template);
@@ -48,5 +49,6 @@ export class NavComponent implements OnInit {
   close(){
     this.modalRef2.hide();
   }
+  get f() { return this.prevForm.controls; }
 
 }

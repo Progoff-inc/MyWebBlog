@@ -9,6 +9,7 @@ import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 })
 export class NewProjectComponent implements OnInit {
   projectForm: FormGroup;
+  submitted = false;
   @Input() parent;
   constructor(private fb:FormBuilder, public dv:DeveloperService) { }
 
@@ -20,12 +21,16 @@ export class NewProjectComponent implements OnInit {
     })
   }
   save(){
-    
+    this.submitted = true;
+    if(this.projectForm.invalid){
+      return;
+    }
     this.dv.AddProject(this.projectForm.value).subscribe((data)=>{
-      console.log(data);
+      this.submitted = false;
       this.parent.closeForm();
     });
     
   }
+  get f() { return this.projectForm.controls; }
 
 }

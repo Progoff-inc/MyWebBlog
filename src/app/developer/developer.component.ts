@@ -28,10 +28,8 @@ export class DeveloperComponent implements OnInit {
   ngOnInit() {
     if(localStorage.getItem('user')){
       this.user=JSON.parse(localStorage.getItem('user'));
-      console.log(this.user);
     }
     this.dv.GetProjects().subscribe(data => {
-      console.log(data);
       data.forEach(x => {
         x.DateStart = new Date(x.DateStart);
       });
@@ -41,10 +39,8 @@ export class DeveloperComponent implements OnInit {
       this.projects = data;
     });
     this.dv.GetTechs().subscribe(data => {
-      console.log(data);
       this.techs = data;
     });
-    console.log()
   }
   showPart(i){
     this.parts[i]=!this.parts[i];
@@ -96,7 +92,6 @@ export class DeveloperComponent implements OnInit {
       if(this.user.Root>1){
         this.projects.filter(x => x.Id == id).forEach(x => {
           x.Team.forEach( t => {
-            console.log(t);
             if(t.Id==this.user.Id){
               this.router.navigate(
                 ['/projects', id]

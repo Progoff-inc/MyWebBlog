@@ -2,15 +2,17 @@
   <div class="form-group">
     <label for="name">Название проекта</label>
     <input formControlName="Name" type="text" class="form-control" id="name">
-    <!-- <small id="emailHelp" class="form-text text-muted">We'll never share your email with anyone else.</small> -->
+    <small *ngIf="submitted && f.Name.errors" class="form-text text-danger">Укажите название</small>
   </div>
   <div class="form-group">
     <label for="exampleInputPassword1">Дата начала</label>
     <input formControlName="DateStart" type="date" class="form-control" id="exampleInputPassword1">
+    <small *ngIf="submitted && f.DateStart.errors" class="form-text text-danger">Укажите дату начала</small>
   </div>
   <div class="form-group">
     <label for="exampleFormControlTextarea1">Описание</label>
     <textarea formControlName="Description" class="form-control" id="exampleFormControlTextarea1" rows="3"></textarea>
+    <small *ngIf="submitted && f.Description.errors" class="form-text text-danger">Укажите описание</small>
   </div>
   <div class="form-group">
     <label for="exampleFormControlFile1">Загрузить техническое задание</label>

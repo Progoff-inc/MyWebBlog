@@ -9,6 +9,7 @@ import { StudentService } from '../services/StudentService';
 })
 export class NewPaperComponent implements OnInit {
   paperForm: FormGroup;
+  submitted = false;
   @Input() parent;
   constructor(private fb:FormBuilder, public ss: StudentService) { }
 
@@ -20,11 +21,16 @@ export class NewPaperComponent implements OnInit {
     })
   }
   save(){
-    
+    this.submitted = true;
+    if(this.paperForm.invalid){
+      return;
+    }
     this.ss.AddPaper(this.paperForm.value).subscribe((data)=>{
+      this.submitted = false;
       this.parent.closeForm();
     });
     
   }
+  get f() { return this.paperForm.controls; }
 
 }

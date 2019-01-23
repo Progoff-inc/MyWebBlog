@@ -4,11 +4,12 @@
     <select formControlName="PaperId" class="form-control" id="exampleInputEmail1">
       <option value="{{s.Id}}" *ngFor="let s of subjects">{{s.Subject.Name}}</option>
     </select>
-    <!-- <small id="emailHelp" class="form-text text-muted">We'll never share your email with anyone else.</small> -->
+    <small *ngIf="submitted && f.PaperId.errors" class="form-text text-danger">Укажите предмет</small>
   </div>
   <div class="form-group">
     <label for="exampleInputPassword1">Дата</label>
     <input formControlName="DateStart" type="date" class="form-control" id="exampleInputPassword1">
+    <small *ngIf="submitted && f.DateStart.errors" class="form-text text-danger">Укажите дату</small>
   </div>
   <div class="form-group">
     <label for="startTime">Время начала</label>
@@ -20,7 +21,7 @@
         <option value="{{s}}" *ngFor="let s of times[1]">{{s}}</option>
       </select>
     </div>
-    <!-- <small id="emailHelp" class="form-text text-muted">We'll never share your email with anyone else.</small> -->
+    <small *ngIf="submitted && (f.TimeStartH.errors || f.TimeStartM.errors)" class="form-text text-danger">Укажите {{f.TimeStartH.errors?(f.TimeStartM.errors?'час и минуты':'час'):(f.TimeStartM.errors?'минуты':'')}} начала экзамена</small>
   </div>
   <div class="form-group">
     <label for="finishTime">Время конца</label>
@@ -33,12 +34,13 @@
       </select>
     </div>
     
-    <!-- <small id="emailHelp" class="form-text text-muted">We'll never share your email with anyone else.</small> -->
+    <small *ngIf="submitted && (f.TimeFinishH.errors || f.TimeFinishM.errors)" class="form-text text-danger">Укажите {{f.TimeFinishH.errors?(f.TimeFinishM.errors?'час и минуты':'час'):(f.TimeFinishM.errors?'минуты':'')}} конца экзамена</small>
   </div>
   <div class="form-group">
     
     <label for="exampleCheck1">Кабинет</label>
     <input formControlName="Cabinet" type="number" class="form-control"  id="exampleCheck1">
+    <small *ngIf="submitted && f.Cabinet.errors" class="form-text text-danger">Укажите кабинет</small>
   </div>
   <div class="modal-footer">
     <button type="button" class="btn btn-secondary" data-dismiss="modal" >Закрыть</button>

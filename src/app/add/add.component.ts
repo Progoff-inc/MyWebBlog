@@ -14,6 +14,7 @@ export class AddComponent implements OnInit {
   taskForm:FormGroup;
   reqForm:FormGroup;
   type:String;
+  submitted = false;
   team:ProjectPerson[];
   reqs:Requirement[];
   ProjectId:String;
@@ -41,7 +42,7 @@ export class AddComponent implements OnInit {
       Name: ['', Validators.required],
       Description: ['', Validators.required],
       RequirementId: ['', Validators.required],
-      UserId: ['1', Validators.required],
+      UserId: ['', Validators.required],
       Priority: ['Low', Validators.required]
     })
     this.reqForm = this.fb.group({
@@ -53,20 +54,30 @@ export class AddComponent implements OnInit {
     return [Priority.Low, Priority.Medium, Priority.Hight];
   }
   addTask(){
-    console.log(this.taskForm.value);
+    this.submitted = true;
+    if(this.taskForm.invalid){
+      return;
+    }
     this.dv.AddTask({Name:this.taskForm.value.Name, Description:this.taskForm.value.Description, RequirementId:this.taskForm.value.RequirementId, UserId:this.taskForm.value.UserId, Priority:this.taskForm.value.Priority, Status:Status.Proposed, ProjectId:this.ProjectId, ModifyUserId:this.user.Id}).subscribe(data => {
+      this.submitted = false;
       this.router.navigate(
           ['/projects', this.ProjectId]
       );
     })
   }
   addReq(){
-    console.log(this.reqForm.value);
+
+    this.submitted = true;
+    if(this.reqForm.invalid){
+      return;
+    }
     this.dv.AddRequirement({Name:this.reqForm.value.Name, Description:this.reqForm.value.Description, ProjectId:this.ProjectId, Status:Status.Proposed, ModifyUserId:this.user.Id}).subscribe(data => {
+      this.submitted = false;
       this.router.navigate(
           ['/projects', this.ProjectId]
       );
     })
   }
+  get f() { return this.type=='req'?this.reqForm.controls:this.taskForm.controls }
 
 }

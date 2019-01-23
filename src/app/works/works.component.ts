@@ -80,7 +80,6 @@ export class WorksComponent implements OnInit {
         if(!this.req || (this.req.Id != Number(this.ItemId) && this.type=='req')){
           this.dv.GetRequirement(this.ItemId).subscribe(data => {
             this.req=Object.assign({},data);
-            console.log(this.req);
             this.reqcopy=Object.assign({},data);
             this.dv.GetTeam(this.req.ProjectId).subscribe(data => {
               this.team = data;

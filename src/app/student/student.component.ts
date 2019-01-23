@@ -43,19 +43,17 @@ export class StudentComponent implements OnInit {
     this.ss.GetExams().subscribe(data => {
 
       data.forEach(x => {
-        console.log(x.DateStart);
         
         x.DateStart = new Date(x.DateStart);
         x.DateFinish = new Date(x.DateFinish);
         x.DateStart = new Date(x.DateStart.getFullYear(), x.DateStart.getMonth(), x.DateStart.getDate(), x.DateStart.getHours()+3, x.DateStart.getMinutes());
         x.DateFinish = new Date(x.DateFinish.getFullYear(), x.DateFinish.getMonth(), x.DateFinish.getDate(), x.DateFinish.getHours()+3, x.DateFinish.getMinutes());
-        console.log(x.DateStart)
+      
       });
       data.sort((a,b)=>{
         return a.DateStart>b.DateStart?1:-1;
       })
       this.exams = data;
-      console.log(data);
     })
     let size = 3; //размер подмассива
     let subarray = []; //массив в который будет выведен результат.
@@ -65,7 +63,6 @@ export class StudentComponent implements OnInit {
       }
     }
     
-    console.log(subarray);
   }
   closeForm(){
     switch(this.adding){

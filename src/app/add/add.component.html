@@ -4,10 +4,12 @@
     <div class="form-group">
       <label for="exampleInputEmail1">Название</label>
       <input formControlName="Name" class="form-control" id="exampleInputEmail1" >
+      <small *ngIf="submitted && f.Name.errors" class="form-text text-danger">Укажите название</small>
     </div>
     <div class="form-group">
       <label for="descr">Описание</label>
       <textarea style="height:30vh" formControlName="Description" class="form-control" id="descr" rows="3"></textarea>
+      <small *ngIf="submitted && f.Description.errors" class="form-text text-danger">Укажите описание</small>
     </div>
     <div class="d-flex">
       
@@ -16,12 +18,14 @@
         <select formControlName="Priority" class="form-control" id="pr">
           <option *ngFor="let r of getPriorities()" >{{r}}</option>
         </select>
+        <small *ngIf="submitted && f.Priority.errors" class="form-text text-danger">Укажите приоритет</small>
       </div>
       <div class="form-group">
         <label for="u">Исполнитель</label>
         <select formControlName="UserId" class="form-control" id="u">
           <option value="{{r.Id}}" *ngFor="let r of team" >{{r.Name}}</option>
         </select>
+        <small *ngIf="submitted && f.UserId.errors" class="form-text text-danger">Укажите исполнителя</small>
       </div>
     </div>
     <div class="form-group">
@@ -29,6 +33,7 @@
       <select formControlName="RequirementId" class="form-control" id="req">
         <option value="{{r.Id}}" *ngFor="let r of reqs" >{{r.Name}}</option>
       </select>
+      <small *ngIf="submitted && f.RequirementId.errors" class="form-text text-danger">Укажите требование</small>
     </div>
     <button type="submit" class="btn btn-primary mb-3" (click)=addTask()>Добавить</button>
   </form>
@@ -37,10 +42,12 @@
     <div class="form-group">
       <label for="n">Название</label>
       <input formControlName="Name" class="form-control" id="n" >
+      <small *ngIf="submitted && f.Name.errors" class="form-text text-danger">Укажите название</small>
     </div>
     <div class="form-group">
       <label for="d">Описание</label>
       <textarea style="height:30vh" formControlName="Description" class="form-control" id="d" rows="3"></textarea>
+      <small *ngIf="submitted && f.Description.errors" class="form-text text-danger">Укажите описание</small>
     </div>
     <button type="submit" class="btn btn-primary mb-3" (click)="addReq()">Добавить</button>
   </form>

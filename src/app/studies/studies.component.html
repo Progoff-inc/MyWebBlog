@@ -7,10 +7,12 @@
         <div class="form-group">
           <label for="name">Название</label>
           <input formControlName="Name" class="form-control" id="name">
+          <small *ngIf="submitted && f.Name.errors" class="form-text text-danger">Укажите название</small>
         </div>
         <div class="form-group">
           <label for="exampleFormControlTextarea1">Описание</label>
           <textarea formControlName="Description" class="form-control topic" id="exampleFormControlTextarea1" ></textarea>
+          <small *ngIf="submitted && f.Description.errors" class="form-text text-danger">Укажите описание</small>
         </div>
       </form>
       <div class="btn-group" role="group" aria-label="Basic example">

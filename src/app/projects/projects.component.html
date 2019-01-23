@@ -71,12 +71,14 @@
             <select formControlName="Id" class="form-control" id="exampleInputEmail1">
               <option value="{{u.Id}}" *ngFor="let u of users">{{u.Name}}</option>
             </select>
+            <small *ngIf="submitted && f.Id.errors" class="form-text text-danger">Укажите пользователя</small>
           </div>
           <div class="form-group">
             <label for="exampleInputPassword1">Должность</label>
             <select formControlName="Position" class="form-control" id="exampleInputPassword1">
               <option value="{{u}}" *ngFor="let u of getPositions()">{{u}}</option>
             </select>
+            <small *ngIf="submitted && f.Position.errors" class="form-text text-danger">Укажите должность</small>
           </div>
         </form>
       </div>
