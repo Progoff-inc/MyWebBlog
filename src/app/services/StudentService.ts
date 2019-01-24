@@ -6,20 +6,21 @@ import { Technology } from '../models/developer';
 
 @Injectable()
 export class StudentService implements OnInit {
-    baseUrl:string='http://nomokoiw.beget.tech/back/';
-    //baseUrl = 'http://localhost:80/myblog/';
+    //baseUrl:string='http://nomokoiw.beget.tech/back/';
+    baseUrl = 'http://localhost:80/myblog/';
     constructor(private http: HttpClient ) {
 
 
     }
+   
     GetPapers() {
         return this.http.get<Paper[]>(this.baseUrl + 'student.php?Key=get-papers');
     }
     GetExams() {
         return this.http.get<Exam[]>(this.baseUrl + 'student.php?Key=get-exams');
     }
-    GetUser(id) {
-        return this.http.get<Person>(this.baseUrl + 'student.php?Key=get-user&Id=' + id);
+    SetUser(user) {
+        return this.http.post<Person>(this.baseUrl + 'student.php?Key=set-user', user);
     }
     GetTech(id) {
         return this.http.get<Technology>(this.baseUrl + 'student.php?Key=get-tech&Id=' + id);

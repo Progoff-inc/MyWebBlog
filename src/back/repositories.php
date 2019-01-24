@@ -6,8 +6,8 @@ class DataBase {
     public $db;
     public function __construct()
     {
-        //$this->db = new PDO('mysql:host=localhost;dbname=myblog;charset=UTF8','nlc','12345');
-        $this->db = new PDO('mysql:host=localhost;dbname=nomokoiw_portal;charset=UTF8','nomokoiw_portal','KESRdV2f');
+        $this->db = new PDO('mysql:host=localhost;dbname=myblog;charset=UTF8','nlc','12345');
+        //$this->db = new PDO('mysql:host=localhost;dbname=nomokoiw_portal;charset=UTF8','nomokoiw_portal','KESRdV2f');
     }
     public function getPapers() {
         $sth = $this->db->query("SELECT * FROM papers");
@@ -237,11 +237,10 @@ class DataBase {
             $s = $this->db->prepare("UPDATE users SET Name=?, Photo=? WHERE Id=?" );
             $s->execute(array($n, $ph, $id));
         }
-        // if()
-        // $s->setFetchMode(PDO::FETCH_CLASS, 'Paper');
-        // $sth = $this->db->prepare("INSERT INTO users (Id, Name, Photo) VALUES (?,?,?)");
-        // $sth->execute(array($id, $n, $ph));
-        return $this->db->lastInsertId();
+        $s = $this->db->prepare("SELECT * FROM users WHERE Id=?");
+        $s->execute(array($id));
+        $s->setFetchMode(PDO::FETCH_CLASS, 'Person');
+        return $s->fetch();
     }
     public function setTech($n,$l,$s){
         $sth = $this->db->prepare("INSERT INTO techs (Name, Language, Sphere) VALUES (?,?,?)");

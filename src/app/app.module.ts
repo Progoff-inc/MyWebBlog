@@ -22,7 +22,24 @@ import { ProjectsComponent } from './projects/projects.component';
 import { AddComponent } from './add/add.component';
 import { WorksComponent } from './works/works.component';
 import { StudiesComponent } from './studies/studies.component';
-
+import { AuthComponent } from './auth/auth.component';
+import {
+  SocialLoginModule,
+  AuthServiceConfig,
+  VkontakteLoginProvider,
+} from "angular-6-social-login-v2";
+export function getAuthServiceConfigs() {
+  let config = new AuthServiceConfig(
+      [
+        
+        {
+          id: VkontakteLoginProvider.PROVIDER_ID,
+          provider: new VkontakteLoginProvider("6828242")
+        }
+      ]
+  );
+  return config;
+}
 @NgModule({
   declarations: [
     AppComponent,
@@ -39,7 +56,8 @@ import { StudiesComponent } from './studies/studies.component';
     ProjectsComponent,
     AddComponent,
     WorksComponent,
-    StudiesComponent
+    StudiesComponent,
+    AuthComponent
   ],
   imports: [
     HttpClientModule,
@@ -47,9 +65,13 @@ import { StudiesComponent } from './studies/studies.component';
     ReactiveFormsModule,
     FormsModule,
     BrowserModule,
-    AppRoutingModule
+    AppRoutingModule,
+    SocialLoginModule
   ],
-  providers: [FormBuilder, StudentService, HttpClient, DeveloperService],
+  providers: [FormBuilder, StudentService, HttpClient, DeveloperService,{
+    provide: AuthServiceConfig,
+    useFactory: getAuthServiceConfigs
+  }],
   bootstrap: [AppComponent]
 })
 export class AppModule { }

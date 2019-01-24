@@ -31,6 +31,10 @@ if(isset($_GET['Key']))
             
             echo json_encode($ctxt->getUser($_GET['Id']));
             break;
+        case 'set-user':
+            $inp = json_decode(file_get_contents('php://input'), true);
+            echo json_encode($ctxt->setUser($inp['id'], $inp['name'], $inp['image']));
+            break;
         case 'get-papers':
             echo json_encode($ctxt->getPapers());
             break;

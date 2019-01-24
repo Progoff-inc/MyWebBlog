@@ -9,6 +9,7 @@ import { ProjectsComponent } from './projects/projects.component';
 import { AddComponent } from './add/add.component';
 import { WorksComponent } from './works/works.component';
 import { StudiesComponent } from './studies/studies.component';
+import { AuthComponent } from './auth/auth.component';
 
 const routes: Routes = [
   { path: '', component: HomeComponent, pathMatch: 'full' },
@@ -18,12 +19,13 @@ const routes: Routes = [
   { path: 'projects/:id', component: ProjectsComponent },
   { path: 'add/:id', component: AddComponent },
   { path: 'works/:id', component: WorksComponent },
-  { path: 'studies/:id', component: StudiesComponent }
+  { path: 'studies/:id', component: StudiesComponent },
+  { path: 'auth', component: AuthComponent, pathMatch: 'prefix' }
   // { path: 'farm', component: HouseholderComponent }
 ];
 
 @NgModule({
-  imports: [RouterModule.forRoot(routes)],
+  imports: [RouterModule.forRoot(routes, {useHash:true})],
   exports: [RouterModule]
 })
 export class AppRoutingModule { }
