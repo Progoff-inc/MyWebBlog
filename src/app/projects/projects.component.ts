@@ -19,10 +19,12 @@ export class ProjectsComponent implements OnInit {
   userForm:FormGroup;
   project:Project;
   submitted = false;
+  user:Person;
   users:Person[] =[];
   constructor(private router: Router, private dv:DeveloperService, public fb:FormBuilder, private modalService: BsModalService, private route: ActivatedRoute) { }
 
   ngOnInit() {
+    this.user = JSON.parse(localStorage.getItem('user'));
     this.dv.GetUsers().subscribe(data =>{
       this.users=data;
     });

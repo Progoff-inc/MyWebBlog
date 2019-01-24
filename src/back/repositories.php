@@ -181,9 +181,10 @@ class DataBase {
         $sth->execute(array($pid, $dst, $dfn, $c));
         return $this->db->lastInsertId();
     }
-    public function setProject($n,$descr,$dst, $isf){
+    public function setProject($n,$descr,$dst, $isf, $f){
         $sth = $this->db->prepare("INSERT INTO projects (Name, Description, DateStart, IsFinished) VALUES (?,?,?,?)");
-        $sth->execute(array($n, $descr, $dst, $isf));
+        $sth->execute(array($n, $descr, $dst, $isf ));
+        file_put_contents('name.json',$f);
         return $this->db->lastInsertId();
     }
     public function setTask($n,$descr,$uid, $rid, $pr, $st, $pid, $muid){

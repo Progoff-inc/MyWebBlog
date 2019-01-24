@@ -51,7 +51,8 @@ if(isset($_GET['Key']))
             break;
         case 'add-project':
             $inp = json_decode(file_get_contents('php://input'), true);
-            echo json_encode($ctxt->setProject($inp['Name'], $inp['Description'], $inp['DateStart'], false));
+            $ctxt->setProject($inp['Name'], $inp['Description'], $inp['DateStart'], false, $inp['File']);
+            echo json_encode($_FILES);
             break;
         case 'add-project-user':
             $inp = json_decode(file_get_contents('php://input'), true);
