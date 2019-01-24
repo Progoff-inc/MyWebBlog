@@ -20,16 +20,42 @@ export class NewProjectComponent implements OnInit {
       Description: ['', Validators.required]
     })
   }
-  save(){
+  save(files){
     this.submitted = true;
     if(this.projectForm.invalid){
       return;
     }
-    this.dv.AddProject(this.projectForm.value).subscribe((data)=>{
-      this.submitted = false;
-      this.parent.closeForm();
+    console.log(files);
+    const formData = new FormData();
+    // files[0].name = this.userService.currentUser.Id.toString()+files[0].name.split('.')[1] ;
+    
+    let n = this.projectForm.value.Name+'.'+files[0].name.split('.')[1];
+    console.log(files[0]);
+    formData.append(n, files[0]);
+    console.log(formData);
+    let t = this.projectForm.value;
+    this.dv.AddProject({Name:t.Name, DateStart:t.DateStart, Description:t.Description, File:formData}).subscribe((data)=>{
+      console.log(data);
+      //this.submitted = false;
+      //this.parent.closeForm();
     });
     
+  }
+  upload(files) {
+    const formData = new FormData();
+    // files[0].name = this.userService.currentUser.Id.toString()+files[0].name.split('.')[1] ;
+    
+    let n = this.projectForm.value.Id.toString()+'.'+files[0].name.split('.')[1] ;
+    console.log(n);
+    formData.append(n, files[0]);
+
+    // this.userService.UploadPhoto(formData).subscribe(event => {
+    //   this.userService.ChangePhoto({Id:this.userService.currentUser.Id, Photo:event.Path}).subscribe(data => {
+        
+    //   })
+    // });
+
+      
   }
   get f() { return this.projectForm.controls; }
 

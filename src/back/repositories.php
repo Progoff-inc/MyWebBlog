@@ -2,11 +2,12 @@
 require 'models.php';
 
 class DataBase {
-    //$this->db = new PDO('mysql:host=localhost;dbname=nomokoiw_cc;charset=UTF8','nomokoiw_cc','f%EO%6ta');
+    //$this->db = new PDO('mysql:host=localhost;dbname=nomokoiw_portal;charset=UTF8','nomokoiw_portal','KESRdV2f');
     public $db;
     public function __construct()
     {
-        $this->db = new PDO('mysql:host=localhost;dbname=myblog;charset=UTF8','nlc','12345');
+        //$this->db = new PDO('mysql:host=localhost;dbname=myblog;charset=UTF8','nlc','12345');
+        $this->db = new PDO('mysql:host=localhost;dbname=nomokoiw_portal;charset=UTF8','nomokoiw_portal','KESRdV2f');
     }
     public function getPapers() {
         $sth = $this->db->query("SELECT * FROM papers");

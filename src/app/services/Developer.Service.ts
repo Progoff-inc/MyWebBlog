@@ -6,7 +6,7 @@ import { Person } from '../models/base';
 
 @Injectable()
 export class DeveloperService implements OnInit {
-    // baseUrl:string='http://nomokoiw.beget.tech/back/';
+    //baseUrl:string='http://nomokoiw.beget.tech/back/';
     baseUrl = 'http://localhost:80/myblog/';
     constructor(private http: HttpClient ) {
 
