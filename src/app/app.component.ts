@@ -12,13 +12,10 @@ import { Person } from './models/base';
   templateUrl: './app.component.html',
   styleUrls: ['./app.component.less']
 })
-export class AppComponent implements OnInit, OnChanges {
+export class AppComponent implements OnInit {
   title = 'DevPortal';
   out = {user:Person};
   constructor(private modalService: BsModalService, private ss:StudentService, private route:ActivatedRoute, private router:Router){
-  }
-  ngOnChanges(ch:SimpleChanges){
-    console.log(ch);
   }
   ngOnInit(){
     if(!localStorage.getItem('user')){

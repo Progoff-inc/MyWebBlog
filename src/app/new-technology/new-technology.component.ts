@@ -34,6 +34,7 @@ export class NewTechnologyComponent implements OnInit {
     });
     
   }
+  
   get f() { return this.techForm.controls; }
 
 }

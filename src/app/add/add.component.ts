@@ -41,8 +41,8 @@ export class AddComponent implements OnInit {
     this.taskForm = this.fb.group({
       Name: ['', Validators.required],
       Description: ['', Validators.required],
-      RequirementId: ['', Validators.required],
-      UserId: ['', Validators.required],
+      RequirementId: [this.reqs[0].Id, Validators.required],
+      UserId: [this.team[0].Id, Validators.required],
       Priority: ['Low', Validators.required]
     })
     this.reqForm = this.fb.group({

@@ -34,7 +34,7 @@ export function getAuthServiceConfigs() {
         
         {
           id: VkontakteLoginProvider.PROVIDER_ID,
-          provider: new VkontakteLoginProvider("6833515")
+          provider: new VkontakteLoginProvider("6828242")//6833515
         }
       ]
   );

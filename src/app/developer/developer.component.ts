@@ -79,9 +79,6 @@ export class DeveloperComponent implements OnInit {
         })
       }
     }
-    
-    
-    
   }
   addElem(i, template: TemplateRef<any>){
     this.adding = i;
