@@ -209,7 +209,7 @@ class DataBase {
     }
     public function changeReq($id, $descr, $st, $muid){
         $s = $this->db->prepare("UPDATE requirements SET Description=?, Status=?, ModifyUserId=?, ModifyDate=now() WHERE Id=?" );
-        $s->execute(array($descr, $st, $id, $muid));
+        $s->execute(array($descr, $st, $muid, $id));
         return $this->db->lastInsertId();
     }
     public function closeProject($id){

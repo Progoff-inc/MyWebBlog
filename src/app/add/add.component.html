@@ -1,5 +1,5 @@
 <div class="container pt-3">
-  <form *ngIf="type=='task'" [formGroup]="taskForm">
+  <form *ngIf="type=='task' && taskForm" [formGroup]="taskForm">
     <h3>Новая задача</h3>
     <div class="form-group">
       <label for="exampleInputEmail1">Название</label>

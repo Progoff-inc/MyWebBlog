@@ -77,7 +77,7 @@ export class WorksComponent implements OnInit {
         
       }
       case "req":{
-        if(!this.req || (this.req.Id != Number(this.ItemId) && this.type=='req')){
+        if(true){
           this.dv.GetRequirement(this.ItemId).subscribe(data => {
             this.req=Object.assign({},data);
             this.reqcopy=Object.assign({},data);
@@ -161,7 +161,7 @@ export class WorksComponent implements OnInit {
     })
   }
   ChangeReq(){
-    this.dv.ChangeReq({Description:this.req.Description, Status:this.req.Status, ModifyUserId:this.user.Id}, this.req.Id).subscribe(()=>{
+    this.dv.ChangeReq({Description:this.req.Description, Status:this.req.Status, ModifyUserId:this.user.Id}, this.req.Id).subscribe((data)=>{
       this.ngOnInit();
     })
   }
