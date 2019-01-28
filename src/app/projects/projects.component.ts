@@ -17,6 +17,7 @@ import { LoadService } from '../services/load.service';
 export class ProjectsComponent implements OnInit {
   modalRef2: BsModalRef;
   showGit=false;
+  linkcopy = '';
   parts = [true, false];
   userForm:FormGroup;
   project:Project;
@@ -50,6 +51,7 @@ export class ProjectsComponent implements OnInit {
       })
       this.curTasks=this.project.Tasks;
       this.setFiltered();
+      this.linkcopy = this.project.GitHubLink;
       load[1]=false;
       this.ls.showLoad=!(load[0] == load[1]);
     });
@@ -60,6 +62,12 @@ export class ProjectsComponent implements OnInit {
     
   }
   showLink(){
+    if(window.innerWidth<420){
+      this.linkcopy = this.project.GitHubLink.slice(0,18)+'...';
+    }
+    else{
+      this.linkcopy=this.project.GitHubLink;
+    }
     this.showGit = !this.showGit;
   }
   save(){

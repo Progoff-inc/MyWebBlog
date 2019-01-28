@@ -4,7 +4,8 @@ import { Topic } from "./student";
 export class Project extends BaseEntity{
     DateStart:Date;
     IsFinished:boolean;
-
+    GitHubLink:string;
+    
     Requirements:Requirement[];
     Tasks:Task[];
     Team:ProjectPerson[];
