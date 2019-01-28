@@ -43,7 +43,7 @@
     <small *ngIf="submitted && f.Cabinet.errors" class="form-text text-danger">Укажите кабинет</small>
   </div>
   <div class="modal-footer">
-    <button type="button" class="btn btn-secondary" data-dismiss="modal" >Закрыть</button>
+    <button type="button" class="btn btn-secondary" data-dismiss="modal" (click)="parent.closeFormClear()">Закрыть</button>
     <button type="button" class="btn btn-primary" (click)="save()">Сохранить</button>
   </div>
 </form>

@@ -108,6 +108,10 @@ export class StudentComponent implements OnInit {
     
     
     
+    
+  }
+  closeFormClear(){
+    this.modalRef2.hide();
   }
   chooseExam(Name){
     console.log(Name);

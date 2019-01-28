@@ -132,6 +132,10 @@ export class DeveloperComponent implements OnInit {
       this.ngOnInit();
     })
   }
+  closeFormClear(){
+    console.log(1);
+    this.modalRef2.hide();
+  }
 
 }
 
