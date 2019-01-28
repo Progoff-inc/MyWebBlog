@@ -79,6 +79,9 @@ export class WorksComponent implements OnInit {
           this.ls.showLoad=true;
           this.dv.GetRequirement(this.ItemId).subscribe(data => {
             this.req=Object.assign({},data);
+            this.req.Tasks.sort((a,b)=>{
+              return a.ModifyDate<b.ModifyDate?1:-1;
+            })
             this.reqcopy=Object.assign({},data);
             this.dv.GetTeam(this.req.ProjectId).subscribe(data => {
               this.team = data;

@@ -44,6 +44,9 @@ export class ProjectsComponent implements OnInit {
     });
     this.dv.GetProject(this.route.snapshot.paramMap.get("id")).subscribe(data =>{
       this.project=data;
+      this.project.Tasks.sort((a,b)=>{
+        return a.ModifyDate<b.ModifyDate?1:-1;
+      })
       this.curTasks=this.project.Tasks;
       this.setFiltered();
       load[1]=false;
