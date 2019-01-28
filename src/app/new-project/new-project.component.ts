@@ -1,6 +1,7 @@
 import { Component, OnInit, Input } from '@angular/core';
 import { DeveloperService } from '../services/Developer.Service';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
+import { LoadService } from '../services/load.service';
 
 @Component({
   selector: 'new-project',
@@ -11,7 +12,7 @@ export class NewProjectComponent implements OnInit {
   projectForm: FormGroup;
   submitted = false;
   @Input() parent;
-  constructor(private fb:FormBuilder, public dv:DeveloperService) { }
+  constructor(private ls:LoadService, private fb:FormBuilder, public dv:DeveloperService) { }
 
   ngOnInit() {
     this.projectForm = this.fb.group({
@@ -25,19 +26,21 @@ export class NewProjectComponent implements OnInit {
     if(this.projectForm.invalid){
       return;
     }
-    console.log(files);
-    const formData = new FormData();
+    this.ls.showLoad=true;
+    // console.log(files);
+    // const formData = new FormData();
     // files[0].name = this.userService.currentUser.Id.toString()+files[0].name.split('.')[1] ;
     
-    let n = this.projectForm.value.Name+'.'+files[0].name.split('.')[1];
-    console.log(files[0]);
-    formData.append(n, files[0]);
-    console.log(formData);
+    // let n = this.projectForm.value.Name+'.'+files[0].name.split('.')[1];
+    // console.log(files[0]);
+    // formData.append(n, files[0]);
+    // console.log(formData);
     let t = this.projectForm.value;
-    this.dv.AddProject({Name:t.Name, DateStart:t.DateStart, Description:t.Description, File:formData}).subscribe((data)=>{
+
+    this.dv.AddProject({Name:t.Name, DateStart:t.DateStart, Description:t.Description}).subscribe((data)=>{
       console.log(data);
-      //this.submitted = false;
-      //this.parent.closeForm();
+      this.submitted = false;
+      this.parent.closeForm();
     });
     
   }

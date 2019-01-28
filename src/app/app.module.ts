@@ -28,6 +28,8 @@ import {
   AuthServiceConfig,
   VkontakteLoginProvider,
 } from "angular-6-social-login-v2";
+import { LoadComponent } from './load/load.component';
+import { LoadService } from './services/load.service';
 export function getAuthServiceConfigs() {
   let config = new AuthServiceConfig(
       [
@@ -57,7 +59,8 @@ export function getAuthServiceConfigs() {
     AddComponent,
     WorksComponent,
     StudiesComponent,
-    AuthComponent
+    AuthComponent,
+    LoadComponent
   ],
   imports: [
     HttpClientModule,
@@ -68,7 +71,7 @@ export function getAuthServiceConfigs() {
     AppRoutingModule,
     SocialLoginModule
   ],
-  providers: [FormBuilder, StudentService, HttpClient, DeveloperService,{
+  providers: [FormBuilder, StudentService, HttpClient, DeveloperService,LoadService,{
     provide: AuthServiceConfig,
     useFactory: getAuthServiceConfigs
   }],

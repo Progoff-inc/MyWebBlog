@@ -3,6 +3,7 @@ import { Person } from '../models/base';
 import { DeveloperService } from '../services/Developer.Service';
 import { FormGroup, Validators, FormBuilder } from '@angular/forms';
 import { BsModalService, BsModalRef } from 'ngx-bootstrap';
+import { LoadService } from '../services/load.service';
 
 @Component({
   selector: 'app-nav',
@@ -15,12 +16,10 @@ export class NavComponent implements OnInit {
   users:Person[];
   prevForm:FormGroup;
   modalRef2:BsModalRef;
-  constructor(private dv:DeveloperService, private fb:FormBuilder, private modalService: BsModalService) { }
+  constructor(private ls:LoadService, private dv:DeveloperService, private fb:FormBuilder, private modalService: BsModalService) { }
 
   ngOnInit() {
-    this.dv.GetUsers().subscribe(data =>{
-      this.users=data;
-    });
+    
     if(localStorage.getItem('user')){
       this.user=JSON.parse(localStorage.getItem('user'));
     }
@@ -38,13 +37,21 @@ export class NavComponent implements OnInit {
     if(this.prevForm.invalid){
       return;
     }
+    this.ls.showLoad=true;
     this.dv.SetPrev({Root:this.prevForm.value.Root}, this.prevForm.value.UserId).subscribe((d)=>{
       this.submitted = false;
       this.modalRef2.hide()
+      this.ls.showLoad=false;
     });
   }
   show(template: TemplateRef<any>){
-    this.modalRef2 = this.modalService.show(template);
+    this.ls.showLoad=true;
+    this.dv.GetUsers().subscribe(data =>{
+      this.users=data;
+      this.modalRef2 = this.modalService.show(template);
+      this.ls.showLoad=false;
+    });
+    
   }
   close(){
     this.modalRef2.hide();

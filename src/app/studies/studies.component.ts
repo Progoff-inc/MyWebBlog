@@ -5,6 +5,7 @@ import { StudentService } from '../services/StudentService';
 import { Person, BaseLink } from '../models/base';
 import { Technology } from '../models/developer';
 import { Paper, Topic } from '../models/student';
+import { LoadService } from '../services/load.service';
 declare var PR: any;
 addEventListener('load', function(event) { PR.prettyPrint(); }, false);
 @Component({
@@ -29,7 +30,7 @@ export class StudiesComponent implements OnInit {
   submitted = false;
   links:BaseLink[];
   
-  constructor(private fb:FormBuilder, private route:ActivatedRoute, private router:Router, private ss:StudentService) { 
+  constructor(private ls:LoadService, private fb:FormBuilder, private route:ActivatedRoute, private router:Router, private ss:StudentService) { 
     this.route.params.subscribe(params=>this.studyId=Number(params['id']));
     this.route.queryParams.subscribe(
         (queryParam: any) => {
@@ -51,6 +52,7 @@ export class StudiesComponent implements OnInit {
     }
     switch(this.type){
       case "tech":{
+        this.ls.showLoad=true;
         this.ss.GetTech(this.studyId).subscribe(data => {
           this.tech=Object.assign({},data);
           this.links=this.tech.Links;
@@ -58,12 +60,14 @@ export class StudiesComponent implements OnInit {
             this.parts.unshift(false);
             this.ctopics.unshift(false);
           }
+          this.ls.showLoad=false;
         })
         
         break;
         
       }
       case "paper":{
+        this.ls.showLoad=true;
         this.ss.GetPaper(this.studyId).subscribe(data => {
           this.paper=Object.assign({},data);
           this.links=this.paper.Links;
@@ -71,7 +75,7 @@ export class StudiesComponent implements OnInit {
             this.parts.unshift(false);
             this.ctopics.unshift(false);
           }
-          
+          this.ls.showLoad=false;
         })
         
         break;
@@ -84,8 +88,10 @@ export class StudiesComponent implements OnInit {
     if(this.topicForm.invalid){
       return;
     }
+    this.ls.showLoad=true;
     this.ss.AddTopic({OwnerId:this.type=='tech'?this.tech.Id:this.paper.Id, Name:this.topicForm.value.Name, Description:this.topicForm.value.Description, Type:this.type=='tech'?2:1, ModifyUserId:this.user.Id}).subscribe(()=>{
       this.submitted=false;
+      
       this.ngOnInit();
     })
   }
@@ -93,6 +99,7 @@ export class StudiesComponent implements OnInit {
     if(!(t.value && l.value)){
       return;
     }
+    this.ls.showLoad=true;
     this.ss.AddLink({OwnerId:this.type=='tech'?this.tech.Id:this.paper.Id, Type:this.type=='tech'?2:1, Text:t.value, Path:l.value}).subscribe(()=>{
       t.value='';
       l.value='';
@@ -124,7 +131,7 @@ export class StudiesComponent implements OnInit {
     }
   }
   save(t:Topic){
-    
+    this.ls.showLoad=true;
     t.ModifyUserId=this.user.Id;
     this.ss.SaveTopic(t).subscribe(()=>{
       this.ngOnInit();

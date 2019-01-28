@@ -6,6 +6,7 @@ import { ProjectUsers, ProjectPerson, Requirement, Task } from '../models/develo
 import { DeveloperService } from '../services/Developer.Service';
 import { Subject, Observable, BehaviorSubject }    from 'rxjs';
 import { CodegenComponentFactoryResolver } from '@angular/core/src/linker/component_factory_resolver';
+import { LoadService } from '../services/load.service';
 
 @Component({
   selector: 'app-works',
@@ -31,7 +32,7 @@ export class WorksComponent implements OnInit {
   team:ProjectPerson[];
   parts = [false];
   c=[true, true];
-  constructor(private route:ActivatedRoute, private router:Router, private dv:DeveloperService) { 
+  constructor(private ls:LoadService, private route:ActivatedRoute, private router:Router, private dv:DeveloperService) { 
     this.route.params.subscribe(
       params=>{
         this.ItemId=params['id']; 
@@ -63,6 +64,7 @@ export class WorksComponent implements OnInit {
     }
     switch(this.type){
       case "task":{
+        this.ls.showLoad=true;
         this.dv.GetTask(this.ItemId).subscribe(data => {
           this.task=Object.assign({},data);
           
@@ -70,6 +72,7 @@ export class WorksComponent implements OnInit {
           this.dv.GetTeam(this.task.ProjectId).subscribe(data => {
             
             this.team = data;
+            this.ls.showLoad=false;
           })
         })
         
@@ -78,11 +81,13 @@ export class WorksComponent implements OnInit {
       }
       case "req":{
         if(true){
+          this.ls.showLoad=true;
           this.dv.GetRequirement(this.ItemId).subscribe(data => {
             this.req=Object.assign({},data);
             this.reqcopy=Object.assign({},data);
             this.dv.GetTeam(this.req.ProjectId).subscribe(data => {
               this.team = data;
+              this.ls.showLoad=false;
             })
             
           })
@@ -156,11 +161,13 @@ export class WorksComponent implements OnInit {
     return [Status.Active, Status.Closed, Status.Proposed, Status.Resolved];
   }
   ChangeTask(){
+    this.ls.showLoad=true;
     this.dv.ChangeTask({Description:this.task.Description, UserId:this.task.UserId, Priority:this.task.Priority, Status:this.task.Status, ModifyUserId:this.user.Id}, this.task.Id).subscribe(()=>{
       this.ngOnInit();
     })
   }
   ChangeReq(){
+    this.ls.showLoad=true;
     this.dv.ChangeReq({Description:this.req.Description, Status:this.req.Status, ModifyUserId:this.user.Id}, this.req.Id).subscribe((data)=>{
       this.ngOnInit();
     })

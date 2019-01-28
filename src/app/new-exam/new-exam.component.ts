@@ -4,6 +4,7 @@ import { Subject, Paper } from '../models/student';
 import { DeveloperService } from '../services/Developer.Service';
 import { StudentService } from '../services/StudentService';
 import { deepStrictEqual } from 'assert';
+import { LoadService } from '../services/load.service';
 
 @Component({
   selector: 'new-exam',
@@ -16,10 +17,10 @@ export class NewExamComponent  implements OnInit  {
   submitted = false;
   subjects:Paper[];
   times=[[],[]];
-  constructor(private fb:FormBuilder, public ss:StudentService) { }
+  constructor(private ls:LoadService, private fb:FormBuilder, public ss:StudentService) { }
 
   ngOnInit() {
-    
+    this.ls.showLoad=true;
     this.ss.GetPapers().subscribe(data => {
       data.forEach(x => {
         x.ModifyDate = new Date(x.ModifyDate);
@@ -28,6 +29,7 @@ export class NewExamComponent  implements OnInit  {
         return a.ModifyDate<b.ModifyDate?1:-1;
       })
       this.subjects = data;
+      this.ls.showLoad=false;
     })
     for(let i = 8;i<19;i++){
       this.times[0].push(i);
@@ -54,7 +56,7 @@ export class NewExamComponent  implements OnInit  {
     let t = new Date(this.examForm.value.DateStart);
     let ts = new Date(t.getFullYear(), t.getMonth(), t.getDate(),Number(this.examForm.value.TimeStartH), Number(this.examForm.value.TimeStartM));
     let tf = new Date(t.getFullYear(), t.getMonth(), t.getDate(),Number(this.examForm.value.TimeFinishH), Number(this.examForm.value.TimeFinishM));
-
+    this.ls.showLoad=true;
     this.ss.AddExam({PaperId:this.examForm.value.PaperId,  DateStart:ts, DateFinish:tf, Cabinet:this.examForm.value.Cabinet}).subscribe((data)=>{
       this.submitted=false;
       this.parent.closeForm();

@@ -7,6 +7,7 @@ import { BsModalService } from 'ngx-bootstrap/modal';
 import { BsModalRef } from 'ngx-bootstrap/modal/bs-modal-ref.service';
 import { TemplateRef } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
+import { LoadService } from '../services/load.service';
 
 @Component({
   selector: 'app-projects',
@@ -21,15 +22,21 @@ export class ProjectsComponent implements OnInit {
   submitted = false;
   user:Person;
   users:Person[] =[];
-  constructor(private router: Router, private dv:DeveloperService, public fb:FormBuilder, private modalService: BsModalService, private route: ActivatedRoute) { }
+  constructor(private ls:LoadService, private router: Router, private dv:DeveloperService, public fb:FormBuilder, private modalService: BsModalService, private route: ActivatedRoute) { }
 
   ngOnInit() {
     this.user = JSON.parse(localStorage.getItem('user'));
+    let load = [true, true];
+    this.ls.showLoad=true;
     this.dv.GetUsers().subscribe(data =>{
       this.users=data;
+      load[0]=false;
+      this.ls.showLoad=!(load[0] == load[1]);
     });
     this.dv.GetProject(this.route.snapshot.paramMap.get("id")).subscribe(data =>{
       this.project=data;
+      load[1]=false;
+      this.ls.showLoad=!(load[0] == load[1]);
     });
     this.userForm = this.fb.group({
       Id: ['', Validators.required],
@@ -43,13 +50,16 @@ export class ProjectsComponent implements OnInit {
     if(this.userForm.invalid){
       return;
     }
+    this.ls.showLoad=true;
     this.dv.AddProjectUser({Id:this.userForm.value.Id, ProjectId:this.project.Id, Position:this.userForm.value.Position}).subscribe((data)=>{
       this.dv.GetProject(this.route.snapshot.paramMap.get("id")).subscribe(data =>{
 
         this.project=data;
+        this.submitted = false;
+        this.modalRef2.hide();
+        this.ls.showLoad=false;
       });
-      this.submitted = false;
-      this.modalRef2.hide();
+      
     });
     
   }

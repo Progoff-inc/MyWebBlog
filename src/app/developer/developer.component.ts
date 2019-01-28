@@ -6,6 +6,7 @@ import { BsModalService } from 'ngx-bootstrap/modal';
 import { BsModalRef } from 'ngx-bootstrap/modal/bs-modal-ref.service';
 import { DeveloperService } from '../services/Developer.Service';
 import { Router } from '@angular/router';
+import { LoadService } from '../services/load.service';
 
 @Component({
   selector: 'app-developer',
@@ -21,7 +22,7 @@ export class DeveloperComponent implements OnInit {
   adding:string;
   user:Person;
   ctrl = this;
-  constructor(private modalService: BsModalService, private router:Router, public dv:DeveloperService) { 
+  constructor(private ls:LoadService, private modalService: BsModalService, private router:Router, public dv:DeveloperService) { 
     
   }
 
@@ -29,6 +30,7 @@ export class DeveloperComponent implements OnInit {
     if(localStorage.getItem('user')){
       this.user=JSON.parse(localStorage.getItem('user'));
     }
+    let load = [true, true];
     this.dv.GetProjects().subscribe(data => {
       data.forEach(x => {
         x.DateStart = new Date(x.DateStart);
@@ -37,9 +39,13 @@ export class DeveloperComponent implements OnInit {
         return a.DateStart>b.DateStart?1:-1;
       })
       this.projects = data;
+      load[0]=false;
+      this.ls.showLoad=!(load[0] == load[1]);
     });
     this.dv.GetTechs().subscribe(data => {
       this.techs = data;
+      load[1]=false;
+      this.ls.showLoad=!(load[0] == load[1]);
     });
   }
   showPart(i){
@@ -61,6 +67,7 @@ export class DeveloperComponent implements OnInit {
   closeForm(){
     switch(this.adding){
       case 'project':{
+        this.ls.showLoad=true;
         this.dv.GetProjects().subscribe(data => {
           data.forEach(x => {
             x.DateStart = new Date(x.DateStart);
@@ -70,12 +77,15 @@ export class DeveloperComponent implements OnInit {
           })
           this.projects = data;
           this.modalRef2.hide();
+          this.ls.showLoad=false;
         })
       } 
       case 'tech':{
+        this.ls.showLoad=true;
         this.dv.GetTechs().subscribe(data => {
           this.techs = data;
           this.modalRef2.hide();
+          this.ls.showLoad=false;
         })
       }
     }
@@ -117,6 +127,7 @@ export class DeveloperComponent implements OnInit {
     );
   }
   closeProject(id){
+    this.ls.showLoad=true;
     this.dv.CloseProject(id).subscribe(data => {
       this.ngOnInit();
     })

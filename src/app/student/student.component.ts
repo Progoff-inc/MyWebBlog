@@ -5,6 +5,7 @@ import { BsModalService } from 'ngx-bootstrap/modal';
 import { BsModalRef } from 'ngx-bootstrap/modal/bs-modal-ref.service';
 import { StudentService } from '../services/StudentService';
 import { Router } from '@angular/router';
+import { LoadService } from '../services/load.service';
 
 @Component({
   selector: 'app-student',
@@ -29,8 +30,10 @@ export class StudentComponent implements OnInit {
   ];
   parts = [true, false, false, false];
   adding:string;
-  constructor(private modalService: BsModalService, public ss: StudentService, public router:Router) { }
+  constructor(private ls:LoadService, private modalService: BsModalService, public ss: StudentService, public router:Router) { }
   ngOnInit() {
+    let load = [true,true];
+    this.ls.showLoad=true;
     this.ss.GetPapers().subscribe(data => {
       data.forEach(x => {
         x.ModifyDate = new Date(x.ModifyDate);
@@ -39,6 +42,8 @@ export class StudentComponent implements OnInit {
         return a.ModifyDate<b.ModifyDate?1:-1;
       })
       this.papers = data;
+      load[0]=false;
+      this.ls.showLoad=!(load[0] == load[1]);
     })
     this.ss.GetExams().subscribe(data => {
 
@@ -54,6 +59,8 @@ export class StudentComponent implements OnInit {
         return a.DateStart>b.DateStart?1:-1;
       })
       this.exams = data;
+      load[1]=false;
+      this.ls.showLoad=!(load[0] == load[1]);
     })
     let size = 3; //размер подмассива
     let subarray = []; //массив в который будет выведен результат.
@@ -77,6 +84,7 @@ export class StudentComponent implements OnInit {
           })
           this.papers = data;
           this.modalRef2.hide();
+          this.ls.showLoad=false;
         })
       } 
       case 'exam':{
@@ -93,6 +101,7 @@ export class StudentComponent implements OnInit {
           this.exams = data;
           
           this.modalRef2.hide();
+          this.ls.showLoad=false;
         })
       }
     }

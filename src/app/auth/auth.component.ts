@@ -6,6 +6,7 @@ import {
   AuthService,
   VkontakteLoginProvider
 } from 'angular-6-social-login-v2';
+import { LoadService } from '../services/load.service';
 
 @Component({
   selector: 'auth',
@@ -18,7 +19,7 @@ export class AuthComponent implements OnInit {
   showauth = true;
   userId='';
   token ='';
-  constructor(private ss:StudentService, private route:ActivatedRoute, private router:Router, private socialAuthService: AuthService) { }
+  constructor(private ls:LoadService, private ss:StudentService, private route:ActivatedRoute, private router:Router, private socialAuthService: AuthService) { }
 
   ngOnInit() {
     if(localStorage.getItem('user')){
@@ -44,6 +45,7 @@ export class AuthComponent implements OnInit {
     
     this.socialAuthService.signIn(socialPlatformProvider).then(
       (userData) => {
+        this.ls.showLoad=true;
         this.ss.SetUser(userData).subscribe(data => {
           localStorage.setItem('user',JSON.stringify(data));
           this.showauth = false;
@@ -55,6 +57,7 @@ export class AuthComponent implements OnInit {
           else{
             this.router.navigate(['']);
           }
+          this.ls.showLoad=false;
           location.reload();
         })
             

@@ -1,6 +1,7 @@
 import { Component, OnInit, Input } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { StudentService } from '../services/StudentService';
+import { LoadService } from '../services/load.service';
 
 @Component({
   selector: 'new-paper',
@@ -11,7 +12,7 @@ export class NewPaperComponent implements OnInit {
   paperForm: FormGroup;
   submitted = false;
   @Input() parent;
-  constructor(private fb:FormBuilder, public ss: StudentService) { }
+  constructor(private ls:LoadService, private fb:FormBuilder, public ss: StudentService) { }
 
   ngOnInit() {
     this.paperForm = this.fb.group({
@@ -25,6 +26,7 @@ export class NewPaperComponent implements OnInit {
     if(this.paperForm.invalid){
       return;
     }
+    this.ls.showLoad=true;
     this.ss.AddPaper(this.paperForm.value).subscribe((data)=>{
       this.submitted = false;
       this.parent.closeForm();
