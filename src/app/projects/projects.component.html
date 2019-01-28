@@ -3,9 +3,20 @@
       <h2>{{project?project.Name:''}} </h2>
       <i class="fab fa-github" [ngClass]="{'text-primary':showGit}" (click)="showLink()"></i>
   </div>
-  <div [ngClass]="{'d-inline-flex':showGit, 'd-none':!showGit}" class="border border-success rounded bg-light shadow-sm mb-3 flex-wrap align-items-center justify-content-between">
+  <div [ngClass]="{'d-inline-flex':showGit, 'd-none':!showGit}" class="position-relative border border-success rounded bg-light shadow-sm mb-3 flex-wrap align-items-center justify-content-between">
     <a class="m-0 mr-1 p-2" href="{{project?project.GitHubLink:''}}" #link>{{project?linkcopy:''}}</a>
+    
     <i class="fas fa-copy border-left p-2" ngxClipboard [cbContent]="project?project.GitHubLink:''" (click)="showLink()"></i>
+    <i class="far fa-edit border-left p-2" [ngClass]="{'text-primary':chLink}" (click)="showChLink()"></i>
+    <div *ngIf="chLink" class="position-absolute w-100 " style="top:110%; z-index: 200">
+      <div class="form-group position-relative bg-white shadow-lg rounded p-2" style="z-index:250">
+        <label for="exampleInputPassword1">Ссылка</label>
+        <input [(ngModel)]="chLinkText"  type="text" class="form-control" id="exampleInputPassword1" #nlink>
+        <small *ngIf="submittedLink && chLinkText==''"  class="form-text text-danger">Укажите ссылку</small>
+        <button class="btn btn-primary mt-2" (click)="saveLink(nlink)">Сохранить</button>
+      </div>
+      <div class="position-fixed fixed-top w-100 h-100 blur" style="z-index:230" (click)="showChLink()"></div>
+    </div>
   </div>
   
   <div class="card text-center">

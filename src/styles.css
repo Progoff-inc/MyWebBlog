@@ -18,3 +18,6 @@ form>.modal-footer{
         display: none;
     }
 }
+.blur{
+    background-color: rgba(0, 0, 0, 0.116);
+}

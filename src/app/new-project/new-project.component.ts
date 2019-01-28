@@ -2,6 +2,7 @@ import { Component, OnInit, Input } from '@angular/core';
 import { DeveloperService } from '../services/Developer.Service';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { LoadService } from '../services/load.service';
+import { Person } from '../models/base';
 
 @Component({
   selector: 'new-project',
@@ -11,10 +12,14 @@ import { LoadService } from '../services/load.service';
 export class NewProjectComponent implements OnInit {
   projectForm: FormGroup;
   submitted = false;
+  user:Person;
   @Input() parent;
   constructor(private ls:LoadService, private fb:FormBuilder, public dv:DeveloperService) { }
 
   ngOnInit() {
+    if(localStorage.getItem('user')){
+      this.user=JSON.parse(localStorage.getItem('user'));
+    }
     this.projectForm = this.fb.group({
       Name: ['', Validators.required],
       DateStart: ['', Validators.required],
@@ -37,7 +42,7 @@ export class NewProjectComponent implements OnInit {
     // console.log(formData);
     let t = this.projectForm.value;
 
-    this.dv.AddProject({Name:t.Name, DateStart:t.DateStart, Description:t.Description}).subscribe((data)=>{
+    this.dv.AddProject({Name:t.Name, DateStart:t.DateStart, Description:t.Description, UserId:this.user.Id}).subscribe((data)=>{
       console.log(data);
       this.submitted = false;
       this.parent.closeForm();

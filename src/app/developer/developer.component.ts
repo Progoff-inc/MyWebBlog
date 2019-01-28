@@ -128,7 +128,7 @@ export class DeveloperComponent implements OnInit {
   }
   closeProject(id){
     this.ls.showLoad=true;
-    this.dv.CloseProject(id).subscribe(data => {
+    this.dv.CloseProject({ModifyUserId:this.user.Id}, id).subscribe(data => {
       this.ngOnInit();
     })
   }

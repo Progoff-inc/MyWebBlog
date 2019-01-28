@@ -26,6 +26,9 @@ export class ProjectsComponent implements OnInit {
   users:Person[] =[];
   filters:Filter[] = [];
   curTasks:Task[]=[];
+  chLink =false;
+  chLinkText = '';
+  submittedLink = false;
   constructor(private ls:LoadService, private router: Router, private dv:DeveloperService, public fb:FormBuilder, private modalService: BsModalService, private route: ActivatedRoute) { }
 
   ngOnInit() {
@@ -34,7 +37,8 @@ export class ProjectsComponent implements OnInit {
       {Id:0, Name:'Мои задачи', Type:'UserId', Value:this.user.Id.toString(), IsActive:true},
       {Id:1, Name:'Новые', Type:'Status', Value:'Proposed', IsActive:false},
       {Id:2, Name:'Активные', Type:'Status', Value:'Active', IsActive:false},
-      {Id:3, Name:'Решенные', Type:'Status', Value:'Resolved', IsActive:false}
+      {Id:3, Name:'Решенные', Type:'Status', Value:'Resolved', IsActive:false},
+      {Id:4, Name:'Закрытые', Type:'Status', Value:'Closed', IsActive:false}
     ];
     
     let load = [true, true];
@@ -52,6 +56,7 @@ export class ProjectsComponent implements OnInit {
       this.curTasks=this.project.Tasks;
       this.setFiltered();
       this.linkcopy = this.project.GitHubLink;
+      this.chLinkText = this.project.GitHubLink;
       load[1]=false;
       this.ls.showLoad=!(load[0] == load[1]);
     });
@@ -131,15 +136,38 @@ export class ProjectsComponent implements OnInit {
     let fs = this.filters.filter(x => x.IsActive == true);
     if(fs.length==0){
       this.curTasks=this.project.Tasks.filter(t => t.Status!='Resolved');
+      this.curTasks=this.curTasks.filter(t => t.Status!='Closed');
     }else{
       fs.forEach(f =>{
         this.curTasks = this.curTasks.filter(t => t[f.Type]==f.Value);
       })
-      if(this.filters.filter(f => (f.IsActive==false && f.Id==3)).length!=0){
-        
+      
+      if(this.filters.filter(f => (f.IsActive==false && (f.Id==3 || f.Id==4))).length>1){
+        console.log(this.filters.filter(f => (f.IsActive==false && (f.Id==3 || f.Id==4))));
         this.curTasks =  this.curTasks.filter(t => t.Status!='Resolved');
+        this.curTasks =  this.curTasks.filter(t => t.Status!='Closed');
+        console.log(true);
         console.log(this.curTasks);
       }
+    }
+  }
+  showChLink(){
+    this.chLink=!this.chLink;
+  }
+  saveLink(nlink){
+    this.submittedLink =true;
+    if(this.chLinkText==''){
+      return
+    }
+    if(this.chLinkText!=this.project.GitHubLink){
+      this.dv.ChangeLink({Link:this.chLinkText, ModifyUserId:this.user.Id}, this.project.Id).subscribe(()=>{
+        this.project.GitHubLink=this.chLinkText;
+        this.showChLink();
+        this.showLink();
+      })
+    }
+    else{
+      this.showChLink();
     }
   }
   get f() { return this.userForm.controls; }
