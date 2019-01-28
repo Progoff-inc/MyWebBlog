@@ -115,11 +115,16 @@ export class ProjectsComponent implements OnInit {
   setFiltered(){
     let fs = this.filters.filter(x => x.IsActive == true);
     if(fs.length==0){
-      this.curTasks=this.project.Tasks;
+      this.curTasks=this.project.Tasks.filter(t => t.Status!='Resolved');
     }else{
       fs.forEach(f =>{
         this.curTasks = this.curTasks.filter(t => t[f.Type]==f.Value);
       })
+      if(this.filters.filter(f => (f.IsActive==false && f.Id==3)).length!=0){
+        
+        this.curTasks =  this.curTasks.filter(t => t.Status!='Resolved');
+        console.log(this.curTasks);
+      }
     }
   }
   get f() { return this.userForm.controls; }
