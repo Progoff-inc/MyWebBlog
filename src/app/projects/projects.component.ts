@@ -1,7 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { DeveloperService } from '../services/Developer.Service';
 import { Person, Position } from '../models/base';
-import { ProjectPerson, Project } from '../models/developer'
+import { ProjectPerson, Project, Task } from '../models/developer'
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { BsModalService } from 'ngx-bootstrap/modal';
 import { BsModalRef } from 'ngx-bootstrap/modal/bs-modal-ref.service';
@@ -22,10 +22,19 @@ export class ProjectsComponent implements OnInit {
   submitted = false;
   user:Person;
   users:Person[] =[];
+  filters:Filter[] = [];
+  curTasks:Task[]=[];
   constructor(private ls:LoadService, private router: Router, private dv:DeveloperService, public fb:FormBuilder, private modalService: BsModalService, private route: ActivatedRoute) { }
 
   ngOnInit() {
     this.user = JSON.parse(localStorage.getItem('user'));
+    this.filters = [
+      {Id:0, Name:'Мои задачи', Type:'UserId', Value:this.user.Id.toString(), IsActive:true},
+      {Id:1, Name:'Новые', Type:'Status', Value:'Proposed', IsActive:false},
+      {Id:2, Name:'Активные', Type:'Status', Value:'Active', IsActive:false},
+      {Id:3, Name:'Решенные', Type:'Status', Value:'Resolved', IsActive:false}
+    ];
+    
     let load = [true, true];
     this.ls.showLoad=true;
     this.dv.GetUsers().subscribe(data =>{
@@ -35,6 +44,8 @@ export class ProjectsComponent implements OnInit {
     });
     this.dv.GetProject(this.route.snapshot.paramMap.get("id")).subscribe(data =>{
       this.project=data;
+      this.curTasks=this.project.Tasks;
+      this.setFiltered();
       load[1]=false;
       this.ls.showLoad=!(load[0] == load[1]);
     });
@@ -96,6 +107,27 @@ export class ProjectsComponent implements OnInit {
         }
     );
   }
+  filter(id){
+    this.filters[id].IsActive=!this.filters[id].IsActive;
+    this.setFiltered();
+  }
+  setFiltered(){
+    let fs = this.filters.filter(x => x.IsActive == true);
+    if(fs.length==0){
+      this.curTasks=this.project.Tasks;
+    }else{
+      fs.forEach(f =>{
+        this.curTasks = this.curTasks.filter(t => t[f.Type]==f.Value);
+      })
+    }
+  }
   get f() { return this.userForm.controls; }
 
+}
+export interface Filter{
+  Id:number;
+  Name:string;
+  Type:string;
+  Value:string;
+  IsActive:boolean;
 }

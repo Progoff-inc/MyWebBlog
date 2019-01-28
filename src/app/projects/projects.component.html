@@ -24,7 +24,12 @@
     <li [ngStyle]="{'background-color':(parts[0]?'white':'')}"  [ngClass]="{'p-3':parts[0], 'p-0':!parts[0]}" class="list-group-item dropdown"  >
         <h5 class="d-block py-3 m-0 {{parts[0]?'pr-3':'px-3'}}" (click)="showPart(0)" style="cursor:pointer">Задачи</h5>
       <div [ngStyle]="{'display':(parts[0]?'block':'none')}" class="dropdown-menu position-relative w-100 m-0 border-0" >
-        <div (click)="open('task',e.Id)"  class="card mb-3 flex-column flex-sm-row justify-content-start align-items-start align-items-sm-center " *ngFor="let e of project.Tasks">
+        <div class="pb-3 d-flex d-sm-flex">
+          <div class="d-inline-flex justify-content-around filters" >
+              <span class="badge " [ngClass]="{'badge-success':f.IsActive, 'border border-success':!f.IsActive}" *ngFor="let f of filters" (click)="filter(f.Id)">{{f.Name}}</span>
+          </div>
+        </div>
+        <div (click)="open('task',e.Id)"  class="card mb-3 flex-column flex-sm-row justify-content-start align-items-start align-items-sm-center " *ngFor="let e of curTasks">
           <div class="card-body d-sm-flex justify-content-sm-between align-items-center">
             <h6  class="card-title m-sm-0">{{e.Name}}</h6>
             <div class="d-inline-flex justify-content-around" >
