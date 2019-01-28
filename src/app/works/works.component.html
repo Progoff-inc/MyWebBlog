@@ -1,4 +1,4 @@
-<div *ngIf="task && type=='task'" class="container pt-3">
+<div *ngIf="task && task.Id && type=='task'" class="container pt-3">
   <h3>#{{task.Id}}: {{task.Name}}</h3>
   <form>
     <div class="d-flex flex-wrap">
@@ -31,7 +31,7 @@
     <button *ngIf="checkTask()" (click)="ChangeTask()" type="submit" class="btn btn-primary">Сохранить</button>
   </form>
 </div>
-<div *ngIf="req && type=='req'" class="container pt-3">
+<div *ngIf="req && req.Id && type=='req'" class="container pt-3">
   <h3>#{{req.Id}}: {{req.Name}}</h3>
   <form>
     
@@ -66,4 +66,7 @@
       </div>
     </li>
   </ul>
+</div>
+<div *ngIf="(task && !task.Id) || (req && !req.Id)" style="height: 25vh;" class="d-flex justify-content-center align-items-center">
+  <h3>Элемент не найден</h3>
 </div>

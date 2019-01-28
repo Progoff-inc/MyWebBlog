@@ -4,6 +4,7 @@ import { DeveloperService } from '../services/Developer.Service';
 import { FormGroup, Validators, FormBuilder } from '@angular/forms';
 import { BsModalService, BsModalRef } from 'ngx-bootstrap';
 import { LoadService } from '../services/load.service';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-nav',
@@ -16,7 +17,7 @@ export class NavComponent implements OnInit {
   users:Person[];
   prevForm:FormGroup;
   modalRef2:BsModalRef;
-  constructor(private ls:LoadService, private dv:DeveloperService, private fb:FormBuilder, private modalService: BsModalService) { }
+  constructor(private ls:LoadService, private router:Router, private dv:DeveloperService, private fb:FormBuilder, private modalService: BsModalService) { }
 
   ngOnInit() {
     
@@ -55,6 +56,17 @@ export class NavComponent implements OnInit {
   }
   close(){
     this.modalRef2.hide();
+  }
+  find(num){
+    console.log(num);
+    this.router.navigate(
+      ['/works', num.value], 
+      {
+          queryParams:{
+              'type':'task' 
+          }
+      }
+  );
   }
   get f() { return this.prevForm.controls; }
 

@@ -36,20 +36,15 @@ export class WorksComponent implements OnInit {
     this.route.params.subscribe(
       params=>{
         this.ItemId=params['id']; 
-        this.c[0]=true;
-        if(this.c[0]&&this.c[1]){
-          this.ngOnInit();
-        }
+        console.log(0)
+        this.ngOnInit();
         
       });
     this.route.queryParams.subscribe(
         (queryParam: any) => {
-          
+            console.log(1)
             this.type = queryParam['type'];
-            this.c[1]=true;
-            if(this.c[0]&&this.c[1]){
-              this.ngOnInit();
-            }
+            this.ngOnInit();
         }
     );
   }
