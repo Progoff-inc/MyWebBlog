@@ -6,8 +6,8 @@ class DataBase {
     public $db;
     public function __construct()
     {
-        $this->db = new PDO('mysql:host=localhost;dbname=myblog;charset=UTF8','nlc','12345');
-        //$this->db = new PDO('mysql:host=localhost;dbname=nomokoiw_portal;charset=UTF8','nomokoiw_portal','KESRdV2f');
+        //$this->db = new PDO('mysql:host=localhost;dbname=myblog;charset=UTF8','nlc','12345');
+        $this->db = new PDO('mysql:host=localhost;dbname=nomokoiw_portal;charset=UTF8','nomokoiw_portal','KESRdV2f');
     }
     public function getPapers() {
         $sth = $this->db->query("SELECT * FROM papers");
@@ -92,7 +92,9 @@ class DataBase {
         $s = $this->db->prepare("SELECT * FROM tasks WHERE Id=?");
         $s->execute(array($Id));
         $s->setFetchMode(PDO::FETCH_CLASS, 'Task');
-        return $s->fetch();
+        $task = $s->fetch();
+        $task->Links = $this->getLinks($task->Id, 3);
+        return $task;
     }
     public function getRequirement($Id, $incl_t=false) {
         $s = $this->db->prepare("SELECT * FROM requirements WHERE Id=?");
@@ -100,6 +102,7 @@ class DataBase {
         $s->setFetchMode(PDO::FETCH_CLASS, 'Requirement');
         $r = $s->fetch();
         $r->Tasks = $this->getRTasks($Id);
+        $r->Links = $this->getLinks($r->Id, 4);
         return $r;
     }
     public function getProject($Id) {
@@ -181,9 +184,9 @@ class DataBase {
         $sth->execute(array($pid, $dst, $dfn, $c));
         return $this->db->lastInsertId();
     }
-    public function setProject($n,$descr,$dst, $isf){
-        $sth = $this->db->prepare("INSERT INTO projects (Name, Description, DateStart, IsFinished) VALUES (?,?,?,?)");
-        $sth->execute(array($n, $descr, $dst, $isf ));
+    public function setProject($n,$descr,$dst, $isf, $uid, $l){
+        $sth = $this->db->prepare("INSERT INTO projects (Name, Description, DateStart, IsFinished, ModifyUserId, GitHubLink, ModifyDate) VALUES (?,?,?,?,?,?,now())");
+        $sth->execute(array($n, $descr, $dst, $isf, $uid, $l ));
         return $this->db->lastInsertId();
     }
     public function setTask($n,$descr,$uid, $rid, $pr, $st, $pid, $muid){
@@ -195,6 +198,11 @@ class DataBase {
         $s = $this->db->prepare("UPDATE tasks SET Description=?, Priority=?, Status=?, UserId=?, ModifyUserId=?, ModifyDate=now() WHERE Id=?" );
         $s->execute(array($descr, $pr, $st, $uid, $muid, $id));
         return $this->db->lastInsertId();
+    }
+    public function changeLink($id, $l, $muid){
+        $s = $this->db->prepare("UPDATE projects SET GitHubLink=?, ModifyUserId=?, ModifyDate=now() WHERE Id=?" );
+        $s->execute(array($l, $muid, $id));
+        return array($id, $l, $muid);
     }
     public function saveTopic($id, $descr, $muid){
         $s = $this->db->prepare("UPDATE topics SET Description=?, ModifyUserId=?, ModifyDate=now() WHERE Id=?" );
@@ -211,10 +219,10 @@ class DataBase {
         $s->execute(array($descr, $st, $muid, $id));
         return $this->db->lastInsertId();
     }
-    public function closeProject($id){
-        $s = $this->db->prepare("UPDATE projects SET IsFinished=1 WHERE Id=?" );
-        $s->execute(array($id));
-        return $this->db->lastInsertId();
+    public function closeProject($id, $muid){
+        $s = $this->db->prepare("UPDATE projects SET IsFinished=1, ModifyUserId=?, ModifyDate=now() WHERE Id=?" );
+        $s->execute(array($muid, $id));
+        return array($muid, $id);
     }
     public function setRequirement($n, $descr, $pid, $st, $muid){
         $sth = $this->db->prepare("INSERT INTO requirements (Name, Description, ProjectId, Status, ModifyUserId, ModifyDate) VALUES (?,?,?,?,?,now())");

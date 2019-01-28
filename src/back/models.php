@@ -23,6 +23,7 @@ class Person{
 class Project extends BaseEntity{
     public $DateStart;
     public $IsFinished;
+    public $GitHubLink;
 
     public $Requirements;
     public $Tasks;
@@ -36,6 +37,7 @@ class Requirement extends BaseEntity{
     public $ModifyDate;
 
     public $Tasks;
+    public $Links;
 }
 
 class Task extends Requirement{

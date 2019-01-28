@@ -51,7 +51,7 @@ if(isset($_GET['Key']))
             break;
         case 'add-project':
             $inp = json_decode(file_get_contents('php://input'), true);
-            $ctxt->setProject($inp['Name'], $inp['Description'], $inp['DateStart'], false);
+            $ctxt->setProject($inp['Name'], $inp['Description'], $inp['DateStart'], false, $inp['UserId'], $inp['Link']);
             echo json_encode($_FILES);
             break;
         case 'add-project-user':
@@ -59,7 +59,8 @@ if(isset($_GET['Key']))
             echo json_encode($ctxt->setProjectUser($inp['Id'], $inp['Position'], $inp['ProjectId']));
             break;
         case 'close-project':
-            echo json_encode($ctxt->closeProject($_GET['Id']));
+            $inp = json_decode(file_get_contents('php://input'), true);
+            echo json_encode($ctxt->closeProject($_GET['Id'], $inp['ModifyUserId']));
             break;
         case 'add-task':
             $inp = json_decode(file_get_contents('php://input'), true);
@@ -68,6 +69,10 @@ if(isset($_GET['Key']))
         case 'change-task':
             $inp = json_decode(file_get_contents('php://input'), true);
             echo json_encode($ctxt->changeTask($_GET['Id'], $inp['Description'], $inp['Priority'], $inp['Status'], $inp['UserId'], $inp['ModifyUserId']));
+            break;
+        case 'change-link':
+            $inp = json_decode(file_get_contents('php://input'), true);
+            echo json_encode($ctxt->changeLink($_GET['Id'], $inp['Link'], $inp['ModifyUserId']));
             break;
         case 'change-req':
             $inp = json_decode(file_get_contents('php://input'), true);
