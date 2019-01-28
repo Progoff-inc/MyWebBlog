@@ -60,6 +60,7 @@
       <div class="form-group ">
         <label for="exampleInputEmail1">Пользователь</label>
         <select formControlName="UserId" class="form-control " id="exampleInputEmail1" >
+          <option class="empty-option"></option>
           <option value="{{u.Id}}" *ngFor="let u of users">{{u.Name}}</option>
         </select>
         <small *ngIf="submitted && f.UserId.errors" class="form-text text-danger">Выберите пользователя</small>

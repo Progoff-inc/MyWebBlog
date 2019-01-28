@@ -51,7 +51,7 @@ export class ProjectsComponent implements OnInit {
     });
     this.userForm = this.fb.group({
       Id: ['', Validators.required],
-      Position: [this.getPositions()[0], Validators.required]
+      Position: ['', Validators.required]
     })
     
   }

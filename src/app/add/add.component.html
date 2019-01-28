@@ -16,6 +16,7 @@
       <div class="form-group pr-3">
         <label for="pr">Приоритет</label>
         <select formControlName="Priority" class="form-control" id="pr">
+          
           <option *ngFor="let r of getPriorities()" >{{r}}</option>
         </select>
         <small *ngIf="submitted && f.Priority.errors" class="form-text text-danger">Укажите приоритет</small>
@@ -23,6 +24,7 @@
       <div class="form-group">
         <label for="u">Исполнитель</label>
         <select formControlName="UserId" class="form-control" id="u">
+          <option class="empty-option"></option>
           <option value="{{r.Id}}" *ngFor="let r of team" >{{r.Name}}</option>
         </select>
         <small *ngIf="submitted && f.UserId.errors" class="form-text text-danger">Укажите исполнителя</small>
@@ -31,6 +33,7 @@
     <div class="form-group">
       <label for="req">Требование</label>
       <select formControlName="RequirementId" class="form-control" id="req">
+        <option class="empty-option"></option>
         <option value="{{r.Id}}" *ngFor="let r of reqs" >{{r.Name}}</option>
       </select>
       <small *ngIf="submitted && f.RequirementId.errors" class="form-text text-danger">Укажите требование</small>

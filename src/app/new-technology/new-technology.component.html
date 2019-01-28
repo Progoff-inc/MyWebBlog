@@ -12,6 +12,7 @@
   <div class="form-group">
     <label for="exampleInputEmail1">Сфера</label>
     <select formControlName="Sphere" class="form-control" id="exampleInputEmail1">
+      <option class="empty-option"></option>
       <option value="{{i}}" *ngFor="let s of sphs; let i = index;">{{s}}</option>
     </select>
     <small *ngIf="submitted && f.Sphere.errors" class="form-text text-danger">Укажите направление</small>

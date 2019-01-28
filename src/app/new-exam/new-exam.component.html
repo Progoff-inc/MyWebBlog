@@ -2,6 +2,7 @@
   <div class="form-group">
     <label for="exampleInputEmail1">Предмет</label>
     <select formControlName="PaperId" class="form-control" id="exampleInputEmail1">
+      <option class="empty-option"></option>
       <option value="{{s.Id}}" *ngFor="let s of subjects">{{s.Subject.Name}}</option>
     </select>
     <small *ngIf="submitted && f.PaperId.errors" class="form-text text-danger">Укажите предмет</small>
@@ -15,9 +16,11 @@
     <label for="startTime">Время начала</label>
     <div class="d-flex" id="startTime">
       <select formControlName="TimeStartH" class="form-control" id="finishTimehours">
+        <option class="empty-option"></option>
         <option value="{{s}}" *ngFor="let s of times[0]">{{s}}</option>
       </select>
       <select formControlName="TimeStartM" class="form-control" id="finishTimeminuts">
+        <option class="empty-option"></option>
         <option value="{{s}}" *ngFor="let s of times[1]">{{s}}</option>
       </select>
     </div>
@@ -27,9 +30,11 @@
     <label for="finishTime">Время конца</label>
     <div class="d-flex" id="finishTime">
       <select formControlName="TimeFinishH" class="form-control" id="finishTimehours">
+        <option class="empty-option"></option>
         <option value="{{s}}" *ngFor="let s of times[0]">{{s}}</option>
       </select>
       <select formControlName="TimeFinishM" class="form-control" id="finishTimeminuts">
+        <option class="empty-option"></option>
         <option value="{{s}}" *ngFor="let s of times[1]">{{s}}</option>
       </select>
     </div>

@@ -12,3 +12,9 @@ form>.modal-footer{
     margin-right: -16px;
     margin-bottom: -16px; 
 }
+
+@media (min-width:800px){
+    .empty-option{
+        display: none;
+    }
+}
