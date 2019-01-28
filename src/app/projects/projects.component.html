@@ -38,6 +38,9 @@
             
           </div>
         </div>
+        <div *ngIf="curTasks.length==0" class="d-flex justify-content-center p-3">
+          <h4 class="m-0">Задач не обнаружено</h4>
+        </div>
         <div class="btn-group" role="group" aria-label="Basic example">
           <button type="button" class="btn btn-success" (click)="add('task')" >Добавить</button>
         </div>

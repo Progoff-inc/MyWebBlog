@@ -109,6 +109,7 @@ export class ProjectsComponent implements OnInit {
   }
   filter(id){
     this.filters[id].IsActive=!this.filters[id].IsActive;
+    this.curTasks=Object.assign(this.project.Tasks);
     this.setFiltered();
   }
   setFiltered(){

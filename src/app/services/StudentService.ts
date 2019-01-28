@@ -6,8 +6,8 @@ import { Technology } from '../models/developer';
 
 @Injectable()
 export class StudentService implements OnInit {
-    //baseUrl:string='http://nomokoiw.beget.tech/back/';
-    baseUrl = 'http://localhost:80/myblog/';
+    baseUrl:string='http://nomokoiw.beget.tech/back/';
+    //baseUrl = 'http://localhost:80/myblog/';
     constructor(private http: HttpClient ) {
 
 
