@@ -5,7 +5,6 @@ import { FormGroup, Validators, FormBuilder } from '@angular/forms';
 import { BsModalService, BsModalRef } from 'ngx-bootstrap';
 import { LoadService } from '../services/load.service';
 import { Router, NavigationEnd } from '@angular/router';
-import { runInThisContext } from 'vm';
 
 @Component({
   selector: 'app-nav',
@@ -69,7 +68,6 @@ export class NavComponent implements OnInit {
     this.modalRef2.hide();
   }
   find(num){
-    console.log(num);
     this.router.navigate(
       ['/works', num.value], 
       {

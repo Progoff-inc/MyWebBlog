@@ -38,13 +38,11 @@ export class WorksComponent implements OnInit {
     this.route.params.subscribe(
       params=>{
         this.ItemId=params['id']; 
-        console.log(0)
         this.ngOnInit();
         
       });
     this.route.queryParams.subscribe(
         (queryParam: any) => {
-            console.log(1)
             this.type = queryParam['type'];
             this.ngOnInit();
         }
@@ -64,7 +62,6 @@ export class WorksComponent implements OnInit {
         this.ls.showLoad=true;
         this.dv.GetTask(this.ItemId).subscribe(data => {
           this.task=Object.assign({},data);
-          console.log(this.task);
           this.links=this.task.Links;
           this.taskcopy=Object.assign({},data);
           this.dv.GetTeam(this.task.ProjectId).subscribe(data => {

@@ -143,11 +143,8 @@ export class ProjectsComponent implements OnInit {
       })
       
       if(this.filters.filter(f => (f.IsActive==false && (f.Id==3 || f.Id==4))).length>1){
-        console.log(this.filters.filter(f => (f.IsActive==false && (f.Id==3 || f.Id==4))));
         this.curTasks =  this.curTasks.filter(t => t.Status!='Resolved');
         this.curTasks =  this.curTasks.filter(t => t.Status!='Closed');
-        console.log(true);
-        console.log(this.curTasks);
       }
     }
   }

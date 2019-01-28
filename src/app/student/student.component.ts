@@ -114,7 +114,6 @@ export class StudentComponent implements OnInit {
     this.modalRef2.hide();
   }
   chooseExam(Name){
-    console.log(Name);
   }
   showPart(i){
     this.parts[i]=!this.parts[i];

@@ -133,7 +133,6 @@ export class DeveloperComponent implements OnInit {
     })
   }
   closeFormClear(){
-    console.log(1);
     this.modalRef2.hide();
   }
 

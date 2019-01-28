@@ -44,7 +44,6 @@ export class NewProjectComponent implements OnInit {
     let t = this.projectForm.value;
 
     this.dv.AddProject({Name:t.Name, DateStart:t.DateStart, Description:t.Description, UserId:this.user.Id, Link:t.GitLink}).subscribe((data)=>{
-      console.log(data);
       this.submitted = false;
       this.parent.closeForm();
     });
@@ -55,7 +54,6 @@ export class NewProjectComponent implements OnInit {
     // files[0].name = this.userService.currentUser.Id.toString()+files[0].name.split('.')[1] ;
     
     let n = this.projectForm.value.Id.toString()+'.'+files[0].name.split('.')[1] ;
-    console.log(n);
     formData.append(n, files[0]);
 
     // this.userService.UploadPhoto(formData).subscribe(event => {
