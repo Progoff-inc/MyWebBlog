@@ -51,12 +51,12 @@ export class DeveloperComponent implements OnInit {
   showPart(i){
     this.parts[i]=!this.parts[i];
   }
-  getResponsed(p:Project){
+  getProposed(p:Project){
     return p.Tasks.filter(x => x.Status == Status.Proposed).length;
   }
-  getResolved(p:Project){
+  getClosed(p:Project){
     
-    return p.Tasks.filter(x => x.Status == Status.Resolved).length;
+    return p.Tasks.filter(x => x.Status == Status.Closed).length;
   }
   getTechs(s:Sphere){
     if(this.techs){

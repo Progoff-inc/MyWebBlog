@@ -51,7 +51,8 @@
           <div class="card-body d-sm-flex justify-content-sm-between align-items-center">
             <h6  class="card-title m-sm-0">{{e.Name}}</h6>
             <div class="d-inline-flex justify-content-around" >
-                <span class="badge " [ngClass]="{'bg-warning':e.Status=='Active', 'border border-success':e.Status=='Resolved', 'badge-info':e.Status!='Resolved', 'bg-success':e.Status=='Closed'}">{{e.Status}}</span>
+                <span class="badge mr-2" [ngClass]="{'bg-warning':e.Status=='Active', 'border border-success':e.Status=='Resolved', 'badge-info':e.Status!='Resolved', 'bg-success':e.Status=='Closed'}">{{e.Status}}</span>
+                <span class="badge badge-info" [ngClass]="{'bg-warning':e.Priority=='Medium', 'bg-danger':e.Priority=='High', 'bg-success':e.Priority=='Low'}">{{e.Priority}}</span>
             </div>
             
           </div>

@@ -23,7 +23,8 @@ export class NewProjectComponent implements OnInit {
     this.projectForm = this.fb.group({
       Name: ['', Validators.required],
       DateStart: ['', Validators.required],
-      Description: ['', Validators.required]
+      Description: ['', Validators.required],
+      GitLink: ['', Validators.required]
     })
   }
   save(files){
@@ -42,7 +43,7 @@ export class NewProjectComponent implements OnInit {
     // console.log(formData);
     let t = this.projectForm.value;
 
-    this.dv.AddProject({Name:t.Name, DateStart:t.DateStart, Description:t.Description, UserId:this.user.Id}).subscribe((data)=>{
+    this.dv.AddProject({Name:t.Name, DateStart:t.DateStart, Description:t.Description, UserId:this.user.Id, Link:t.GitLink}).subscribe((data)=>{
       console.log(data);
       this.submitted = false;
       this.parent.closeForm();

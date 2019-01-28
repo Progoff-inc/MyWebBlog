@@ -29,7 +29,7 @@ export enum Status{
 export enum Priority{
     Low="Low",
     Medium="Medium",
-    Hight="Hight"
+    Hight="High"
 }
 export enum Sphere{
     Front,
