@@ -7,6 +7,7 @@ import { NavComponent } from './nav/nav.component';
 import { HomeComponent } from './home/home.component';
 import { StudentComponent } from './student/student.component';
 import { DeveloperComponent } from './developer/developer.component';
+import { ClipboardModule } from 'ngx-clipboard';
 // import { HouseholderComponent } from './householder/householder.component';
 import { ExamsComponent } from './exams/exams.component';
 import { NewExamComponent } from './new-exam/new-exam.component';
@@ -63,6 +64,7 @@ export function getAuthServiceConfigs() {
     LoadComponent
   ],
   imports: [
+    ClipboardModule,
     HttpClientModule,
     ModalModule.forRoot(),
     ReactiveFormsModule,

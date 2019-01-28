@@ -16,6 +16,7 @@ import { LoadService } from '../services/load.service';
 })
 export class ProjectsComponent implements OnInit {
   modalRef2: BsModalRef;
+  showGit=false;
   parts = [true, false];
   userForm:FormGroup;
   project:Project;
@@ -58,7 +59,9 @@ export class ProjectsComponent implements OnInit {
     })
     
   }
-  
+  showLink(){
+    this.showGit = !this.showGit;
+  }
   save(){
     this.submitted=true;
     if(this.userForm.invalid){
@@ -77,6 +80,7 @@ export class ProjectsComponent implements OnInit {
     });
     
   }
+  
   close(){
     this.modalRef2.hide();
     

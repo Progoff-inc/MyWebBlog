@@ -1,5 +1,12 @@
 <div *ngIf="project" class="container">
-  <h2>{{project?project.Name:''}}</h2>
+  <div class="mt-3 p-2 d-flex flex-wrap name" [ngClass]="{'mb-3':!showGit}">
+      <h2>{{project?project.Name:''}} </h2>
+      <i class="fab fa-github" [ngClass]="{'text-primary':showGit}" (click)="showLink()"></i>
+  </div>
+  <div [ngClass]="{'d-inline-flex':showGit, 'd-none':!showGit}" class="border border-success rounded bg-light shadow-sm mb-3 flex-wrap align-items-center justify-content-between">
+    <a class="m-0 mr-1 p-2" href="{{project?project.GitHubLink:''}}" #link>{{project?project.GitHubLink:''}}</a>
+    <i class="fas fa-copy border-left p-2" ngxClipboard [cbContent]="project?project.GitHubLink:''" (click)="showLink()"></i>
+  </div>
   
   <div class="card text-center">
     <div class="card-header">
