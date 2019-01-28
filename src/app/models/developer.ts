@@ -16,6 +16,8 @@ export class Requirement extends BaseEntity{
     Status:Status;
     ModifyUserId:number;
     ModifyDate:number;
+
+    Links:BaseLink[];
     Tasks:Task[];
 }
 
@@ -25,6 +27,7 @@ export class Task extends Requirement{
     Priority:Priority;
 
     User:Person;
+    Links:BaseLink[];
 }
 
 export class ProjectUsers{

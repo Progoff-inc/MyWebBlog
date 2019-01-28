@@ -1,12 +1,13 @@
 import { Component, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { ActivatedRoute, Router} from '@angular/router';
-import { Priority, Status, Person } from '../models/base';
+import { Priority, Status, Person, BaseLink } from '../models/base';
 import { ProjectUsers, ProjectPerson, Requirement, Task } from '../models/developer';
 import { DeveloperService } from '../services/Developer.Service';
 import { Subject, Observable, BehaviorSubject }    from 'rxjs';
 import { CodegenComponentFactoryResolver } from '@angular/core/src/linker/component_factory_resolver';
 import { LoadService } from '../services/load.service';
+import { StudentService } from '../services/StudentService';
 
 @Component({
   selector: 'app-works',
@@ -22,6 +23,7 @@ export class WorksComponent implements OnInit {
   req:Requirement;
   reqcopy:Requirement;
   user:Person;
+  links:BaseLink[];
   readonly = true;
   //task: Subject<Task> = new BehaviorSubject<Task>(null);
 
@@ -30,9 +32,9 @@ export class WorksComponent implements OnInit {
   //   this.task.next(newTask);
   // }
   team:ProjectPerson[];
-  parts = [false];
+  parts = [false,false];
   c=[true, true];
-  constructor(private ls:LoadService, private route:ActivatedRoute, private router:Router, private dv:DeveloperService) { 
+  constructor(private ls:LoadService, private route:ActivatedRoute, private router:Router, private dv:DeveloperService, private ss:StudentService) { 
     this.route.params.subscribe(
       params=>{
         this.ItemId=params['id']; 
@@ -62,7 +64,8 @@ export class WorksComponent implements OnInit {
         this.ls.showLoad=true;
         this.dv.GetTask(this.ItemId).subscribe(data => {
           this.task=Object.assign({},data);
-          
+          console.log(this.task);
+          this.links=this.task.Links;
           this.taskcopy=Object.assign({},data);
           this.dv.GetTeam(this.task.ProjectId).subscribe(data => {
             
@@ -82,6 +85,7 @@ export class WorksComponent implements OnInit {
             this.req.Tasks.sort((a,b)=>{
               return a.ModifyDate<b.ModifyDate?1:-1;
             })
+            this.links=this.req.Links;
             this.reqcopy=Object.assign({},data);
             this.dv.GetTeam(this.req.ProjectId).subscribe(data => {
               this.team = data;
@@ -99,6 +103,17 @@ export class WorksComponent implements OnInit {
     // this.task.subscribe(task =>{
     //   console.log(task);
     // })
+  }
+  addLink(t,l){
+    if(!(t.value && l.value)){
+      return;
+    }
+    this.ls.showLoad=true;
+    this.ss.AddLink({OwnerId:this.type=='task'?this.task.Id:this.req.Id, Type:this.type=='task'?3:4, Text:t.value, Path:l.value}).subscribe(()=>{
+      t.value='';
+      l.value='';
+      this.ngOnInit();
+    })
   }
   add(t){
     this.router.navigate(
