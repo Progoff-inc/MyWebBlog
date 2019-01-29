@@ -187,6 +187,14 @@ export class ProjectsComponent implements OnInit {
       this.showChLink();
     }
   }
+  deleteUser(p:Person){
+    if(this.user.Root==1 && window.confirm('Удалить пользователя {'+p.Name+'} из команды?')){
+      this.dv.DeleteTeamUser(this.project.Id, {UserId:p.Id}).subscribe(()=>{
+        let i = this.project.Team.map(x => x.Id).indexOf(p.Id);
+        this.project.Team.splice(i,1);
+      })
+    }
+  }
   get f() { return this.userForm.controls; }
 
 }
