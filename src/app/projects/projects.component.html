@@ -38,10 +38,10 @@
       </div>
     </div>
   </div>
-  <ul  class="list-group my-3">
-    <li [ngStyle]="{'background-color':(parts[0]?'white':'')}"  [ngClass]="{'p-3':parts[0], 'p-0':!parts[0]}" class="list-group-item dropdown"  >
+  <ul  class="list-group my-3" >
+    <li [ngStyle]="{'background-color':(parts[0]?'white':'')}"  [ngClass]="{'p-3':parts[0], 'p-0':!parts[0]}" class="list-group-item dropdown" style="z-index:10;" >
         <h5 class="d-block py-3 m-0 {{parts[0]?'pr-3':'px-3'}}" (click)="showPart(0)" style="cursor:pointer">Задачи</h5>
-      <div [ngStyle]="{'display':(parts[0]?'block':'none')}" class="dropdown-menu position-relative w-100 m-0 border-0" >
+      <div [ngStyle]="{'display':(parts[0]?'block':'none')}" class="dropdown-menu position-relative w-100 m-0 border-0" style="z-index:10;">
         <div class="pb-3 d-flex d-sm-flex">
           <div class="d-flex flex-column flex-sm-row w-100 filters" >
               <span class="badge mb-3 mb-sm-0 p-2" [ngClass]="{'badge-success':f.IsActive, 'border border-success':!f.IsActive}" *ngFor="let f of filters" (click)="filter(f.Id)">{{f.Name}}</span>
