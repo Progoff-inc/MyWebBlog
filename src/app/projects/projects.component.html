@@ -47,7 +47,7 @@
               <span class="badge mb-3 mb-sm-0 p-2" [ngClass]="{'badge-success':f.IsActive, 'border border-success':!f.IsActive}" *ngFor="let f of filters" (click)="filter(f.Id)">{{f.Name}}</span>
           </div>
         </div>
-        <div (click)="open('task',e.Id)"  class="card mb-3 flex-column flex-sm-row justify-content-start align-items-start align-items-sm-center " *ngFor="let e of curTasks">
+        <div (click)="open('task',e.Id)"  class="card mb-3 flex-column flex-sm-row justify-content-start align-items-start align-items-sm-center " *ngFor="let e of pagedTasks[curPage]">
           <div class="card-body d-sm-flex justify-content-sm-between align-items-center">
             <h6  class="card-title m-sm-0">{{e.Name}}</h6>
             <div class="d-inline-flex justify-content-around" >
@@ -60,6 +60,26 @@
         <div *ngIf="curTasks.length==0" class="d-flex justify-content-center p-3">
           <h4 class="m-0">Задач не обнаружено</h4>
         </div>
+        <nav *ngIf="pagedTasks.length>1" class="mb-3" aria-label="Page navigation example">
+          <ul class="pagination justify-content-center">
+            <li class="page-item">
+              <button class="page-link"  (click)="changePage(curPage-1)" [disabled]="curPage-1<0" aria-label="Previous">
+                <span aria-hidden="true">&laquo;</span>
+                <span class="sr-only">Previous</span>
+              </button>
+            </li>
+            <div class="d-flex pages">
+              <li class="page-item" [ngClass]="{'active':i==curPage}" *ngFor="let p of pagedTasks; let i = index;" (click)="changePage(i)"><a class="page-link">{{i+1}}</a></li>
+            </div>
+            
+            <li class="page-item">
+              <button class="page-link" (click)="changePage(curPage+1)"  [disabled]="curPage+1==pagedTasks.length" aria-label="Next">
+                <span aria-hidden="true">&raquo;</span>
+                <span class="sr-only">Next</span>
+              </button>
+            </li>
+          </ul>
+        </nav>
         <div class="btn-group" role="group" aria-label="Basic example">
           <button type="button" class="btn btn-success" (click)="add('task')" >Добавить</button>
         </div>

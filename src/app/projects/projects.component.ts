@@ -8,6 +8,7 @@ import { BsModalRef } from 'ngx-bootstrap/modal/bs-modal-ref.service';
 import { TemplateRef } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
 import { LoadService } from '../services/load.service';
+import { PaginationService } from '../services/Pagination.service';
 
 @Component({
   selector: 'app-projects',
@@ -20,6 +21,7 @@ export class ProjectsComponent implements OnInit {
   linkcopy = '';
   parts = [true, false];
   userForm:FormGroup;
+  pages = [];
   project:Project;
   submitted = false;
   user:Person;
@@ -29,6 +31,9 @@ export class ProjectsComponent implements OnInit {
   chLink =false;
   chLinkText = '';
   submittedLink = false;
+  pagedTasks:Task[] = [];
+  curPage = 0;
+  ps:PaginationService = new PaginationService();
   constructor(private ls:LoadService, private router: Router, private dv:DeveloperService, public fb:FormBuilder, private modalService: BsModalService, private route: ActivatedRoute) { }
 
   ngOnInit() {
@@ -54,6 +59,7 @@ export class ProjectsComponent implements OnInit {
         return a.ModifyDate<b.ModifyDate?1:-1;
       })
       this.curTasks=this.project.Tasks;
+      
       this.setFiltered();
       this.linkcopy = this.project.GitHubLink;
       this.chLinkText = this.project.GitHubLink;
@@ -130,6 +136,14 @@ export class ProjectsComponent implements OnInit {
   filter(id){
     this.filters[id].IsActive=!this.filters[id].IsActive;
     this.curTasks=Object.assign(this.project.Tasks);
+    this.changePage(0);
+    if(this.filters[id].Type=='Status'){
+      this.filters.forEach(f => {
+        if(f.Id != id && f.Type=='Status'){
+          f.IsActive=false;
+        }
+      })
+    }
     this.setFiltered();
   }
   setFiltered(){
@@ -147,9 +161,15 @@ export class ProjectsComponent implements OnInit {
         this.curTasks =  this.curTasks.filter(t => t.Status!='Closed');
       }
     }
+    let c = [];
+    Object.assign(c,this.curTasks);
+    this.pagedTasks=this.ps.setPages(c);
   }
   showChLink(){
     this.chLink=!this.chLink;
+  }
+  changePage(p){
+    this.curPage=p;
   }
   saveLink(nlink){
     this.submittedLink =true;
