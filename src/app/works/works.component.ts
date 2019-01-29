@@ -8,6 +8,7 @@ import { Subject, Observable, BehaviorSubject }    from 'rxjs';
 import { CodegenComponentFactoryResolver } from '@angular/core/src/linker/component_factory_resolver';
 import { LoadService } from '../services/load.service';
 import { StudentService } from '../services/StudentService';
+import { PaginationService } from '../services/Pagination.service';
 
 @Component({
   selector: 'app-works',
@@ -34,6 +35,9 @@ export class WorksComponent implements OnInit {
   team:ProjectPerson[];
   parts = [false,false];
   c=[true, true];
+  pagedTasks:Task[] = [];
+  curPage = 0;
+  ps:PaginationService = new PaginationService();
   constructor(private ls:LoadService, private route:ActivatedRoute, private router:Router, private dv:DeveloperService, private ss:StudentService) { 
     this.route.params.subscribe(
       params=>{
@@ -83,6 +87,9 @@ export class WorksComponent implements OnInit {
               return a.ModifyDate<b.ModifyDate?1:-1;
             })
             this.links=this.req.Links;
+            let c = [];
+            Object.assign(c,this.req.Tasks);
+            this.pagedTasks=this.ps.setPages(c);
             this.reqcopy=Object.assign({},data);
             this.dv.GetTeam(this.req.ProjectId).subscribe(data => {
               this.team = data;
@@ -181,6 +188,9 @@ export class WorksComponent implements OnInit {
     this.dv.ChangeReq({Description:this.req.Description, Status:this.req.Status, ModifyUserId:this.user.Id}, this.req.Id).subscribe((data)=>{
       this.ngOnInit();
     })
+  }
+  changePage(p){
+    this.curPage=p;
   }
 
 }

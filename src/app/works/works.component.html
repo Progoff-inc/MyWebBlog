@@ -86,7 +86,7 @@
     <li [ngStyle]="{'background-color':(parts[1]?'white':'')}"  [ngClass]="{'p-3':parts[1], 'p-0':!parts[1]}" class="list-group-item dropdown"  >
         <h5 class="d-block py-3 m-0 {{parts[1]?'pr-3':'px-3'}}" (click)="showPart(1)" style="cursor:pointer">Задачи</h5>
       <div [ngStyle]="{'display':(parts[1]?'block':'none')}" class="dropdown-menu position-relative w-100 m-0 border-0" >
-        <div (click)="open('task',e.Id)"  class="card mb-3 flex-column flex-sm-row justify-content-start align-items-start align-items-sm-center" *ngFor="let e of req.Tasks">
+        <div (click)="open('task',e.Id)"  class="card mb-3 flex-column flex-sm-row justify-content-start align-items-start align-items-sm-center" *ngFor="let e of pagedTasks[curPage]">
           <div class="card-body d-sm-flex justify-content-sm-between align-items-center">
             <h6  class="card-title m-sm-0">{{e.Name}}</h6>
             <div class="d-inline-flex justify-content-around" >
@@ -95,6 +95,26 @@
             
           </div>
         </div>
+        <nav *ngIf="pagedTasks.length>1" class="mb-3" aria-label="Page navigation example">
+          <ul class="pagination justify-content-center">
+            <li class="page-item">
+              <button class="page-link"  (click)="changePage(curPage-1)" [disabled]="curPage-1<0" aria-label="Previous">
+                <span aria-hidden="true">&laquo;</span>
+                <span class="sr-only">Previous</span>
+              </button>
+            </li>
+            <div class="d-flex pages">
+              <li class="page-item" [ngClass]="{'active':i==curPage}" *ngFor="let p of pagedTasks; let i = index;" (click)="changePage(i)"><a class="page-link">{{i+1}}</a></li>
+            </div>
+            
+            <li class="page-item">
+              <button class="page-link" (click)="changePage(curPage+1)"  [disabled]="curPage+1==pagedTasks.length" aria-label="Next">
+                <span aria-hidden="true">&raquo;</span>
+                <span class="sr-only">Next</span>
+              </button>
+            </li>
+          </ul>
+        </nav>
         <div class="btn-group" role="group" aria-label="Basic example">
           <button type="button" class="btn btn-success" (click)="add('task')" >Добавить</button>
         </div>
