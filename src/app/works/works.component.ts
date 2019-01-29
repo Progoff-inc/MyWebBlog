@@ -168,7 +168,7 @@ export class WorksComponent implements OnInit {
     return [Priority.Low, Priority.Medium, Priority.Hight];
   }
   getStatuses(){
-    return [Status.Active, Status.Closed, Status.Proposed, Status.Resolved];
+    return this.user.Root<3?[Status.Active, Status.Closed, Status.Proposed, Status.Resolved]:[Status.Active, Status.Proposed, Status.Resolved];
   }
   ChangeTask(){
     this.ls.showLoad=true;
