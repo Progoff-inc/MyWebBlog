@@ -8,8 +8,8 @@
           <div class="card-body d-sm-flex justify-content-sm-between align-items-center">
             <h6  class="card-title m-sm-0">{{e.Name}}</h6>
             <div class="d-inline-flex justify-content-around" >
-                <span class="badge badge-danger ">{{getProposed(e)}}</span>
-                <span class="badge badge-success mx-3">{{getClosed(e)}}</span>
+                <span class="badge badge-info d-flex align-items-center">{{getProposed(e)}}</span>
+                <span class="badge badge-success mx-3 d-flex align-items-center">{{getClosed(e)}}</span>
                 <button *ngIf="user.Root<2" class="btn btn-link p-0" name="close" (click)="closeProject(e.Id)">Завершить</button>
             </div>
             
