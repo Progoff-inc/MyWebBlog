@@ -21,12 +21,12 @@
     </div>
   </div>
   <ul  class="list-group my-3">
-    <li [ngStyle]="{'background-color':(parts[i]?'white':'')}"  [ngClass]="{'p-3':parts[i], 'p-0':!parts[i]}" class="list-group-item dropdown"  >
-      <div style="cursor:pointer" class="d-flex justify-content-between" (click)="showPart($event,i)">
-        <h5 class="d-block py-3 m-0 overflow-hidden {{parts[i]?'pr-3':'px-3'}}" >Полезные ссылки</h5>
+    <li [ngStyle]="{'background-color':(topparts[0]?'white':'')}"  [ngClass]="{'p-3':topparts[0], 'p-0':!topparts[0]}" class="list-group-item dropdown"  >
+      <div style="cursor:pointer" class="d-flex justify-content-between" (click)="showTopPart(0,$event)">
+        <h5 class="d-block py-3 m-0 overflow-hidden {{topparts[0]?'pr-3':'px-3'}}" >Полезные ссылки</h5>
       </div>
       
-      <div  [ngStyle]="{'display':(parts[i]?'block':'none')}" class="dropdown-menu position-relative w-100 m-0 border-0" >
+      <div  [ngStyle]="{'display':(topparts[0]?'block':'none')}" class="dropdown-menu position-relative w-100 m-0 border-0" >
         <div class="mb-4 ">
           <a class="d-block" href="{{l.Path}}" target="blank" *ngFor="let l of links">{{l.Text}}</a>
         </div>
@@ -35,6 +35,25 @@
           <input class="form-control mr-sm-2" type="text" placeholder="Ссылка" required #lnk>
           <button class="btn btn-outline-success my-2 my-sm-0" type="submit" (click)="addLink(lnktext, lnk)">Добавить</button>
         </form>
+      </div>
+    </li>
+    <li [ngStyle]="{'background-color':(topparts[1]?'white':'')}"  [ngClass]="{'p-3':topparts[1], 'p-0':!topparts[1]}" class="list-group-item dropdown"  >
+      <div style="cursor:pointer" class="d-flex justify-content-between" (click)="showTopPart(1,$event)" >
+        <h5 class="d-block py-3 m-0 overflow-hidden {{topparts[1]?'pr-3':'px-3'}}" >Файлы</h5>
+        <button *ngIf="topparts[1]" class = "btn btn-link p-0 mr-2" (click)="sendYandexLink()" name="yandex">{{yandexLink?'Загрузить файл':'Ссылка на диск'}}</button>
+      </div>
+      
+      <div  [ngStyle]="{'display':(topparts[1]?'block':'none')}" class="dropdown-menu position-relative w-100 m-0 border-0" >
+        <div class="mb-4 ">
+          <a class="d-block" href="{{l.Path}}" target="blank" *ngFor="let l of files" download="{{l.Path}}">{{l.Text}}</a>
+        </div>
+        <form class="form-inline  my-lg-0">
+          <input [ngClass]="{'d-none':!yandexLink}" class="form-control mr-sm-2 my-2" type="text" placeholder="Текст" required #lnktext>
+          <input  class="mr-sm-2 my-2" [ngClass]="{'d-none':yandexLink}" type="file" placeholder="Ссылка" required #file>
+          <input [ngClass]="{'d-none':!yandexLink}" class="form-control mr-sm-2 my-2" type="text" placeholder="Ссылка" required #lnk>
+          <button class="btn btn-outline-success my-2 my-sm-0" type="submit" (click)="yandexLink?addFileLink(lnktext, lnk):addFile(file)">Добавить</button>
+        </form>
+        <small *ngIf="fileSubmitted" class="form-text text-danger">Размер файла слишком большой. Загрузите его на Яндекс Диск и оставьте <a style="cursor: pointer" (click)="sendYandexLink()">здесь ссылку</a>.</small>
       </div>
     </li>
   </ul>

@@ -8,6 +8,7 @@ export class Project extends BaseEntity{
     
     Requirements:Requirement[];
     Tasks:Task[];
+    Files:BaseLink[];
     Team:ProjectPerson[];
 }
 
@@ -19,6 +20,7 @@ export class Requirement extends BaseEntity{
 
     Links:BaseLink[];
     Tasks:Task[];
+    Files:BaseLink[];
 }
 
 export class Task extends Requirement{
@@ -28,6 +30,7 @@ export class Task extends Requirement{
 
     User:Person;
     Links:BaseLink[];
+    
 }
 
 export class ProjectUsers{
@@ -42,6 +45,7 @@ export class Technology extends BaseEntity{
 
     Topics:Topic[];
     Links:BaseLink[];
+    Files:BaseLink[];
 }
 export class ProjectPerson{
     Id:number;

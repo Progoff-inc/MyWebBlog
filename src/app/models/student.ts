@@ -19,6 +19,7 @@ export class Paper{
 
     Topics:Topic[];
     Links:BaseLink[];
+    Files:BaseLink[];
     Subject:Subject;
 }
 

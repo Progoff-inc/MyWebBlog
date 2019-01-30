@@ -45,6 +45,10 @@ export class DeveloperService implements OnInit {
 
         return this.http.post(this.baseUrl + 'developer.php?Key=add-project', NewProject);
     }
+    UploadFile(id, type, data) {
+
+        return this.http.post(this.baseUrl + 'developer.php?Key=upload-file&Id='+id+'&Type='+type, data);
+    }
     AddTask(NewTask) {
 
         return this.http.post(this.baseUrl + 'developer.php?Key=add-task', NewTask);

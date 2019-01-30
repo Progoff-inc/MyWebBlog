@@ -25,6 +25,7 @@ export class WorksComponent implements OnInit {
   reqcopy:Requirement;
   user:Person;
   links:BaseLink[];
+  files:BaseLink[];
   readonly = true;
   //task: Subject<Task> = new BehaviorSubject<Task>(null);
 
@@ -33,10 +34,12 @@ export class WorksComponent implements OnInit {
   //   this.task.next(newTask);
   // }
   team:ProjectPerson[];
-  parts = [false,false];
+  parts = [false,false, false];
   c=[true, true];
   pagedTasks:Task[] = [];
   curPage = 0;
+  yandexLink = false;
+  fileSubmitted = false;
   ps:PaginationService = new PaginationService();
   constructor(private ls:LoadService, private route:ActivatedRoute, private router:Router, private dv:DeveloperService, private ss:StudentService) { 
     this.route.params.subscribe(
@@ -67,12 +70,16 @@ export class WorksComponent implements OnInit {
         this.dv.GetTask(this.ItemId).subscribe(data => {
           this.task=Object.assign({},data);
           this.links=this.task.Links;
+          this.files=this.task.Files;
+          
           this.taskcopy=Object.assign({},data);
           this.dv.GetTeam(this.task.ProjectId).subscribe(data => {
             
             this.team = data;
             this.ls.showLoad=false;
+            console.log(this.task);
           })
+
         })
         
         break;
@@ -87,6 +94,7 @@ export class WorksComponent implements OnInit {
               return a.ModifyDate<b.ModifyDate?1:-1;
             })
             this.links=this.req.Links;
+            this.files=this.req.Files;
             let c = [];
             Object.assign(c,this.req.Tasks);
             this.pagedTasks=this.ps.setPages(c);
@@ -119,6 +127,41 @@ export class WorksComponent implements OnInit {
       this.ngOnInit();
     })
   }
+  sendYandexLink(){
+    this.yandexLink = !this.yandexLink;
+    this.fileSubmitted = false;
+  }
+  addFile(f){
+    let files:File[] = f.files;
+    this.fileSubmitted = true;
+    console.log(files);
+    if(!(files.length!=0)){
+      return;
+    }
+    if(files[0].size>10000){
+      return; 
+    }
+    this.fileSubmitted=false;
+    const formData = new FormData();
+    formData.append('Data', files[0]);
+    this.ls.showLoad=true;
+    this.dv.UploadFile(this.type=='task'?this.task.Id:this.req.Id,this.type=='task'?3:4, formData).subscribe(()=>{
+      
+      this.ngOnInit();
+    })
+  }
+  addFileLink(t, l){
+    if(!(t.value && l.value)){
+      console.log(true);
+      return;
+    }
+    this.ls.showLoad=true;
+    this.ss.AddFileLink({OwnerId:this.type=='task'?this.task.Id:this.req.Id, Type:this.type=='task'?3:4, Text:t.value, Path:l.value}).subscribe(()=>{
+      t.value='';
+      l.value='';
+      this.ngOnInit();
+    })
+  }
   add(t){
     this.router.navigate(
         ['/add', this.req.ProjectId], 
@@ -139,8 +182,10 @@ export class WorksComponent implements OnInit {
         }
     );
   }
-  showPart(i){
-    this.parts[i]=!this.parts[i];
+  showPart(i, e){
+    if(e.target.name!="yandex"){
+      this.parts[i]=!this.parts[i];
+    }
   }
   checkTask(){
     let res = false;

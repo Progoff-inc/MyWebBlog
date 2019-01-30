@@ -40,7 +40,7 @@
   </div>
   <ul  class="list-group my-3" >
     <li [ngStyle]="{'background-color':(parts[0]?'white':'')}"  [ngClass]="{'p-3':parts[0], 'p-0':!parts[0]}" class="list-group-item dropdown" style="z-index:10;" >
-        <h5 class="d-block py-3 m-0 {{parts[0]?'pr-3':'px-3'}}" (click)="showPart(0)" style="cursor:pointer">Задачи</h5>
+        <h5 class="d-block py-3 m-0 {{parts[0]?'pr-3':'px-3'}}" (click)="showPart(0,$event)" style="cursor:pointer">Задачи</h5>
       <div [ngStyle]="{'display':(parts[0]?'block':'none')}" class="dropdown-menu position-relative w-100 m-0 border-0" style="z-index:10;">
         <div class="pb-3 d-flex d-sm-flex">
           <div class="d-flex flex-column flex-sm-row w-100 filters" >
@@ -86,7 +86,7 @@
       </div>
     </li>
     <li [ngStyle]="{'background-color':(parts[1]?'white':'')}"  [ngClass]="{'p-3':parts[1], 'p-0':!parts[1]}" class="list-group-item dropdown"  >
-        <h5 class="d-block py-3 m-0 {{parts[1]?'pr-3':'px-3'}}" (click)="showPart(1)" style="cursor:pointer">Требования</h5>
+        <h5 class="d-block py-3 m-0 {{parts[1]?'pr-3':'px-3'}}" (click)="showPart(1,$event)" style="cursor:pointer">Требования</h5>
       <div [ngStyle]="{'display':(parts[1]?'block':'none')}" class="dropdown-menu position-relative w-100 m-0 border-0" >
         <div (click)="open('req',e.Id)" class="card mb-3 flex-column flex-sm-row justify-content-start align-items-start align-items-sm-center" *ngFor="let e of project.Requirements">
           <div class="card-body d-sm-flex justify-content-sm-between align-items-center">
@@ -99,6 +99,25 @@
         <div *ngIf="user.Root<2" class="btn-group" role="group" aria-label="Basic example">
           <button type="button" class="btn btn-success" (click)="add('req')">Добавить</button>
         </div>
+      </div>
+    </li>
+    <li [ngStyle]="{'background-color':(parts[2]?'white':'')}"  [ngClass]="{'p-3':parts[2], 'p-0':!parts[2]}" class="list-group-item dropdown"  >
+      <div style="cursor:pointer" class="d-flex justify-content-between" (click)="showPart(2,$event)">
+        <h5 class="d-block py-3 m-0 overflow-hidden {{parts[2]?'pr-3':'px-3'}}" >Файлы</h5>
+        <button *ngIf="parts[2]" class = "btn btn-link p-0 mr-2" (click)="sendYandexLink()" name="yandex">{{yandexLink?'Загрузить файл':'Ссылка на диск'}}</button>
+      </div>
+      
+      <div  [ngStyle]="{'display':(parts[2]?'block':'none')}" class="dropdown-menu position-relative w-100 m-0 border-0" >
+        <div class="mb-4 ">
+          <a class="d-block" href="{{l.Path}}" target="blank" *ngFor="let l of project.Files" download="{{l.Path}}">{{l.Text}}</a>
+        </div>
+        <form class="form-inline  my-lg-0">
+          <input [ngClass]="{'d-none':!yandexLink}" class="form-control mr-sm-2 my-2" type="text" placeholder="Текст" required #lnktext>
+          <input  class="mr-sm-2 my-2" [ngClass]="{'d-none':yandexLink}" type="file" placeholder="Ссылка" required #file>
+          <input [ngClass]="{'d-none':!yandexLink}" class="form-control mr-sm-2 my-2" type="text" placeholder="Ссылка" required #lnk>
+          <button class="btn btn-outline-success my-2 my-sm-0" type="submit" (click)="yandexLink?addFileLink(lnktext, lnk):addFile(file)">Добавить</button>
+        </form>
+        <small *ngIf="fileSubmitted" class="form-text text-danger">Размер файла слишком большой. Загрузите его на Яндекс Диск и оставьте <a style="cursor: pointer" (click)="sendYandexLink()">здесь ссылку</a>.</small>
       </div>
     </li>
   </ul>

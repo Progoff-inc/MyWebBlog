@@ -14,6 +14,11 @@ form>.modal-footer{
 }
 
 @media (min-width:800px){
+    small a:hover{
+            text-decoration: underline !important;
+            color:blue !important;
+        
+    }
     .pages::-webkit-scrollbar{
         height: 5px;
     }

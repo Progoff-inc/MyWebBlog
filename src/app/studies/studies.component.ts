@@ -6,6 +6,7 @@ import { Person, BaseLink } from '../models/base';
 import { Technology } from '../models/developer';
 import { Paper, Topic } from '../models/student';
 import { LoadService } from '../services/load.service';
+import { DeveloperService } from '../services/Developer.Service';
 declare var PR: any;
 addEventListener('load', function(event) { PR.prettyPrint(); }, false);
 @Component({
@@ -25,12 +26,15 @@ export class StudiesComponent implements OnInit {
   topicForm:FormGroup;
   type:string;
   parts = [];
+  topparts = [false, false];
   ctopics = [];
   changing:string;
   submitted = false;
   links:BaseLink[];
-  
-  constructor(private ls:LoadService, private fb:FormBuilder, private route:ActivatedRoute, private router:Router, private ss:StudentService) { 
+  files:BaseLink[];
+  yandexLink = false;
+  fileSubmitted = false;
+  constructor(private ls:LoadService, private dv:DeveloperService, private fb:FormBuilder, private route:ActivatedRoute, private router:Router, private ss:StudentService) { 
     this.route.params.subscribe(params=>this.studyId=Number(params['id']));
     this.route.queryParams.subscribe(
         (queryParam: any) => {
@@ -56,6 +60,7 @@ export class StudiesComponent implements OnInit {
         this.ss.GetTech(this.studyId).subscribe(data => {
           this.tech=Object.assign({},data);
           this.links=this.tech.Links;
+          this.files=this.tech.Files;
           for(let i = 0;i<this.tech.Topics.length;i++){
             this.parts.unshift(false);
             this.ctopics.unshift(false);
@@ -117,6 +122,12 @@ export class StudiesComponent implements OnInit {
     this.changing=t;
     this.ctopics[i]=!this.ctopics[i];
   }
+  showTopPart(i,e){
+    console.log(e);
+    if(e.target.name!="yandex"){
+      this.topparts[i]=!this.topparts[i];
+    }
+  }
   showPPart(e,i, t){
     if(e.target.name!="change"){
       if(this.parts[i]){
@@ -134,6 +145,41 @@ export class StudiesComponent implements OnInit {
     this.ls.showLoad=true;
     t.ModifyUserId=this.user.Id;
     this.ss.SaveTopic(t).subscribe(()=>{
+      this.ngOnInit();
+    })
+  }
+  sendYandexLink(){
+    this.yandexLink = !this.yandexLink;
+    this.fileSubmitted = false;
+  }
+  addFile(f){
+    let files:File[] = f.files;
+    this.fileSubmitted = true;
+    console.log(files);
+    if(!(files.length!=0)){
+      return;
+    }
+    if(files[0].size>10000){
+      return; 
+    }
+    this.fileSubmitted=false;
+    const formData = new FormData();
+    formData.append('Data', files[0]);
+    this.ls.showLoad=true;
+    this.dv.UploadFile(this.type=='tech'?this.tech.Id:this.paper.Id,this.type=='tech'?2:1, formData).subscribe(()=>{
+      
+      this.ngOnInit();
+    })
+  }
+  addFileLink(t, l){
+    if(!(t.value && l.value)){
+      console.log(true);
+      return;
+    }
+    this.ls.showLoad=true;
+    this.ss.AddFileLink({OwnerId:this.type=='tech'?this.tech.Id:this.paper.Id, Type:this.type=='tech'?2:1, Text:t.value, Path:l.value}).subscribe(()=>{
+      t.value='';
+      l.value='';
       this.ngOnInit();
     })
   }

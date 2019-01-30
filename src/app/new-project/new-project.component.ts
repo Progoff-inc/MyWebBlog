@@ -27,24 +27,24 @@ export class NewProjectComponent implements OnInit {
       GitLink: ['', Validators.required]
     })
   }
-  save(files){
+  save(files:File[]){
     this.submitted = true;
     if(this.projectForm.invalid){
       return;
-    }
+    } 
     this.ls.showLoad=true;
-    // console.log(files);
-    // const formData = new FormData();
-    // files[0].name = this.userService.currentUser.Id.toString()+files[0].name.split('.')[1] ;
+    const formData = new FormData();
+    formData.append('Data', files[0]);
     
-    // let n = this.projectForm.value.Name+'.'+files[0].name.split('.')[1];
-    // console.log(files[0]);
-    // formData.append(n, files[0]);
-    // console.log(formData);
     let t = this.projectForm.value;
-
+      
     this.dv.AddProject({Name:t.Name, DateStart:t.DateStart, Description:t.Description, UserId:this.user.Id, Link:t.GitLink}).subscribe((data)=>{
       this.submitted = false;
+      console.log(formData);
+      this.dv.UploadFile(data, 0, formData).subscribe(d=>{
+        console.log(d);
+        this.ls.showLoad=false;
+      })
       this.parent.closeForm();
     });
     

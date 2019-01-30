@@ -9,6 +9,7 @@ import { TemplateRef } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
 import { LoadService } from '../services/load.service';
 import { PaginationService } from '../services/Pagination.service';
+import { StudentService } from '../services/StudentService';
 
 @Component({
   selector: 'app-projects',
@@ -19,7 +20,7 @@ export class ProjectsComponent implements OnInit {
   modalRef2: BsModalRef;
   showGit=false;
   linkcopy = '';
-  parts = [true, false];
+  parts = [true, false, false];
   userForm:FormGroup;
   pages = [];
   project:Project;
@@ -33,8 +34,10 @@ export class ProjectsComponent implements OnInit {
   submittedLink = false;
   pagedTasks:Task[] = [];
   curPage = 0;
+  yandexLink = false;
+  fileSubmitted = false;
   ps:PaginationService = new PaginationService();
-  constructor(private ls:LoadService, private router: Router, private dv:DeveloperService, public fb:FormBuilder, private modalService: BsModalService, private route: ActivatedRoute) { }
+  constructor(private ls:LoadService, private router: Router, private ss:StudentService, private dv:DeveloperService, public fb:FormBuilder, private modalService: BsModalService, private route: ActivatedRoute) { }
 
   ngOnInit() {
     this.user = JSON.parse(localStorage.getItem('user'));
@@ -110,8 +113,10 @@ export class ProjectsComponent implements OnInit {
   getPositions(){
     return [Position.BackDeveloper, Position.FrontDeveloper, Position.TeamLead, Position.DataBaseDeveloper, Position.Designer];
   }
-  showPart(i){
-    this.parts[i]=!this.parts[i];
+  showPart(i, e){
+    if(e.target.name!="yandex"){
+      this.parts[i]=!this.parts[i];
+    }
   }
   add(t){
     this.router.navigate(
@@ -196,6 +201,41 @@ export class ProjectsComponent implements OnInit {
         this.ls.showLoad=false;
       })
     }
+  }
+  sendYandexLink(){
+    this.yandexLink = !this.yandexLink;
+    this.fileSubmitted = false;
+  }
+  addFile(f){
+    let files:File[] = f.files;
+    this.fileSubmitted = true;
+    console.log(files);
+    if(!(files.length!=0)){
+      return;
+    }
+    if(files[0].size>10000){
+      return; 
+    }
+    this.fileSubmitted=false;
+    const formData = new FormData();
+    formData.append('Data', files[0]);
+    this.ls.showLoad=true;
+    this.dv.UploadFile(this.project.Id,0, formData).subscribe(()=>{
+      
+      this.ngOnInit();
+    })
+  }
+  addFileLink(t, l){
+    if(!(t.value && l.value)){
+      console.log(true);
+      return;
+    }
+    this.ls.showLoad=true;
+    this.ss.AddFileLink({OwnerId:this.project.Id, Type:0, Text:t.value, Path:l.value}).subscribe(()=>{
+      t.value='';
+      l.value='';
+      this.ngOnInit();
+    })
   }
   get f() { return this.userForm.controls; }
 

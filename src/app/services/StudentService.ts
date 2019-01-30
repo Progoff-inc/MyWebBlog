@@ -44,6 +44,10 @@ export class StudentService implements OnInit {
 
         return this.http.post(this.baseUrl + 'student.php?Key=add-link', NewLink);
     }
+    AddFileLink(NewLink) {
+
+        return this.http.post(this.baseUrl + 'student.php?Key=add-file-link', NewLink);
+    }
     AddTopic(NewTopic) {
 
         return this.http.post(this.baseUrl + 'student.php?Key=add-topic', NewTopic);
