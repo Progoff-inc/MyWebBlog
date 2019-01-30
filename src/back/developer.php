@@ -51,8 +51,8 @@ if(isset($_GET['Key']))
             break;
         case 'add-project':
             $inp = json_decode(file_get_contents('php://input'), true);
-            $ctxt->setProject($inp['Name'], $inp['Description'], $inp['DateStart'], false, $inp['UserId'], $inp['Link']);
-            echo json_encode($_FILES);
+            
+            echo json_encode($ctxt->setProject($inp['Name'], $inp['Description'], $inp['DateStart'], false, $inp['UserId'], $inp['Link'], array($_FILES)));
             break;
         case 'add-project-user':
             $inp = json_decode(file_get_contents('php://input'), true);
@@ -61,6 +61,10 @@ if(isset($_GET['Key']))
         case 'close-project':
             $inp = json_decode(file_get_contents('php://input'), true);
             echo json_encode($ctxt->closeProject($_GET['Id'], $inp['ModifyUserId']));
+            break;
+        case 'upload-file':
+            $inp = json_decode(file_get_contents('php://input'), true);
+            echo json_encode(array($ctxt->uploadFile($_GET['Id'], $_FILES, $_GET['Type'])));
             break;
         case 'add-task':
             $inp = json_decode(file_get_contents('php://input'), true);
@@ -98,6 +102,10 @@ if(isset($_GET['Key']))
             break;
         case 'get-team':
             echo json_encode($ctxt->getTeam($_GET['Id']));
+            break;
+        case 'delete-team-user':
+            $inp = json_decode(file_get_contents('php://input'), true);
+            echo json_encode($ctxt->deleteTeamUser($_GET['Id'], $inp['UserId'], $inp['ModifyUserId']));
             break;
         case 'get-techs':
             echo json_encode($ctxt->getTechs());

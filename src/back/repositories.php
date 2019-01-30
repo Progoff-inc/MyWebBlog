@@ -31,6 +31,137 @@ class DataBase {
         }
         return $exams;
     }
+    public function uploadFile($pid, $files, $t){
+        $url = "http://nomokoiw.beget.tech/back/";
+        for($i=0;$i<count($files);$i++){
+            switch ($t){
+                case 0:
+                    
+                    $folder="project_".$pid;
+                    $n = basename($files['Data']['name']);
+                    $d = "ProjectFiles/$folder/$n";
+                    if(file_exists("ProjectFiles/$folder")){
+                        
+                        if(move_uploaded_file($files['Data']['tmp_name'], $d)){
+                            $s = $this->db->prepare("INSERT INTO files (OwnerId, Type, Path, Text) VALUES (?,?,?,?)");
+                            $s->execute(array($pid, $t, $url.$d, basename($files['Data']['name'])));
+                            return('Загружен');
+                        }else{
+                            return($_FILES['Data']['tmp_name']);
+                        }
+                    }else{
+                        mkdir("ProjectFiles/$folder");
+                        if(move_uploaded_file($files['Data']['tmp_name'], $d)){
+                            $s = $this->db->prepare("INSERT INTO files (OwnerId, Type, Path, Text) VALUES (?,?,?,?)");
+                            $s->execute(array($pid, $t, $url.$d, basename($files['Data']['name'])));
+                            return('Загружен');
+                        }else{
+                            return($_FILES['Data']['tmp_name']);
+                        }
+                    }
+                    break;
+                case 2:
+                    
+                    $folder="tech_".$pid;
+                    $n = basename($files['Data']['name']);
+                    $d = "TechFiles/$folder/$n";
+                    if(file_exists("TechFiles/$folder")){
+                        if(move_uploaded_file($files['Data']['tmp_name'], $d)){
+                            $s = $this->db->prepare("INSERT INTO files (OwnerId, Type, Path, Text) VALUES (?,?,?,?)");
+                            $s->execute(array($pid, $t, $url.$d, basename($files['Data']['name'])));
+                            return('Загружен');
+                        }else{
+                            return($_FILES['Data']['tmp_name']);
+                        }
+                    }else{
+                        mkdir("TechFiles/$folder");
+                        if(move_uploaded_file($files['Data']['tmp_name'], $d)){
+                            $s = $this->db->prepare("INSERT INTO files (OwnerId, Type, Path, Text) VALUES (?,?,?,?)");
+                            $s->execute(array($pid, $t, $url.$d, basename($files['Data']['name'])));
+                            return('Загружен');
+                        }else{
+                            return($_FILES['Data']['tmp_name']);
+                        }
+                    }
+                    break;
+                case 1:
+                    
+                    $folder="paper_".$pid;
+                    $n = basename($files['Data']['name']);
+                    $d = "PaperFiles/$folder/$n";
+                    if(file_exists("PaperFiles/$folder")){
+                        if(move_uploaded_file($files['Data']['tmp_name'], $d)){
+                            $s = $this->db->prepare("INSERT INTO files (OwnerId, Type, Path, Text) VALUES (?,?,?,?)");
+                            $s->execute(array($pid, $t, $url.$d, basename($files['Data']['name'])));
+                            return('Загружен');
+                        }else{
+                            return($_FILES['Data']['tmp_name']);
+                        }
+                    }else{
+                        mkdir("PaperFiles/$folder");
+                        if(move_uploaded_file($files['Data']['tmp_name'], $d)){
+                            $s = $this->db->prepare("INSERT INTO files (OwnerId, Type, Path, Text) VALUES (?,?,?,?)");
+                            $s->execute(array($pid, $t, $url.$d, basename($files['Data']['name'])));
+                            return('Загружен');
+                        }else{
+                            return($_FILES['Data']['tmp_name']);
+                        }
+                    }
+                    break;
+                case 4:
+                    
+                    $folder="req_".$pid;
+                    $n = basename($files['Data']['name']);
+                    $d = "ReqFiles/$folder/$n";
+                    if(file_exists("ReqFiles/$folder")){
+                        if(move_uploaded_file($files['Data']['tmp_name'], $d)){
+                            $s = $this->db->prepare("INSERT INTO files (OwnerId, Type, Path, Text) VALUES (?,?,?,?)");
+                            $s->execute(array($pid, $t, $url.$d, basename($files['Data']['name'])));
+                            return('Загружен');
+                        }else{
+                            return($_FILES['Data']['tmp_name']);
+                        }
+                    }else{
+                        mkdir("ReqFiles/$folder");
+                        if(move_uploaded_file($files['Data']['tmp_name'], $d)){
+                            $s = $this->db->prepare("INSERT INTO files (OwnerId, Type, Path, Text) VALUES (?,?,?,?)");
+                            $s->execute(array($pid, $t, $url.$d, basename($files['Data']['name'])));
+                            return('Загружен');
+                        }else{
+                            return($_FILES['Data']['tmp_name']);
+                        }
+                    }
+                    break;
+                case 3:
+                    
+                    $folder="task_".$pid;
+                    $n = basename($files['Data']['name']);
+                    $d = "TaskFiles/$folder/$n";
+                    if(file_exists("TaskFiles/$folder")){
+                        if(move_uploaded_file($files['Data']['tmp_name'], $d)){
+                            $s = $this->db->prepare("INSERT INTO files (OwnerId, Type, Path, Text) VALUES (?,?,?,?)");
+                            $s->execute(array($pid, $t, $url.$d, basename($files['Data']['name'])));
+                            return('Загружен');
+                        }else{
+                            return($_FILES['Data']['tmp_name']);
+                        }
+                    }else{
+                        mkdir("TaskFiles/$folder");
+                        if(move_uploaded_file($files['Data']['tmp_name'], $d)){
+                            $s = $this->db->prepare("INSERT INTO files (OwnerId, Type, Path, Text) VALUES (?,?,?,?)");
+                            $s->execute(array($pid, $t, $url.$d, basename($files['Data']['name'])));
+                            return('Загружен');
+                        }else{
+                            return($_FILES['Data']['tmp_name']);
+                        }
+                    }
+                    break;
+                    
+                    
+            }
+        }
+        return(array($pid, $files));
+    }
     public function getQuestions($eid){
         $s = $this->db->prepare("SELECT * FROM questions WHERE Id=?");
         $s->execute(array($eid));
@@ -94,6 +225,7 @@ class DataBase {
         $s->setFetchMode(PDO::FETCH_CLASS, 'Task');
         $task = $s->fetch();
         $task->Links = $this->getLinks($task->Id, 3);
+        $task->Files = $this->getFiles($task->Id, 3);
         return $task;
     }
     public function getRequirement($Id, $incl_t=false) {
@@ -103,6 +235,7 @@ class DataBase {
         $r = $s->fetch();
         $r->Tasks = $this->getRTasks($Id);
         $r->Links = $this->getLinks($r->Id, 4);
+        $r->Files = $this->getFiles($r->Id, 4);
         return $r;
     }
     public function getProject($Id) {
@@ -113,6 +246,7 @@ class DataBase {
         $project->Tasks = $this->getTasks($project->Id);
         $project->Requirements = $this->getRequirements($project->Id);
         $project->Team = $this->getTeam($project->Id);
+        $project->Files = $this->getFiles($project->Id,0);
         return $project;
     }
 
@@ -121,6 +255,13 @@ class DataBase {
         $s->execute(array($pid));
         $s->setFetchMode(PDO::FETCH_CLASS, 'ProjectPerson');
         return $s->fetchAll();
+    }
+    public function deleteTeamUser($pid, $uid, $muid){
+        $s = $this->db->prepare("DELETE FROM projectusers WHERE ProjectId=? and UserId=?");
+        $s->execute(array($pid, $uid));
+        $s = $this->db->prepare("UPDATE projects SET ModifyDate=now(), ModifyUserId=? WHERE Id=?");
+        $s->execute(array($muid, $pid));
+        return $this->db->lastInsertId();
     }
     public function getPaper($Id, $topics=false) {
         $s = $this->db->prepare("SELECT * FROM papers WHERE Id=?");
@@ -140,6 +281,7 @@ class DataBase {
         $tech = $s->fetch();
         $tech->Topics = $this->getTopics($tech->Id, 2);
         $tech->Links = $this->getLinks($tech->Id, 2);
+        $tech->Files = $this->getFiles($tech->Id, 2);
         return $tech;
     }
     public function getTopics($id,$type){
@@ -150,6 +292,12 @@ class DataBase {
     }
     public function getLinks($id,$type){
         $s = $this->db->prepare("SELECT * FROM links WHERE OwnerId=? and Type=?");
+        $s->execute(array($id, $type));
+        $s->setFetchMode(PDO::FETCH_CLASS, 'BaseLink');
+        return $s->fetchAll();
+    }
+    public function getFiles($id,$type){
+        $s = $this->db->prepare("SELECT * FROM files WHERE OwnerId=? and Type=?");
         $s->execute(array($id, $type));
         $s->setFetchMode(PDO::FETCH_CLASS, 'BaseLink');
         return $s->fetchAll();
@@ -169,6 +317,11 @@ class DataBase {
         $sth->execute(array($oid, $t, $l, $tp));
         return $this->db->lastInsertId();
     }
+    public function setFileLink($oid, $t, $l, $tp){
+        $sth = $this->db->prepare("INSERT INTO files (OwnerId, Text, Path, Type) VALUES (?,?,?,?) ");
+        $sth->execute(array($oid, $t, $l, $tp));
+        return $this->db->lastInsertId();
+    }
     public function setSubject($tid, $n){
         $sth = $this->db->prepare("INSERT INTO subjects (TeacherId, Name) VALUES (?,?)");
         $sth->execute(array($tid, $n));
@@ -184,7 +337,7 @@ class DataBase {
         $sth->execute(array($pid, $dst, $dfn, $c));
         return $this->db->lastInsertId();
     }
-    public function setProject($n,$descr,$dst, $isf, $uid, $l){
+    public function setProject($n,$descr,$dst, $isf, $uid, $l, $fls){
         $sth = $this->db->prepare("INSERT INTO projects (Name, Description, DateStart, IsFinished, ModifyUserId, GitHubLink, ModifyDate) VALUES (?,?,?,?,?,?,now())");
         $sth->execute(array($n, $descr, $dst, $isf, $uid, $l ));
         return $this->db->lastInsertId();

@@ -27,6 +27,7 @@ class Project extends BaseEntity{
 
     public $Requirements;
     public $Tasks;
+    public $Files;
     public $Team;
 }
 
@@ -38,6 +39,7 @@ class Requirement extends BaseEntity{
 
     public $Tasks;
     public $Links;
+    public $Files;
 }
 
 class Task extends Requirement{
@@ -69,6 +71,7 @@ class Technology extends BaseEntity{
 
     public $Topics;
     public $Links;
+    public $Files;
 }
 
 class Exam extends BaseEntity{
@@ -88,6 +91,7 @@ class Paper{
     public $Topics;
     public $Subject;
     public $Links;
+    public $Files;
 }
 
 class Topic extends BaseEntity{
