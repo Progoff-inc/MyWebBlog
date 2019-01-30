@@ -1,7 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { ActivatedRoute, Router} from '@angular/router';
-import { Priority, Status, Person, BaseLink } from '../models/base';
+import { Priority, Status, Person, BaseLink, Message } from '../models/base';
 import { ProjectUsers, ProjectPerson, Requirement, Task } from '../models/developer';
 import { DeveloperService } from '../services/Developer.Service';
 import { Subject, Observable, BehaviorSubject }    from 'rxjs';
@@ -26,7 +26,10 @@ export class WorksComponent implements OnInit {
   user:Person;
   links:BaseLink[];
   files:BaseLink[];
+  messages:Message[] = [];
   readonly = true;
+  newMess='';
+  messSubmitted=false;
   //task: Subject<Task> = new BehaviorSubject<Task>(null);
 
   // public setTask(newTask: Task): void {
@@ -34,7 +37,7 @@ export class WorksComponent implements OnInit {
   //   this.task.next(newTask);
   // }
   team:ProjectPerson[];
-  parts = [false,false, false];
+  parts = [false,false, false, true];
   c=[true, true];
   pagedTasks:Task[] = [];
   curPage = 0;
@@ -71,6 +74,7 @@ export class WorksComponent implements OnInit {
           this.task=Object.assign({},data);
           this.links=this.task.Links;
           this.files=this.task.Files;
+          this.messages = this.task.Messages;
           
           this.taskcopy=Object.assign({},data);
           this.dv.GetTeam(this.task.ProjectId).subscribe(data => {
@@ -95,6 +99,7 @@ export class WorksComponent implements OnInit {
             })
             this.links=this.req.Links;
             this.files=this.req.Files;
+            this.messages = this.req.Messages;
             let c = [];
             Object.assign(c,this.req.Tasks);
             this.pagedTasks=this.ps.setPages(c);
@@ -236,6 +241,16 @@ export class WorksComponent implements OnInit {
   }
   changePage(p){
     this.curPage=p;
+  }
+  addMessage(){
+    this.messSubmitted=true;
+    if(this.newMess==''){
+      return;
+    }
+    this.dv.AddMessage({OwnerId:this.type=='task'?this.task.Id:this.req.Id, Type:this.type=='task'?3:4, Text:this.newMess, UserId:this.user.Id}).subscribe((d)=>{
+      console.log(d);
+      this.ngOnInit();
+    })
   }
 
 }

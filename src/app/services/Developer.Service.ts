@@ -73,6 +73,9 @@ export class DeveloperService implements OnInit {
 
         return this.http.post(this.baseUrl + 'developer.php?Key=add-project-user', NewPUser);
     }
+    AddMessage(NewMessage) {
+        return this.http.post(this.baseUrl + 'developer.php?Key=add-message', NewMessage);
+    }
 
     AddTech(NewTech) {
 

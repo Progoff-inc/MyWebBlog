@@ -11,6 +11,15 @@ export class BaseLink{
     Path:string;
     Text:string;
 }
+export class Message{
+    Id:number;
+    OwnerId:number;
+    Type:Type;
+    UserId:number;
+    Text:string;
+
+    User:Person;
+}
 
 export class Person{
     Id:number;

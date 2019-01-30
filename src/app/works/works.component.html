@@ -68,6 +68,7 @@
       </div>
     </li>
   </ul>
+  
 </div>
 <div *ngIf="req && req.Id && type=='req'" class="container pt-3">
   <h3>#{{req.Id}}: {{req.Name}}</h3>
@@ -160,7 +161,36 @@
       </div>
     </li>
   </ul>
+  
 </div>
 <div *ngIf="(task && !task.Id) || (req && !req.Id)" style="height: 25vh;" class="d-flex justify-content-center align-items-center">
   <h3>Элемент не найден</h3>
+</div>
+<div  class="container">
+  <ul  class="list-group my-3">
+    <li [ngStyle]="{'background-color':(parts[3]?'white':'')}"  [ngClass]="{'p-3':parts[3], 'p-0':!parts[3]}" class="list-group-item dropdown"  >
+      <div style="cursor:pointer" class="d-flex justify-content-between" (click)="showPart(3, $event)">
+        <h5 class="d-block py-3 m-0 overflow-hidden {{parts[3]?'pr-3':'px-3'}}" >Комментарии</h5>
+      </div>
+      
+      <div  [ngStyle]="{'display':(parts[3]?'block':'none')}" class="dropdown-menu position-relative w-100 m-0 border-0" >
+        <div class="mb-4 " *ngIf="messages.length>0">
+          <div class="card" *ngFor="let m of messages">
+            <div class="card-body  p-1">
+              <div class="d-flex align-items-center mb-2">
+                <img src="{{m.User.Photo}}" style="height:40px" class="rounded-circle">
+                <span class="pl-3">{{m.User.Name}}</span>
+              </div>
+              <p class="card-text">{{m.Text}}</p>
+            </div>
+          </div>
+        </div>
+        <form class="my-lg-0">
+          <textarea [(ngModel)]="newMess" [ngModelOptions]="{standalone: true}" class="form-control mr-sm-2" style="height:100px;" placeholder="Сообщение" required ></textarea>
+          <small *ngIf="messSubmitted && newMess==''" class="form-text text-danger">Введите сообщение</small>
+          <button class="btn btn-primary mt-2"  type="submit" (click)="addMessage()" >Добавить</button>
+        </form>
+      </div>
+    </li>
+  </ul>
 </div>

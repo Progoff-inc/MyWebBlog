@@ -1,4 +1,4 @@
-import { BaseLink, BaseEntity, Person, Position } from "./base";
+import { BaseLink, BaseEntity, Person, Position, Message } from "./base";
 import { Status, Priority, Sphere, Type } from "./base";
 import { Topic } from "./student";
 export class Project extends BaseEntity{
@@ -21,6 +21,7 @@ export class Requirement extends BaseEntity{
     Links:BaseLink[];
     Tasks:Task[];
     Files:BaseLink[];
+    Messages:Message[];
 }
 
 export class Task extends Requirement{
