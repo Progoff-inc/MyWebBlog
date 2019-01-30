@@ -189,9 +189,11 @@ export class ProjectsComponent implements OnInit {
   }
   deleteUser(p:Person){
     if(this.user.Root==1 && window.confirm('Удалить пользователя {'+p.Name+'} из команды?')){
-      this.dv.DeleteTeamUser(this.project.Id, {UserId:p.Id}).subscribe(()=>{
+      this.ls.showLoad=true;
+      this.dv.DeleteTeamUser(this.project.Id, {UserId:p.Id, ModifyUserId:this.user.Id}).subscribe(()=>{
         let i = this.project.Team.map(x => x.Id).indexOf(p.Id);
         this.project.Team.splice(i,1);
+        this.ls.showLoad=false;
       })
     }
   }

@@ -38,7 +38,7 @@ export class DeveloperService implements OnInit {
         return this.http.get<Requirement>(this.baseUrl + 'developer.php?Key=get-requirement&Id=' + id);
     }
     DeleteTeamUser(id,User) {
-        return this.http.post(this.baseUrl + 'developer.php?Key=get-requirement&Id=' + id, User);
+        return this.http.post(this.baseUrl + 'developer.php?Key=delete-team-user&Id=' + id, User);
     }
    
     AddProject(NewProject) {
