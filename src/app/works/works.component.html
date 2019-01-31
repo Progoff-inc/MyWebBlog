@@ -59,10 +59,10 @@
           <a class="d-block" href="{{l.Path}}" target="blank" *ngFor="let l of files" download="{{l.Path}}">{{l.Text}}</a>
         </div>
         <form class="form-inline  my-lg-0">
-          <input [ngClass]="{'d-none':!yandexLink}" class="form-control mr-sm-2 my-2" type="text" placeholder="Текст" required #lnktext>
+          <input [ngClass]="{'d-none':!yandexLink}" class="form-control mr-sm-2 my-2" type="text" placeholder="Текст" required #lnktextf>
           <input  class="mr-sm-2 my-2" [ngClass]="{'d-none':yandexLink}" type="file" placeholder="Ссылка" required #file>
-          <input [ngClass]="{'d-none':!yandexLink}" class="form-control mr-sm-2 my-2" type="text" placeholder="Ссылка" required #lnk>
-          <button class="btn btn-outline-success my-2 my-sm-0" type="submit" (click)="yandexLink?addFileLink(lnktext, lnk):addFile(file)">Добавить</button>
+          <input [ngClass]="{'d-none':!yandexLink}" class="form-control mr-sm-2 my-2" type="text" placeholder="Ссылка" required #lnkf>
+          <button class="btn btn-outline-success my-2 my-sm-0" type="submit" (click)="yandexLink?addFileLink(lnktextf, lnkf):addFile(file)">Добавить</button>
         </form>
         <small *ngIf="fileSubmitted" class="form-text text-danger">Размер файла слишком большой. Загрузите его на Яндекс Диск и оставьте <a style="cursor: pointer" (click)="sendYandexLink()">здесь ссылку</a>.</small>
       </div>
