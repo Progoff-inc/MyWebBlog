@@ -238,6 +238,7 @@ export class ProjectsComponent implements OnInit {
     })
   }
   get f() { return this.userForm.controls; }
+  get s() { return window.innerWidth; }
 
 }
 export interface Filter{
