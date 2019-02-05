@@ -24,11 +24,11 @@
       <h3>Команда</h3>
     </div>
     <div   class="d-flex flex-wrap card-body">
-      <div class="card bg-light mr-3 mb-3" style="max-width: 18rem;" *ngFor="let p of project.Team" (dblclick)="deleteUser(p)" (click)="s<800 && deleteUser(p)">
-        <div class="card-header">{{p.Name}}</div>
+      <div class="card bg-light mr-3 mb-3" style="max-width: 18rem;" *ngFor="let p of project.Team" >
+        <div class="card-header" (dblclick)="deleteUser(p)" (click)="s<800 && deleteUser(p)">{{p.Name}}</div>
         <div class="card-body">
           <h5 class="card-title">{{p.Position}}</h5>
-          <p class="card-text">{{p.Email}}</p>
+          <a class="card-text" href="{{'https://vk.com/id'+p.Id}}" target="blank">Cвязаться</a>
         </div>
       </div>
       <div *ngIf="user.Root<2" class="card border-0 mb-3" style="max-width: 18rem;">
