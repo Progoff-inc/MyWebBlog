@@ -22,6 +22,9 @@ export class StudentService implements OnInit {
     SetUser(user) {
         return this.http.post<Person>(this.baseUrl + 'student.php?Key=set-user', user);
     }
+    GetUser(id) {
+        return this.http.get<Person>(this.baseUrl + 'student.php?Key=get-user&Id=' + id);
+    }
     GetTech(id) {
         return this.http.get<Technology>(this.baseUrl + 'student.php?Key=get-tech&Id=' + id);
     }

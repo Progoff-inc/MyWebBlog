@@ -81,7 +81,6 @@ export class WorksComponent implements OnInit {
             
             this.team = data;
             this.ls.showLoad=false;
-            console.log(this.task);
           })
 
         })
