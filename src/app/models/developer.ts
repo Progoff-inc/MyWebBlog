@@ -17,6 +17,7 @@ export class Requirement extends BaseEntity{
     Status:Status;
     ModifyUserId:number;
     ModifyDate:number;
+    Open:boolean;
 
     Links:BaseLink[];
     Tasks:Task[];
