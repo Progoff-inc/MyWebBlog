@@ -18,8 +18,12 @@ export class AppComponent implements OnInit {
   }
   ngOnInit(){
     if(!localStorage.getItem('user')){
-      this.router.navigate(['/auth']);
+      if(location.hash.indexOf('works')==-1){
+        this.router.navigate(['/auth']);
+      }
+      
     }else{
+      console.log(location.hash);
       let u = JSON.parse(localStorage.getItem('user'));
       this.ss.GetUser(u.Id).subscribe(data => {
         localStorage.setItem('user', JSON.stringify(data));

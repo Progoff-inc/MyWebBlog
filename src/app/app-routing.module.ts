@@ -10,6 +10,7 @@ import { AddComponent } from './add/add.component';
 import { WorksComponent } from './works/works.component';
 import { StudiesComponent } from './studies/studies.component';
 import { AuthComponent } from './auth/auth.component';
+import { NotFoundComponent } from './not-found/not-found.component';
 
 const routes: Routes = [
   { path: '', component: HomeComponent, pathMatch: 'full' },
@@ -20,7 +21,8 @@ const routes: Routes = [
   { path: 'add/:id', component: AddComponent },
   { path: 'works/:id', component: WorksComponent },
   { path: 'studies/:id', component: StudiesComponent },
-  { path: 'auth', component: AuthComponent, pathMatch: 'prefix' }
+  { path: 'auth', component: AuthComponent, pathMatch: 'prefix' },
+  { path: '**', component: NotFoundComponent}
   // { path: 'farm', component: HouseholderComponent }
 ];
 

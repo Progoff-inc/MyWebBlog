@@ -31,6 +31,7 @@ import {
 } from "angular-6-social-login-v2";
 import { LoadComponent } from './load/load.component';
 import { LoadService } from './services/load.service';
+import { NotFoundComponent } from './not-found/not-found.component';
 export function getAuthServiceConfigs() {
   let config = new AuthServiceConfig(
       [
@@ -61,7 +62,8 @@ export function getAuthServiceConfigs() {
     WorksComponent,
     StudiesComponent,
     AuthComponent,
-    LoadComponent
+    LoadComponent,
+    NotFoundComponent
   ],
   imports: [
     ClipboardModule,

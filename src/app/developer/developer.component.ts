@@ -29,7 +29,14 @@ export class DeveloperComponent implements OnInit {
   ngOnInit() {
     if(localStorage.getItem('user')){
       this.user=JSON.parse(localStorage.getItem('user'));
+      this.load();
     }
+    else{
+      this.router.navigate(['/auth']);
+    }
+    
+  }
+  load(){
     let load = [true, true];
     this.dv.GetProjects().subscribe(data => {
       data.forEach(x => {

@@ -67,21 +67,31 @@ export class WorksComponent implements OnInit {
         this.readonly = false;
       }
     }
+    else{
+      this.user = new Person();
+      this.user.Id = null;
+    }
     switch(this.type){
       case "task":{
         this.ls.showLoad=true;
-        this.dv.GetTask(this.ItemId).subscribe(data => {
-          this.task=Object.assign({},data);
-          this.links=this.task.Links;
-          this.files=this.task.Files;
-          this.messages = this.task.Messages;
-          this.task.Open = !!Number(this.task.Open);
-          this.taskcopy=Object.assign({},data);
-          this.dv.GetTeam(this.task.ProjectId).subscribe(data => {
-            
-            this.team = data;
-            this.ls.showLoad=false;
-          })
+        this.dv.GetTask(this.ItemId, this.user.Id).subscribe(data => {
+          if(!data){
+            this.router.navigate(['/404']); 
+          }
+          else{
+            this.task=Object.assign({},data);
+            this.links=this.task.Links;
+            this.files=this.task.Files;
+            this.messages = this.task.Messages;
+            this.task.Open = !!Number(this.task.Open);
+            this.taskcopy=Object.assign({},data);
+            this.dv.GetTeam(this.task.ProjectId).subscribe(data => {
+              
+              this.team = data;
+              this.ls.showLoad=false;
+            })
+          }
+          
 
         })
         
@@ -120,6 +130,9 @@ export class WorksComponent implements OnInit {
     // this.task.subscribe(task =>{
     //   console.log(task);
     // })
+  }
+  auth(){
+    this.router.navigate(['/auth']); 
   }
   addLink(t,l){
     if(!(t.value && l.value)){
