@@ -17,6 +17,7 @@ export class Message{
     Type:Type;
     UserId:number;
     Text:string;
+    CreateDate:Date;
 
     User:Person;
 }

@@ -175,13 +175,17 @@
       
       <div  [ngStyle]="{'display':(parts[3]?'block':'none')}" class="dropdown-menu position-relative w-100 m-0 border-0" >
         <div class="mb-4 " *ngIf="messages.length>0">
-          <div class="card" *ngFor="let m of messages">
+          <div class="card my-1" *ngFor="let m of messages">
             <div class="card-body  p-1">
               <div class="d-flex align-items-center mb-2">
                 <img src="{{m.User.Photo}}" style="height:40px" class="rounded-circle">
-                <span class="pl-3">{{m.User.Name}}</span>
+                <div class="d-flex flex-column">
+                  <span class="pl-3">{{m.User.Name}}</span>
+                  <small class="pl-3">{{m.CreateDate | date : 'dd.MM.yyyy HH:mm'}}</small>
+                </div>
+                
               </div>
-              <p class="card-text">{{m.Text}}</p>
+              <p class="card-text" style="white-space: pre-wrap">{{m.Text}}</p>
             </div>
           </div>
         </div>

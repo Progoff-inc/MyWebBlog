@@ -60,6 +60,8 @@ export class WorksComponent implements OnInit {
   }
 
   ngOnInit() {
+    this.newMess='';
+    this.messSubmitted = false;
     this.c=[false, false];
     if(localStorage.getItem('user')){
       this.user=JSON.parse(localStorage.getItem('user'));
@@ -267,7 +269,7 @@ export class WorksComponent implements OnInit {
       return;
     }
     this.dv.AddMessage({OwnerId:this.type=='task'?this.task.Id:this.req.Id, Type:this.type=='task'?3:4, Text:this.newMess, UserId:this.user.Id}).subscribe((d)=>{
-      console.log(d);
+      
       this.ngOnInit();
     })
   }
