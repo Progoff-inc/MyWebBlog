@@ -101,23 +101,29 @@ export class WorksComponent implements OnInit {
       case "req":{
         if(true){
           this.ls.showLoad=true;
-          this.dv.GetRequirement(this.ItemId).subscribe(data => {
-            this.req=Object.assign({},data);
-            this.req.Open = !!Number(this.req.Open);
-            this.req.Tasks.sort((a,b)=>{
-              return a.ModifyDate<b.ModifyDate?1:-1;
-            })
-            this.links=this.req.Links;
-            this.files=this.req.Files;
-            this.messages = this.req.Messages;
-            let c = [];
-            Object.assign(c,this.req.Tasks);
-            this.pagedTasks=this.ps.setPages(c);
-            this.reqcopy=Object.assign({},data);
-            this.dv.GetTeam(this.req.ProjectId).subscribe(data => {
-              this.team = data;
-              this.ls.showLoad=false;
-            })
+          this.dv.GetRequirement(this.ItemId, this.user.Id).subscribe(data => {
+            if(!data){
+              this.router.navigate(['/404']); 
+            }
+            else{
+              this.req=Object.assign({},data);
+              this.req.Open = !!Number(this.req.Open);
+              this.req.Tasks.sort((a,b)=>{
+                return a.ModifyDate<b.ModifyDate?1:-1;
+              })
+              this.links=this.req.Links;
+              this.files=this.req.Files;
+              this.messages = this.req.Messages;
+              let c = [];
+              Object.assign(c,this.req.Tasks);
+              this.pagedTasks=this.ps.setPages(c);
+              this.reqcopy=Object.assign({},data);
+              this.dv.GetTeam(this.req.ProjectId).subscribe(data => {
+                this.team = data;
+                this.ls.showLoad=false;
+              })
+            }
+            
             
           })
         }

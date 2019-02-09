@@ -34,8 +34,8 @@ export class DeveloperService implements OnInit {
     GetTask(id, uid) {
         return this.http.get<Task>(this.baseUrl + 'developer.php?Key=get-task&Id=' + id + '&UserId='+uid);
     }
-    GetRequirement(id) {
-        return this.http.get<Requirement>(this.baseUrl + 'developer.php?Key=get-requirement&Id=' + id);
+    GetRequirement(id, uid) {
+        return this.http.get<Requirement>(this.baseUrl + 'developer.php?Key=get-requirement&Id=' + id + '&UserId='+uid);
     }
     DeleteTeamUser(id,User) {
         return this.http.post(this.baseUrl + 'developer.php?Key=delete-team-user&Id=' + id, User);

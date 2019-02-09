@@ -14,13 +14,13 @@ import { NotFoundComponent } from './not-found/not-found.component';
 
 const routes: Routes = [
   { path: '', component: HomeComponent, pathMatch: 'full' },
-  { path: 'student', component: StudentComponent },
+  // { path: 'student', component: StudentComponent },
   { path: 'developer', component: DeveloperComponent },
-  { path: 'exams/:id', component: ExamsComponent },
+  // { path: 'exams/:id', component: ExamsComponent },
   { path: 'projects/:id', component: ProjectsComponent },
   { path: 'add/:id', component: AddComponent },
   { path: 'works/:id', component: WorksComponent },
-  { path: 'studies/:id', component: StudiesComponent },
+  // { path: 'studies/:id', component: StudiesComponent },
   { path: 'auth', component: AuthComponent, pathMatch: 'prefix' },
   { path: '**', component: NotFoundComponent}
   // { path: 'farm', component: HouseholderComponent }
