@@ -75,7 +75,7 @@ export class WorksComponent implements OnInit {
           this.links=this.task.Links;
           this.files=this.task.Files;
           this.messages = this.task.Messages;
-          
+          this.task.Open = !!Number(this.task.Open);
           this.taskcopy=Object.assign({},data);
           this.dv.GetTeam(this.task.ProjectId).subscribe(data => {
             
@@ -93,6 +93,7 @@ export class WorksComponent implements OnInit {
           this.ls.showLoad=true;
           this.dv.GetRequirement(this.ItemId).subscribe(data => {
             this.req=Object.assign({},data);
+            this.req.Open = !!Number(this.req.Open);
             this.req.Tasks.sort((a,b)=>{
               return a.ModifyDate<b.ModifyDate?1:-1;
             })
@@ -194,7 +195,7 @@ export class WorksComponent implements OnInit {
   checkTask(){
     let res = false;
     Object.keys(this.task).forEach(k => {
-      if(this.task[k]!=this.taskcopy[k]){
+      if(this.task[k]!=this.taskcopy[k] && k!="Open"){
         res = true;
       }
     });
@@ -214,7 +215,7 @@ export class WorksComponent implements OnInit {
   checkReq(){
     let res = false;
     Object.keys(this.req).forEach(k => {
-      if(this.req[k]!=this.reqcopy[k]){
+      if(this.req[k]!=this.reqcopy[k] && k!="Open"){
         res = true;
       }
     });
@@ -249,6 +250,16 @@ export class WorksComponent implements OnInit {
     this.dv.AddMessage({OwnerId:this.type=='task'?this.task.Id:this.req.Id, Type:this.type=='task'?3:4, Text:this.newMess, UserId:this.user.Id}).subscribe((d)=>{
       console.log(d);
       this.ngOnInit();
+    })
+  }
+  changeTaskOpen(){
+    this.dv.ChangeTaskOpen(this.task.Id).subscribe(()=>{
+      this.task.Open = !this.task.Open;
+    })
+  }
+  changeReqOpen(){
+    this.dv.ChangeReqOpen(this.req.Id).subscribe(()=>{
+      this.req.Open = !this.req.Open;
     })
   }
 

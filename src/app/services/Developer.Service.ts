@@ -62,6 +62,13 @@ export class DeveloperService implements OnInit {
     ChangeLink(ChLink, id) {
         return this.http.post(this.baseUrl + 'developer.php?Key=change-link&Id=' + id,ChLink);
     }
+    
+    ChangeTaskOpen(id) {
+        return this.http.get(this.baseUrl + 'developer.php?Key=change-task-open&Id=' + id);
+    }
+    ChangeReqOpen(id) {
+        return this.http.get(this.baseUrl + 'developer.php?Key=change-req-open&Id=' + id);
+    }
     SetPrev(Prev, UserId) {
         return this.http.post(this.baseUrl + 'developer.php?Key=set-prev&Id=' + UserId,Prev);
     }

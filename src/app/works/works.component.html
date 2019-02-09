@@ -1,5 +1,5 @@
 <div *ngIf="task && task.Id && type=='task'" class="container pt-3">
-  <h3>#{{task.Id}}: {{task.Name}}</h3>
+  <div class="d-flex justify-content-between"><h3>#{{task.Id}}: {{task.Name}}</h3><h3><i class="fas {{task.Open?'fa-link':'fa-unlink'}}" (click)="changeTaskOpen()"></i></h3></div> 
   <form>
     <div class="d-flex flex-wrap">
       <div class="form-group pr-3">
@@ -71,7 +71,7 @@
   
 </div>
 <div *ngIf="req && req.Id && type=='req'" class="container pt-3">
-  <h3>#{{req.Id}}: {{req.Name}}</h3>
+  <div class="d-flex justify-content-between"><h3>#{{req.Id}}: {{req.Name}}</h3><h3><i class="fas {{req.Open?'fa-link':'fa-unlink'}}" (click)="changeReqOpen()"></i></h3></div> 
   <form>
     
     <div class="form-group">
