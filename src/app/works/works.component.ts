@@ -82,8 +82,12 @@ export class WorksComponent implements OnInit {
           }
           else{
             this.task=Object.assign({},data);
+            console.log(this.task);
             this.links=this.task.Links;
             this.files=this.task.Files;
+            this.task.Messages.forEach(x => {
+              x.CreateDate = new Date(x.CreateDate);
+            })
             this.messages = this.task.Messages;
             this.task.Open = !!Number(this.task.Open);
             this.taskcopy=Object.assign({},data);
