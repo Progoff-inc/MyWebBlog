@@ -87,6 +87,7 @@ export class WorksComponent implements OnInit {
             this.files=this.task.Files;
             this.task.Messages.forEach(x => {
               x.CreateDate = new Date(x.CreateDate);
+              console.log(x.CreateDate);
             })
             this.messages = this.task.Messages;
             this.task.Open = !!Number(this.task.Open);
