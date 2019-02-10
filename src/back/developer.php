@@ -37,6 +37,10 @@ if(isset($_GET['Key']))
             
             echo json_encode($inp['DateStart']);
             break;
+        case 'add-message':
+            $inp = json_decode(file_get_contents('php://input'), true);
+            echo json_encode($ctxt->setMessage($inp['OwnerId'], $inp['Text'], $inp['UserId'], $inp['Type']));
+            break;
         case 'get-exams':
             echo json_encode($ctxt->getExams());
             break;
@@ -82,6 +86,14 @@ if(isset($_GET['Key']))
             $inp = json_decode(file_get_contents('php://input'), true);
             echo json_encode($ctxt->changeReq($_GET['Id'], $inp['Description'], $inp['Status'], $inp['ModifyUserId']));
             break;
+        case 'change-task-open':
+            $inp = json_decode(file_get_contents('php://input'), true);
+            echo json_encode($ctxt->changeOpen($_GET['Id'], 1));
+            break;
+        case 'change-req-open':
+            $inp = json_decode(file_get_contents('php://input'), true);
+            echo json_encode($ctxt->changeOpen($_GET['Id'], 2));
+            break;
         case 'add-requirement':
             $inp = json_decode(file_get_contents('php://input'), true);
             echo json_encode($ctxt->setRequirement($inp['Name'], $inp['Description'], $inp['ProjectId'], $inp['Status'], $inp['ModifyUserId']));
@@ -95,10 +107,10 @@ if(isset($_GET['Key']))
             echo json_encode($ctxt->getRequirements($_GET['Id']));
             break;
         case 'get-requirement':
-            echo json_encode($ctxt->getRequirement($_GET['Id']));
+            echo json_encode($ctxt->getRequirement($_GET['Id'], $_GET['UserId']));
             break;
         case 'get-task':
-            echo json_encode($ctxt->getTask($_GET['Id']));
+            echo json_encode($ctxt->getTask($_GET['Id'], $_GET['UserId']));
             break;
         case 'get-team':
             echo json_encode($ctxt->getTeam($_GET['Id']));

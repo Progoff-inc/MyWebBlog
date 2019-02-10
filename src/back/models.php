@@ -13,6 +13,16 @@ class BaseLink{
     public $Text;
 }
 
+class Message{
+    public $Id;
+    public $OwnerId;
+    public $Type;
+    public $UserId;
+    public $Text;
+    
+    public $User;
+}
+
 class Person{
     public $Id;
     public $Name;
@@ -36,10 +46,12 @@ class Requirement extends BaseEntity{
     public $Status;
     public $ModifyUserId;
     public $ModifyDate;
+    public $Open;
 
     public $Tasks;
     public $Links;
     public $Files;
+    public $Messages;
 }
 
 class Task extends Requirement{

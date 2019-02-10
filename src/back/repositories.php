@@ -219,24 +219,82 @@ class DataBase {
         $s->setFetchMode(PDO::FETCH_CLASS, 'Subject');
         return $s->fetch();
     }
-    public function getTask($Id) {
-        $s = $this->db->prepare("SELECT * FROM tasks WHERE Id=?");
-        $s->execute(array($Id));
-        $s->setFetchMode(PDO::FETCH_CLASS, 'Task');
-        $task = $s->fetch();
-        $task->Links = $this->getLinks($task->Id, 3);
-        $task->Files = $this->getFiles($task->Id, 3);
-        return $task;
+    public function getTask($Id, $uid) {
+        if($this->getTaskOpen($Id)['Open']=="1"){
+            $s = $this->db->prepare("SELECT * FROM tasks WHERE Id=?");
+            $s->execute(array($Id));
+            $s->setFetchMode(PDO::FETCH_CLASS, 'Task');
+            $task = $s->fetch();
+            $task->Links = $this->getLinks($task->Id, 3);
+            $task->Files = $this->getFiles($task->Id, 3);
+            $task->Messages = $this->getMessages($task->Id, 3);
+            return $task;
+        }
+        else{
+            if($uid == "null"){
+                return null;
+            }
+            $s = $this->db->prepare("SELECT * FROM tasks WHERE Id=?");
+            $s->execute(array($Id));
+            $s->setFetchMode(PDO::FETCH_CLASS, 'Task');
+            $task = $s->fetch();
+            if($this->getProjectUser($task->ProjectId, $uid)['Count']>0){
+                $task->Links = $this->getLinks($task->Id, 3);
+                $task->Files = $this->getFiles($task->Id, 3);
+                $task->Messages = $this->getMessages($task->Id, 3);
+                return $task;
+            }
+            else{
+                return null;
+            }
+            
+        }
+        
     }
-    public function getRequirement($Id, $incl_t=false) {
-        $s = $this->db->prepare("SELECT * FROM requirements WHERE Id=?");
-        $s->execute(array($Id));
-        $s->setFetchMode(PDO::FETCH_CLASS, 'Requirement');
-        $r = $s->fetch();
-        $r->Tasks = $this->getRTasks($Id);
-        $r->Links = $this->getLinks($r->Id, 4);
-        $r->Files = $this->getFiles($r->Id, 4);
-        return $r;
+    private function getTaskOpen($id){
+        $s = $this->db->query("SELECT Open FROM tasks WHERE Id=$id");
+        return $s->fetch();
+    }
+    private function getReqOpen($id){
+        $s = $this->db->query("SELECT Open FROM requirements WHERE Id=$id");
+        return $s->fetch();
+    }
+    private function getProjectUser($pid, $id){
+        $s = $this->db->query("SELECT COUNT(*) AS Count FROM projectusers WHERE ProjectId=$pid and UserId=$id");
+        return $s->fetch();
+    }
+    public function getRequirement($Id, $uid, $incl_t=false) {
+        if($this->getReqOpen($Id)['Open']=="1"){
+            $s = $this->db->prepare("SELECT * FROM requirements WHERE Id=?");
+            $s->execute(array($Id));
+            $s->setFetchMode(PDO::FETCH_CLASS, 'Requirement');
+            $r = $s->fetch();
+            $r->Tasks = $this->getRTasks($Id);
+            $r->Links = $this->getLinks($r->Id, 4);
+            $r->Files = $this->getFiles($r->Id, 4);
+            $r->Messages = $this->getMessages($r->Id, 4);
+            return $r;
+        }
+        else{
+            if($uid == "null"){
+                return null;
+            }
+            $s = $this->db->prepare("SELECT * FROM requirements WHERE Id=?");
+            $s->execute(array($Id));
+            $s->setFetchMode(PDO::FETCH_CLASS, 'Requirement');
+            $r = $s->fetch();
+            if($this->getProjectUser($r->ProjectId, $uid)['Count']>0){
+                $r->Tasks = $this->getRTasks($Id);
+                $r->Links = $this->getLinks($r->Id, 4);
+                $r->Files = $this->getFiles($r->Id, 4);
+                $r->Messages = $this->getMessages($r->Id, 4);
+                return $r;
+            }
+            else{
+                return null;
+            }
+            
+        }
     }
     public function getProject($Id) {
         $s = $this->db->prepare("SELECT * FROM projects WHERE Id=?");
@@ -296,6 +354,17 @@ class DataBase {
         $s->setFetchMode(PDO::FETCH_CLASS, 'BaseLink');
         return $s->fetchAll();
     }
+    public function getMessages($id,$type){
+        $s = $this->db->prepare("SELECT * FROM messages WHERE OwnerId=? and Type=?");
+        $s->execute(array($id, $type));
+        $s->setFetchMode(PDO::FETCH_CLASS, 'Message');
+        $messages = [];
+        while ($u = $s->fetch()) {
+            $u->User = $this->getUser($u->UserId);
+            $messages[] = $u;
+        }
+        return $messages;
+    }
     public function getFiles($id,$type){
         $s = $this->db->prepare("SELECT * FROM files WHERE OwnerId=? and Type=?");
         $s->execute(array($id, $type));
@@ -316,6 +385,11 @@ class DataBase {
         $sth = $this->db->prepare("INSERT INTO links (OwnerId, Text, Path, Type) VALUES (?,?,?,?) ");
         $sth->execute(array($oid, $t, $l, $tp));
         return $this->db->lastInsertId();
+    }
+    public function setMessage($oid, $t, $uid, $type){
+        $sth = $this->db->prepare("INSERT INTO messages (OwnerId, Text, UserId, Type, CreateDate) VALUES (?,?,?,?,now())");
+        $sth->execute(array($oid, $t, $uid, $type));
+        return array($oid, $t, $uid, $type);
     }
     public function setFileLink($oid, $t, $l, $tp){
         $sth = $this->db->prepare("INSERT INTO files (OwnerId, Text, Path, Type) VALUES (?,?,?,?) ");
@@ -397,6 +471,20 @@ class DataBase {
         else{
             $s = $this->db->prepare("UPDATE users SET Name=?, Photo=? WHERE Id=?" );
             $s->execute(array($n, $ph, $id));
+        }
+        $s = $this->db->prepare("SELECT * FROM users WHERE Id=?");
+        $s->execute(array($id));
+        $s->setFetchMode(PDO::FETCH_CLASS, 'Person');
+        return $s->fetch();
+    }
+    public function changeOpen($id, $t){
+        if($t==1){
+            $sth = $this->db->prepare("UPDATE tasks SET Open = NOT Open WHERE Id=?");
+            $sth->execute(array($id));
+        }
+        else{
+            $sth = $this->db->prepare("UPDATE requirements SET Open = NOT Open WHERE Id=?");
+            $sth->execute(array($id));
         }
         $s = $this->db->prepare("SELECT * FROM users WHERE Id=?");
         $s->execute(array($id));
