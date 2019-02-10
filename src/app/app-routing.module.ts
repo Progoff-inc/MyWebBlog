@@ -20,7 +20,7 @@ const routes: Routes = [
   { path: 'projects/:id', component: ProjectsComponent },
   { path: 'add/:id', component: AddComponent },
   { path: 'works/:id', component: WorksComponent },
-  // { path: 'studies/:id', component: StudiesComponent },
+  { path: 'studies/:id', component: StudiesComponent },
   { path: 'auth', component: AuthComponent, pathMatch: 'prefix' },
   { path: '**', component: NotFoundComponent}
   // { path: 'farm', component: HouseholderComponent }
