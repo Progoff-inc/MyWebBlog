@@ -13,7 +13,7 @@ import { AuthComponent } from './auth/auth.component';
 import { NotFoundComponent } from './not-found/not-found.component';
 
 const routes: Routes = [
-  { path: '', component: HomeComponent, pathMatch: 'full' },
+  { path: '', redirectTo: 'developer', pathMatch: 'full' },
   // { path: 'student', component: StudentComponent },
   { path: 'developer', component: DeveloperComponent },
   // { path: 'exams/:id', component: ExamsComponent },
