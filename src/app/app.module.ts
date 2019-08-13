@@ -32,7 +32,6 @@ import {
 import { LoadComponent } from './load/load.component';
 import { LoadService } from './services/load.service';
 import { NotFoundComponent } from './not-found/not-found.component';
-import { CreateAreaComponent } from './create-area/create-area.component';
 export function getAuthServiceConfigs() {
   let config = new AuthServiceConfig(
       [
@@ -64,8 +63,7 @@ export function getAuthServiceConfigs() {
     StudiesComponent,
     AuthComponent,
     LoadComponent,
-    NotFoundComponent,
-    CreateAreaComponent
+    NotFoundComponent
   ],
   imports: [
     ClipboardModule,
